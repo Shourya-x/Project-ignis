@@ -1,0 +1,156 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Downloads | IGNIS TVC System">
+  <Header />
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Downloads</h1>
+      <p class="section-subtitle">All the files you need to build your own IGNIS system</p>
+      
+      <div class="downloads-grid">
+        <div class="download-category">
+          <h2>📁 Firmware</h2>
+          <ul>
+            <li><a href="#" class="download-link">IGNIS-CORE Firmware v1.0 <span class="file-size">(256KB)</span></a></li>
+            <li><a href="#" class="download-link">IGNIS-NET Firmware v1.0 <span class="file-size">(128KB)</span></a></li>
+            <li><a href="#" class="download-link">Bootloader <span class="file-size">(32KB)</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="download-category">
+          <h2>🔧 CAD Files</h2>
+          <ul>
+            <li><a href="#" class="download-link">Complete Rocket Assembly (STEP) <span class="file-size">(45MB)</span></a></li>
+            <li><a href="#" class="download-link">TVC Mechanism (STL) <span class="file-size">(12MB)</span></a></li>
+            <li><a href="#" class="download-link">Ground Station Enclosure (STL) <span class="file-size">(8MB)</span></a></li>
+            <li><a href="#" class="download-link">Avionics Bay (STEP) <span class="file-size">(15MB)</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="download-category">
+          <h2>📊 PCB Files</h2>
+          <ul>
+            <li><a href="#" class="download-link">IGNIS-CORE PCB (Gerber) <span class="file-size">(2MB)</span></a></li>
+            <li><a href="#" class="download-link">IGNIS-NET PCB (Gerber) <span class="file-size">(1.5MB)</span></a></li>
+            <li><a href="#" class="download-link">Bill of Materials (CSV) <span class="file-size">(50KB)</span></a></li>
+            <li><a href="#" class="download-link">Schematic PDFs <span class="file-size">(3MB)</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="download-category">
+          <h2>📖 Documentation</h2>
+          <ul>
+            <li><a href="#" class="download-link">Assembly Guide (PDF) <span class="file-size">(5MB)</span></a></li>
+            <li><a href="#" class="download-link">Wiring Manual (PDF) <span class="file-size">(2MB)</span></a></li>
+            <li><a href="#" class="download-link">Calibration Guide (PDF) <span class="file-size">(1MB)</span></a></li>
+            <li><a href="#" class="download-link">Troubleshooting Guide (PDF) <span class="file-size">(500KB)</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="download-category">
+          <h2>🎨 3D Models (Web Ready)</h2>
+          <ul>
+            <li><a href="#" class="download-link">Rocket Assembly (GLB) <span class="file-size">(8MB)</span></a></li>
+            <li><a href="#" class="download-link">TVC Mechanism (GLB) <span class="file-size">(3MB)</span></a></li>
+            <li><a href="#" class="download-link">Ground Station (GLB) <span class="file-size">(2MB)</span></a></li>
+          </ul>
+        </div>
+        
+        <div class="download-category">
+          <h2>🛠️ Software Tools</h2>
+          <ul>
+            <li><a href="#" class="download-link">IGNIS Ground Station (Windows) <span class="file-size">(50MB)</span></a></li>
+            <li><a href="#" class="download-link">IGNIS Ground Station (Linux) <span class="file-size">(45MB)</span></a></li>
+            <li><a href="#" class="download-link">Telemetry Viewer (macOS) <span class="file-size">(48MB)</span></a></li>
+            <li><a href="#" class="download-link">Data Analysis Scripts (Python) <span class="file-size">(100KB)</span></a></li>
+          </ul>
+        </div>
+      </div>
+      
+      <div class="download-note">
+        <p>📌 All files are open-source under MIT License. Feel free to use, modify, and distribute.</p>
+      </div>
+    </div>
+  </section>
+  <!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+
+  <Footer />
+</Layout>
+
+<style>
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .downloads-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+  }
+  
+  .download-category {
+    background: var(--gray);
+    border-radius: 16px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .download-category h2 {
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid rgba(255, 69, 0, 0.3);
+  }
+  
+  .download-category ul {
+    list-style: none;
+  }
+  
+  .download-category li {
+    margin-bottom: 0.75rem;
+  }
+  
+  .download-link {
+    color: var(--text);
+    text-decoration: none;
+    transition: color 0.3s;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  
+  .download-link:hover {
+    color: var(--primary);
+  }
+  
+  .file-size {
+    font-size: 0.75rem;
+    color: var(--text-muted);
+    font-family: monospace;
+  }
+  
+  .download-note {
+    margin-top: 3rem;
+    padding: 1.5rem;
+    background: rgba(255, 69, 0, 0.1);
+    border-radius: 16px;
+    text-align: center;
+    border-left: 4px solid var(--primary);
+  }
+  
+  @media (max-width: 768px) {
+    .downloads-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

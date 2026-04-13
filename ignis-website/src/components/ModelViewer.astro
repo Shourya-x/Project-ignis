@@ -1,0 +1,68 @@
+---
+// IGNIS 3D Model Viewer Component
+export interface Props {
+  src: string;
+  alt?: string;
+  autoRotate?: boolean;
+  cameraControls?: boolean;
+  exposure?: number;
+  className?: string;
+}
+
+const { 
+  src, 
+  alt = "IGNIS 3D Model", 
+  autoRotate = true, 
+  cameraControls = true,
+  exposure = 1.0,
+  className = ""
+} = Astro.props;
+---
+
+<model-viewer
+  src={src}
+  alt={alt}
+  auto-rotate={autoRotate}
+  camera-controls={cameraControls}
+  exposure={exposure}
+  class={`model-viewer ${className}`}
+  shadow-intensity="0.8"
+  environment-image="neutral"
+  ar
+  ar-modes="webxr scene-viewer quick-look"
+  style="width: 100%; height: 500px; background: linear-gradient(135deg, #0a0a0a, #1a1a1a); border-radius: 16px;"
+>
+  <div class="model-loading" slot="progress-bar">
+    <div class="loading-spinner"></div>
+    <p>Loading 3D Model...</p>
+  </div>
+</model-viewer>
+
+<style>
+  model-viewer {
+    --progress-bar-color: var(--primary);
+    --progress-bar-height: 4px;
+  }
+  
+  .model-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: var(--text-muted);
+  }
+  
+  .loading-spinner {
+    width: 40px;
+    height: 40px;
+    border: 3px solid rgba(255, 69, 0, 0.3);
+    border-top-color: var(--primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+  }
+  
+  @keyframes spin {
+    to { transform: rotate(360deg); }
+  }
+</style>

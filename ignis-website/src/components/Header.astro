@@ -1,0 +1,27 @@
+---
+// IGNIS Header Component
+const currentPath = Astro.url.pathname;
+---
+
+<nav class="navbar">
+  <div class="nav-container">
+    <a href="/" class="logo">
+      <span>🔥 IGNIS</span>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/" class:list={[{ active: currentPath === '/' }]}>Home</a></li>
+      <li><a href="/about" class:list={[{ active: currentPath === '/about' }]}>About</a></li>
+      <li><a href="/hardware" class:list={[{ active: currentPath === '/hardware' }]}>Hardware</a></li>
+      <li><a href="/software" class:list={[{ active: currentPath === '/software' }]}>Software</a></li>
+      <li><a href="/gallery" class:list={[{ active: currentPath === '/gallery' }]}>Gallery</a></li>
+      <li><a href="/downloads" class:list={[{ active: currentPath === '/downloads' }]}>Downloads</a></li>
+    </ul>
+  </div>
+</nav>
+
+<style>
+  .active {
+    color: var(--primary) !important;
+    border-bottom: 2px solid var(--primary);
+  }
+</style>

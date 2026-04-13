@@ -1,0 +1,122 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="About | IGNIS TVC System">
+  <Header />
+
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">About IGNIS</h1>
+      
+      <div class="about-content">
+        <div class="about-text">
+          <h2>The Project</h2>
+          <p>IGNIS is an open-source thrust vector control (TVC) system designed for model rocketry enthusiasts, students, and researchers. The name "IGNIS" means "fire" in Latin, representing the fiery passion for rocketry and the controlled combustion that powers our rockets.</p>
+          
+          <h2>Mission</h2>
+          <p>To make advanced rocketry accessible to everyone by providing high-quality, open-source designs for thrust vectoring systems that can be built with readily available components and 3D printers.</p>
+          
+          <h2>Features</h2>
+          <ul>
+            <li>Complete open-source hardware and software</li>
+            <li>Modular design for easy customization</li>
+            <li>Real-time attitude control with IMU fusion</li>
+            <li>Long-range LoRa telemetry</li>
+            <li>GPS tracking and logging</li>
+            <li>3D printable mechanical parts</li>
+            <li>Comprehensive documentation</li>
+          </ul>
+          
+          <h2>Technical Specifications</h2>
+          <div class="specs-grid">
+            <div class="spec-item">
+              <strong>MCU:</strong> STM32F411CEU6 (100MHz)
+            </div>
+            <div class="spec-item">
+              <strong>IMU:</strong> MPU6500 (6-axis)
+            </div>
+            <div class="spec-item">
+              <strong>Barometer:</strong> MS5611 (0.1m resolution)
+            </div>
+            <div class="spec-item">
+              <strong>GPS:</strong> NEO-6M (2.5m accuracy)
+            </div>
+            <div class="spec-item">
+              <strong>Telemetry:</strong> SX1278 LoRa (5km range)
+            </div>
+            <div class="spec-item">
+              <strong>Control:</strong> 2x Servos (thrust vectoring)
+            </div>
+          </div>
+          
+          <h2>The Team</h2>
+          <p>IGNIS is a solo project built with passion for rocketry and open-source hardware. All designs are shared freely to help advance the hobby and education in aerospace engineering.</p>
+          
+          <h2>License</h2>
+          <p>All hardware designs are released under CERN Open Hardware License, and software is under MIT License. Feel free to use, modify, and distribute!</p>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+
+  <Footer />
+</Layout>
+
+<style>
+  .about-content {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+  
+  .about-text h2 {
+    color: var(--primary);
+    margin: 2rem 0 1rem;
+  }
+  
+  .about-text h2:first-child {
+    margin-top: 0;
+  }
+  
+  .about-text p {
+    color: var(--text-muted);
+    line-height: 1.8;
+  }
+  
+  .about-text ul {
+    list-style: none;
+    padding-left: 0;
+  }
+  
+  .about-text ul li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+    color: var(--text-muted);
+  }
+  
+  .about-text ul li::before {
+    content: "🔥";
+    position: absolute;
+    left: 0;
+  }
+  
+  .specs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    margin: 1rem 0;
+  }
+  
+  .spec-item {
+    background: var(--gray);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+  }
+</style>

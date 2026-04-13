@@ -1,0 +1,327 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Layout title="Software | IGNIS TVC System">
+  <Header />
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Software Stack</h1>
+      <p class="section-subtitle">Firmware, ground station, and tools powering IGNIS</p>
+      
+      <div class="software-grid">
+        <div class="software-card">
+          <div class="software-icon">🖥️</div>
+          <h2>IGNIS-CORE Firmware</h2>
+          <p>Flight computer firmware running on STM32F411</p>
+          <div class="tech-stack">
+            <span class="tech-tag">C++</span>
+            <span class="tech-tag">Arduino Framework</span>
+            <span class="tech-tag">PlatformIO</span>
+          </div>
+          <ul>
+            <li>Sensor fusion (MPU6500 + MS5611)</li>
+            <li>Complementary filter for attitude</li>
+            <li>PID control for servos</li>
+            <li>SD card data logging</li>
+            <li>LoRa telemetry transmission</li>
+          </ul>
+          <a href="/downloads" class="btn-download">Download →</a>
+        </div>
+        
+        <div class="software-card">
+          <div class="software-icon">📡</div>
+          <h2>IGNIS-NET Firmware</h2>
+          <p>Ground station receiver firmware</p>
+          <div class="tech-stack">
+            <span class="tech-tag">C++</span>
+            <span class="tech-tag">Arduino</span>
+            <span class="tech-tag">PlatformIO</span>
+          </div>
+          <ul>
+            <li>LoRa packet reception</li>
+            <li>OLED display driver</li>
+            <li>Data validation and parsing</li>
+            <li>USB serial forwarding</li>
+            <li>Status indication LEDs</li>
+          </ul>
+          <a href="/downloads" class="btn-download">Download →</a>
+        </div>
+        
+        <div class="software-card">
+          <div class="software-icon">💻</div>
+          <h2>IGNIS Ground Station</h2>
+          <p>Desktop application for telemetry monitoring</p>
+          <div class="tech-stack">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">PyQt6</span>
+            <span class="tech-tag">Matplotlib</span>
+          </div>
+          <ul>
+            <li>Real-time telemetry display</li>
+            <li>Live plotting (altitude, attitude)</li>
+            <li>GPS trajectory on map</li>
+            <li>Data logging to CSV/JSON</li>
+            <li>Cross-platform (Win/Mac/Linux)</li>
+          </ul>
+          <a href="/downloads" class="btn-download">Download →</a>
+        </div>
+        
+        <div class="software-card">
+          <div class="software-icon">📊</div>
+          <h2>Data Analysis Tools</h2>
+          <p>Python scripts for post-flight analysis</p>
+          <div class="tech-stack">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">Pandas</span>
+            <span class="tech-tag">NumPy</span>
+          </div>
+          <ul>
+            <li>Flight data visualization</li>
+            <li>Performance calculations</li>
+            <li>Export to PDF reports</li>
+            <li>Comparison tools</li>
+            <li>Statistical analysis</li>
+          </ul>
+          <a href="/downloads" class="btn-download">Download →</a>
+        </div>
+      </div>
+      
+      <!-- GitHub Repository Links -->
+      <div class="repo-links">
+        <h2>🔗 Source Code Repositories</h2>
+        <div class="repo-grid">
+          <a href="#" class="repo-card">
+            <span class="repo-icon">📁</span>
+            <div>
+              <h3>IGNIS-CORE</h3>
+              <p>Flight computer firmware - STM32F411</p>
+            </div>
+          </a>
+          <a href="#" class="repo-card">
+            <span class="repo-icon">📁</span>
+            <div>
+              <h3>IGNIS-CTRL</h3>
+              <p>TVC mechanism control library</p>
+            </div>
+          </a>
+          <a href="#" class="repo-card">
+            <span class="repo-icon">📁</span>
+            <div>
+              <h3>IGNIS-NET</h3>
+              <p>Ground station Python application</p>
+            </div>
+          </a>
+          <a href="#" class="repo-card">
+            <span class="repo-icon">📁</span>
+            <div>
+              <h3>IGNIS-Website</h3>
+              <p>This website source code</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Documentation Links -->
+      <div class="docs-section">
+        <h2>📚 Documentation</h2>
+        <div class="docs-grid">
+          <a href="#" class="doc-card">
+            <span class="doc-icon">📘</span>
+            <div>
+              <h3>Getting Started Guide</h3>
+              <p>Setup your IGNIS system from scratch</p>
+            </div>
+          </a>
+          <a href="#" class="doc-card">
+            <span class="doc-icon">🔧</span>
+            <div>
+              <h3>API Reference</h3>
+              <p>Complete function documentation</p>
+            </div>
+          </a>
+          <a href="#" class="doc-card">
+            <span class="doc-icon">📊</span>
+            <div>
+              <h3>Telemetry Protocol</h3>
+              <p>LoRa packet structure and parsing</p>
+            </div>
+          </a>
+          <a href="#" class="doc-card">
+            <span class="doc-icon">⚠️</span>
+            <div>
+              <h3>Troubleshooting Guide</h3>
+              <p>Common issues and solutions</p>
+            </div>
+          </a>
+        </div>
+      </div>
+      
+    </div>
+  </section>
+<!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  <Footer />
+</Layout>
+
+<style>
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .software-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 3rem;
+  }
+  
+  .software-card {
+    background: var(--surface);
+    border-radius: 12px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+  
+  .software-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(220, 191, 228, 0.1);
+  }
+  
+  .software-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .software-card h2 {
+    font-size: 1.2rem;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+  }
+  
+  .software-card p {
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+  }
+  
+  .tech-stack {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+  }
+  
+  .tech-tag {
+    background: rgba(220, 191, 228, 0.15);
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.7rem;
+    color: var(--primary);
+    font-family: monospace;
+  }
+  
+  .software-card ul {
+    list-style: none;
+    margin: 1rem 0;
+  }
+  
+  .software-card li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.2rem;
+    position: relative;
+    color: var(--text-muted);
+    font-size: 0.8rem;
+  }
+  
+  .software-card li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+  }
+  
+  .btn-download {
+    display: inline-block;
+    margin-top: 1rem;
+    padding: 0.5rem 1rem;
+    background: transparent;
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    text-decoration: none;
+    border-radius: 6px;
+    transition: all 0.3s;
+    font-size: 0.8rem;
+  }
+  
+  .btn-download:hover {
+    background: var(--primary);
+    color: var(--background);
+  }
+  
+  .repo-links, .docs-section {
+    margin-top: 3rem;
+  }
+  
+  .repo-links h2, .docs-section h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    font-size: 1.3rem;
+  }
+  
+  .repo-grid, .docs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  
+  .repo-card, .doc-card {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--surface);
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s;
+    border: 1px solid var(--border);
+  }
+  
+  .repo-card:hover, .doc-card:hover {
+    transform: translateX(5px);
+    border-color: var(--primary);
+    background: var(--surface-hover);
+  }
+  
+  .repo-icon, .doc-icon {
+    font-size: 1.8rem;
+  }
+  
+  .repo-card h3, .doc-card h3 {
+    color: var(--primary);
+    font-size: 1rem;
+    margin-bottom: 0.25rem;
+  }
+  
+  .repo-card p, .doc-card p {
+    color: var(--text-muted);
+    font-size: 0.75rem;
+  }
+  
+  @media (max-width: 768px) {
+    .software-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .repo-grid, .docs-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

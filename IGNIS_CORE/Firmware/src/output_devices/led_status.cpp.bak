@@ -1,0 +1,154 @@
+#include "led_status.h"
+#include "../../include/config.h"
+
+// NeoPixel object (1 LED on NEOPIXEL_PIN)
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(1, NEOPIXEL_PIN, NEO_GRB + NEO_KHZ800);
+
+// Pre-defined colors
+uint32_t COLOR_OFF = 0;
+uint32_t COLOR_RED = 0;
+uint32_t COLOR_GREEN = 0;
+uint32_t COLOR_BLUE = 0;
+uint32_t COLOR_YELLOW = 0;
+uint32_t COLOR_CYAN = 0;
+uint32_t COLOR_MAGENTA = 0;
+uint32_t COLOR_WHITE = 0;
+
+// For blinking
+unsigned long lastBlinkTime = 0;
+bool blinkState = false;
+uint32_t blinkColor = 0;
+bool isBlinking = false;
+
+void initLED() {
+  strip.begin();
+  strip.setBrightness(50);  // 50% brightness to save power
+  strip.show();  // Initialize all pixels to 'off'
+  
+  // Define colors
+  COLOR_OFF = strip.Color(0, 0, 0);
+  COLOR_RED = strip.Color(255, 0, 0);
+  COLOR_GREEN = strip.Color(0, 255, 0);
+  COLOR_BLUE = strip.Color(0, 0, 255);
+  COLOR_YELLOW = strip.Color(255, 255, 0);
+  COLOR_CYAN = strip.Color(0, 255, 255);
+  COLOR_MAGENTA = strip.Color(255, 0, 255);
+  COLOR_WHITE = strip.Color(255, 255, 255);
+  
+  Serial.println("✅ NeoPixel LED initialized!");
+}
+
+void setLEDColor(uint8_t r, uint8_t g, uint8_t b) {
+  isBlinking = false;
+  strip.setPixelColor(0, strip.Color(r, g, b));
+  strip.show();
+}
+
+void setLEDColor(uint32_t color) {
+  isBlinking = false;
+  strip.setPixelColor(0, color);
+  strip.show();
+}
+
+void setLEDBlink(uint8_t r, uint8_t g, uint8_t b, int interval) {
+  blinkColor = strip.Color(r, g, b);
+  isBlinking = true;
+  lastBlinkTime = millis();
+  blinkState = true;
+  strip.setPixelColor(0, blinkColor);
+  strip.show();
+}
+
+void setLEDBlink(uint32_t color, int interval) {
+  blinkColor = color;
+  isBlinking = true;
+  lastBlinkTime = millis();
+  blinkState = true;
+  strip.setPixelColor(0, blinkColor);
+  strip.show();
+}
+
+void updateLEDStatus(float pitch, float roll, bool sensorsOK) {
+  // Handle blinking in background
+  if (isBlinking) {
+    if (millis() - lastBlinkTime > 500) {  // 500ms blink interval
+      blinkState = !blinkState;
+      if (blinkState) {
+        strip.setPixelColor(0, blinkColor);
+      } else {
+        strip.setPixelColor(0, COLOR_OFF);
+      }
+      strip.show();
+      lastBlinkTime = millis();
+    }
+    return;  // Don't override blink pattern
+  }
+  
+  // Normal status indication based on rocket state
+  if (!sensorsOK) {
+    // Sensors not working - Solid RED
+    setLEDColor(COLOR_RED);
+  }
+  else if (abs(pitch) > 30 || abs(roll) > 30) {
+    // Extreme angle - Fast RED blink (emergency)
+    setLEDBlink(COLOR_RED, 200);
+  }
+  else if (abs(pitch) > 15 || abs(roll) > 15) {
+    // High angle - YELLOW warning
+    setLEDColor(COLOR_YELLOW);
+  }
+  else if (abs(pitch) > 5 || abs(roll) > 5) {
+    // Moderate angle - CYAN
+    setLEDColor(COLOR_CYAN);
+  }
+  else {
+    // Stable - GREEN
+    setLEDColor(COLOR_GREEN);
+  }
+}
+
+void indicateStartup() {
+  // Startup sequence: Rainbow effect
+  Serial.println("LED: Startup sequence");
+  
+  for (int i = 0; i < 3; i++) {
+    setLEDColor(COLOR_RED);
+    delay(200);
+    setLEDColor(COLOR_GREEN);
+    delay(200);
+    setLEDColor(COLOR_BLUE);
+    delay(200);
+  }
+  
+  setLEDColor(COLOR_OFF);
+  delay(100);
+  setLEDColor(COLOR_WHITE);
+  delay(300);
+  setLEDColor(COLOR_OFF);
+}
+
+void indicateError(uint8_t errorCode) {
+  Serial.print("LED: Error code ");
+  Serial.println(errorCode);
+  
+  // Blink error code pattern
+  for (int i = 0; i < errorCode; i++) {
+    setLEDColor(COLOR_RED);
+    delay(200);
+    setLEDColor(COLOR_OFF);
+    delay(200);
+  }
+  delay(500);
+}
+
+void indicateSuccess() {
+  Serial.println("LED: Success indication");
+  
+  // Flash GREEN three times
+  for (int i = 0; i < 3; i++) {
+    setLEDColor(COLOR_GREEN);
+    delay(150);
+    setLEDColor(COLOR_OFF);
+    delay(150);
+  }
+}

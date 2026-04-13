@@ -1,0 +1,204 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ModelViewer from '../components/ModelViewer.astro';
+import HardwareCard from '../components/HardwareCard.astro';
+---
+
+<Layout title="Hardware | IGNIS TVC System">
+  <Header />
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Hardware Modules</h1>
+      <p class="section-subtitle">Explore the three core modules of the IGNIS system</p>
+      
+      <div class="grid">
+        <HardwareCard 
+          title="IGNIS-CORE"
+          description="The main flight computer with all sensors and telemetry"
+          icon="🖥️"
+          specs={[
+            "STM32F411CEU6 (100MHz)",
+            "MPU6500 - 6-axis IMU",
+            "MS5611 - High-precision barometer",
+            "NEO-6M - GPS module",
+            "SX1278 - LoRa telemetry",
+            "MicroSD card logging"
+          ]}
+        />
+        <!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  
+        <HardwareCard 
+          title="IGNIS-CTRL"
+          description="Mechanical thrust vectoring mechanism"
+          icon="⚙️"
+          specs={[
+            "2x High-torque servos",
+            "3D printed gimbal mount",
+            "Precision linkage system",
+            "Motor mount adapter",
+            "Vibration dampening",
+            "Weight: ~200g"
+          ]}
+        />
+        <!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+
+        <HardwareCard 
+          title="IGNIS-NET"
+          description="Ground station for telemetry reception"
+          icon="📡"
+          specs={[
+            "LoRa receiver module",
+            "OLED display (128x64)",
+            "USB-C connectivity",
+            "Handheld enclosure",
+            "Battery powered",
+            "Range: 5km+"
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+<!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  <!-- 3D Models Gallery -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2 class="section-title">3D Models</h2>
+      
+      <div class="model-gallery">
+        <div class="model-item">
+          <h3>Complete Rocket Assembly</h3>
+          <ModelViewer 
+            src="/models/ignis_rocket.glb" 
+            autoRotate={true}
+            cameraControls={true}
+            className="small-viewer"
+          />
+        </div>
+        
+        <div class="model-item">
+          <h3>TVC Mechanism</h3>
+          <ModelViewer 
+            src="/models/tvc_mechanism.glb" 
+            autoRotate={true}
+            cameraControls={true}
+            className="small-viewer"
+          />
+        </div>
+        
+        <div class="model-item">
+          <h3>Ground Station</h3>
+          <ModelViewer 
+            src="/models/ground_station.glb" 
+            autoRotate={true}
+            cameraControls={true}
+            className="small-viewer"
+          />
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  <!-- Wiring Diagram -->
+  <section class="section">
+    <div class="container">
+      <h2 class="section-title">Wiring Diagram</h2>
+      <div class="wiring-container">
+        <img src="/images/wiring-diagram.png" alt="IGNIS Wiring Diagram" class="wiring-diagram" />
+        <div class="wiring-notes">
+          <h3>Connection Notes:</h3>
+          <ul>
+            <li>All sensors connect to IGNIS-CORE via I2C/SPI</li>
+            <li>Servos connect directly to IGNIS-CORE PWM pins</li>
+            <li>LoRa modules communicate wirelessly between CORE and NET</li>
+            <li>IGNIS-NET connects to PC via USB for data logging</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  <Footer />
+</Layout>
+
+<style>
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .model-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+  }
+  
+  .model-item h3 {
+    text-align: center;
+    margin-bottom: 1rem;
+    color: var(--primary);
+  }
+  
+  .small-viewer {
+    height: 300px !important;
+  }
+  
+  .wiring-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    align-items: start;
+  }
+  
+  .wiring-diagram {
+    width: 100%;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 69, 0, 0.2);
+  }
+  
+  .wiring-notes {
+    background: var(--gray);
+    padding: 1.5rem;
+    border-radius: 16px;
+  }
+  
+  .wiring-notes h3 {
+    color: var(--primary);
+    margin-bottom: 1rem;
+  }
+  
+  .wiring-notes ul {
+    list-style: none;
+  }
+  
+  .wiring-notes li {
+    margin-bottom: 0.5rem;
+    padding-left: 1.5rem;
+    position: relative;
+  }
+  
+  .wiring-notes li::before {
+    content: "🔌";
+    position: absolute;
+    left: 0;
+  }
+  
+  @media (max-width: 768px) {
+    .wiring-container {
+      grid-template-columns: 1fr;
+    }
+    
+    .model-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

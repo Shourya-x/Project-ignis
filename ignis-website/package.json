@@ -1,0 +1,19 @@
+{
+  "name": "ignis-website",
+  "type": "module",
+  "version": "0.0.1",
+  "description": "IGNIS - Thrust Vector Control System Official Website",
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "scripts": {
+    "dev": "astro dev",
+    "start": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro"
+  },
+  "dependencies": {
+    "astro": "^6.1.5"
+  }
+}

@@ -1,0 +1,115 @@
+---
+export interface Props {
+  title: string;
+  data: Array<{
+    label: string;
+    value: string | number;
+    unit?: string;
+    warning?: boolean;
+  }>;
+}
+
+const { title, data } = Astro.props;
+---
+
+<div class="telemetry-card">
+  <div class="card-header">
+    <span class="card-title">📡 {title}</span>
+    <span class="live-badge">● LIVE</span>
+  </div>
+  <div class="card-content">
+    {data.map((item) => (
+      <div class="data-row">
+        <span class="data-label">{item.label}</span>
+        <span class={`data-value ${item.warning ? 'warning' : ''}`}>
+          {item.value}{item.unit ? ` ${item.unit}` : ''}
+        </span>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .telemetry-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+  }
+  
+  .telemetry-card:hover {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px rgba(255, 69, 0, 0.15);
+    transform: translateY(-2px);
+  }
+  
+  .card-header {
+    background: var(--background-light);
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .card-title {
+    font-family: 'Orbitron', monospace;
+    font-size: 0.7rem;
+    font-weight: 600;
+    letter-spacing: 1px;
+    color: var(--primary);
+  }
+  
+  .live-badge {
+    font-size: 0.6rem;
+    color: var(--success);
+    font-family: 'Share Tech Mono', monospace;
+    animation: pulse 1.5s infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+  
+  .card-content {
+    padding: 0.75rem 1rem;
+  }
+  
+  .data-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.8rem;
+  }
+  
+  .data-row:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+  
+  .data-row:first-child {
+    padding-top: 0;
+  }
+  
+  .data-label {
+    color: var(--text-muted);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.5px;
+  }
+  
+  .data-value {
+    color: var(--success);
+    font-family: 'Share Tech Mono', monospace;
+    font-weight: bold;
+    font-size: 0.8rem;
+  }
+  
+  .data-value.warning {
+    color: var(--warning);
+  }
+</style>

@@ -1,0 +1,51 @@
+---
+// IGNIS Website Layout Component
+export interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = "Advanced Thrust Vector Control System for Model Rockets" } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>{title} | IGNIS TVC System</title>
+  <meta name="description" content={description} />
+  <meta name="keywords" content="rocketry, thrust vectoring, TVC, STM32, model rocket, ignis" />
+  <meta name="author" content="IGNIS Project" />
+  
+  <!-- Open Graph -->
+  <meta property="og:title" content={title} />
+  <meta property="og:description" content={description} />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="/images/ignis-og.png" />
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  
+  <!-- Fonts: Saira Stencil for headings, Share Tech Mono for body -->
+  <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
+  
+  <!-- Styles -->
+  <link rel="stylesheet" href="/src/styles/global.css" />
+  
+  <!-- model-viewer for 3D models -->
+  <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+</head>
+<body>
+  <main>
+    <slot />
+  </main>
+</body>
+</html>
+
+<style is:global>
+  main {
+    width: 100%;
+    min-height: 100vh;
+  }
+</style>

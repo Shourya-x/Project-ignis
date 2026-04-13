@@ -1,0 +1,152 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ModelViewer from '../components/ModelViewer.astro';
+---
+
+<Layout title="Gallery | IGNIS TVC System">
+  <Header />
+
+  <section class="section">
+    <div class="container">
+      <h1 class="section-title">Gallery</h1>
+      <p class="section-subtitle">Photos, renders, and 3D models of the IGNIS system</p>
+      
+      <!-- 3D Models Gallery -->
+      <h2 class="gallery-subtitle">🎮 Interactive 3D Models</h2>
+      <div class="model-showcase">
+        <div class="model-showcase-item">
+          <ModelViewer 
+            src="/models/ignis_rocket.glb" 
+            autoRotate={true}
+            cameraControls={true}
+          />
+          <p class="model-caption">Complete IGNIS Rocket Assembly</p>
+        </div>
+      </div>
+      
+      <!-- Image Gallery -->
+      <h2 class="gallery-subtitle">📸 Hardware Photos</h2>
+      <div class="image-gallery">
+        <div class="gallery-item">
+          <img src="/images/core-pcb.jpg" alt="IGNIS-CORE PCB" />
+          <div class="gallery-caption">IGNIS-CORE PCB v1.0</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/tvc-mechanism.jpg" alt="TVC Mechanism" />
+          <div class="gallery-caption">3D Printed TVC Gimbal</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/ground-station.jpg" alt="Ground Station" />
+          <div class="gallery-caption">IGNIS-NET Ground Station</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/rocket-assembly.jpg" alt="Rocket Assembly" />
+          <div class="gallery-caption">Full Rocket Assembly</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/servo-mount.jpg" alt="Servo Mount" />
+          <div class="gallery-caption">Servo Mounting System</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/telemetry-ui.jpg" alt="Telemetry UI" />
+          <div class="gallery-caption">Ground Station Software</div>
+        </div>
+      </div>
+      
+      <!-- Render Gallery -->
+      <h2 class="gallery-subtitle">🎨 3D Renders</h2>
+      <div class="image-gallery">
+        <div class="gallery-item">
+          <img src="/images/render-exploded.jpg" alt="Exploded View" />
+          <div class="gallery-caption">Exploded Assembly View</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/render-cutaway.jpg" alt="Cutaway View" />
+          <div class="gallery-caption">Cutaway View</div>
+        </div>
+        <div class="gallery-item">
+          <img src="/images/render-transparent.jpg" alt="Transparent View" />
+          <div class="gallery-caption">Transparent Enclosure</div>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- Add this spacer div -->
+  <div class="page-spacer"></div>
+  <Footer />
+</Layout>
+
+<style>
+  .section-subtitle {
+    text-align: center;
+    color: var(--text-muted);
+    margin-bottom: 3rem;
+  }
+  
+  .gallery-subtitle {
+    margin: 2rem 0 1.5rem;
+    color: var(--primary);
+    font-size: 1.5rem;
+  }
+  
+  .model-showcase {
+    margin-bottom: 3rem;
+  }
+  
+  .model-showcase-item {
+    background: var(--gray);
+    border-radius: 16px;
+    padding: 1rem;
+  }
+  
+  .model-caption {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-muted);
+  }
+  
+  .image-gallery {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+  
+  .gallery-item {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform 0.3s;
+  }
+  
+  .gallery-item:hover {
+    transform: scale(1.02);
+  }
+  
+  .gallery-item img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+  }
+  
+  .gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.9rem;
+  }
+  
+  @media (max-width: 768px) {
+    .image-gallery {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

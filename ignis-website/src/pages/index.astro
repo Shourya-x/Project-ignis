@@ -1,0 +1,390 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ModelViewer from '../components/ModelViewer.astro';
+import TelemetryCard from '../components/TelemetryCard.astro';
+---
+
+<Layout title="IGNIS | Mission Control">
+  <Header />
+
+  <!-- Hero Section - Mission Control Style -->
+  <section class="hero">
+    <div class="hero-content">
+      <div class="status-badge">🟢 SYSTEM STATUS: NOMINAL</div>
+      <h1 class="hero-title">
+        <span class="fire">🔥</span> IGNIS <span class="fire">🔥</span>
+      </h1>
+      <p class="hero-subtitle">THRUST VECTOR CONTROL SYSTEM // MISSION READY</p>
+      <div class="hero-buttons">
+        <a href="/hardware" class="btn btn-primary">VIEW TELEMETRY</a>
+        <a href="/downloads" class="btn btn-secondary">ACCESS DATA</a>
+      </div>
+    </div>
+    
+    <div class="hero-scroll">
+      <span>▼ MISSION STATUS ▼</span>
+    </div>
+  </section>
+
+  <!-- Live Telemetry Dashboard -->
+  <section class="section">
+    <div class="container">
+      <h2>📡 LIVE TELEMETRY</h2>
+      <p class="section-subtitle">Real-time sensor data from IGNIS-CORE flight computer</p>
+      <div class="telemetry-grid">
+        <TelemetryCard 
+          title="ATTITUDE CONTROL"
+          data={[
+            { label: "PITCH", value: "2.4", unit: "°" },
+            { label: "ROLL", value: "-1.2", unit: "°" },
+            { label: "YAW", value: "0.8", unit: "°" },
+            { label: "CONTROL MODE", value: "ACTIVE" }
+          ]}
+        />
+        <TelemetryCard 
+          title="ENVIRONMENT"
+          data={[
+            { label: "ALTITUDE", value: "124.5", unit: "m AGL" },
+            { label: "PRESSURE", value: "1013.2", unit: "hPa" },
+            { label: "TEMPERATURE", value: "24.8", unit: "°C" },
+            { label: "VELOCITY", value: "12.3", unit: "m/s" }
+          ]}
+        />
+        <TelemetryCard 
+          title="GPS STATUS"
+          data={[
+            { label: "LATITUDE", value: "28.6139", unit: "°N" },
+            { label: "LONGITUDE", value: "77.2090", unit: "°E" },
+            { label: "SAT FIX", value: "8", unit: "sats" },
+            { label: "HDOP", value: "1.2" }
+          ]}
+        />
+        <TelemetryCard 
+          title="SYSTEM HEALTH"
+          data={[
+            { label: "CPU LOAD", value: "23", unit: "%" },
+            { label: "MEMORY", value: "42", unit: "KB free" },
+            { label: "LOOP TIME", value: "10", unit: "ms" },
+            { label: "UPTIME", value: "03:24:17" }
+          ]}
+        />
+      </div>
+    </div>
+  </section>
+
+  <!-- System Overview -->
+  <section class="section section-dark">
+    <div class="container">
+      <h2>🎯 SYSTEM OVERVIEW</h2>
+      <p class="section-subtitle">Mission-critical components for active thrust vectoring</p>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <div class="feature-icon">🎯</div>
+          <h3>PRECISION CONTROL</h3>
+          <p>Real-time attitude control with complementary filter and PID algorithm for stable flight.</p>
+          <div class="card-footer">STATUS: ONLINE</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">📡</div>
+          <h3>LORA TELEMETRY</h3>
+          <p>Long-range telemetry up to 5km with SX1278 module for real-time data monitoring.</p>
+          <div class="card-footer">BAND: 868 MHz</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">🛰️</div>
+          <h3>GPS TRACKING</h3>
+          <p>NEO-6M GPS module for position tracking, speed, and altitude data.</p>
+          <div class="card-footer">FIX: 3D LOCK</div>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">⚙️</div>
+          <h3>MODULAR DESIGN</h3>
+          <p>Separate modules for sensor hub, TVC mechanism, and ground station.</p>
+          <div class="card-footer">ARCH: DISTRIBUTED</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3D Preview Section -->
+  <section class="section">
+    <div class="container">
+      <h2>🛸 3D INTERACTIVE MODEL</h2>
+      <p class="section-subtitle">Explore the IGNIS rocket assembly in 3D space</p>
+      <ModelViewer 
+        src="/models/ignis_rocket.glb" 
+        autoRotate={true}
+        cameraControls={true}
+        exposure={1.2}
+      />
+      <div class="model-controls">
+        <span>🖱️ DRAG TO ROTATE</span> • 
+        <span>🔍 SCROLL TO ZOOM</span> • 
+        <span>🎮 RIGHT-CLICK TO PAN</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Mission Stats -->
+  <section class="section stats">
+    <div class="container">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-number">100+</div>
+          <div class="stat-label">HOURS OF DEVELOPMENT</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">3</div>
+          <div class="stat-label">MODULES</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">5KM</div>
+          <div class="stat-label">TELEMETRY RANGE</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-number">50HZ</div>
+          <div class="stat-label">CONTROL LOOP</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Footer />
+</Layout>
+
+<style>
+  .hero {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .hero::before {
+    content: '';
+    position: absolute;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255, 69, 0, 0.08) 0%, transparent 70%);
+    animation: pulse 4s ease-in-out infinite;
+  }
+  
+  @keyframes pulse {
+    0%, 100% { transform: scale(1); opacity: 0.3; }
+    50% { transform: scale(1.1); opacity: 0.5; }
+  }
+  
+  .hero-content {
+    position: relative;
+    z-index: 1;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: rgba(0, 255, 136, 0.1);
+    border-left: 3px solid var(--success);
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-bottom: 1.5rem;
+    color: var(--success);
+  }
+  
+  .hero-title {
+    font-size: 5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .fire {
+    display: inline-block;
+    animation: flicker 2s infinite;
+  }
+  
+  @keyframes flicker {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.8; transform: scale(1.05); }
+  }
+  
+  .hero-subtitle {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    letter-spacing: 4px;
+    margin-bottom: 2rem;
+  }
+  
+  .hero-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+  
+  .hero-scroll {
+    position: absolute;
+    bottom: 2rem;
+    text-align: center;
+    animation: bounce 2s infinite;
+    cursor: pointer;
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+  }
+  
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(10px); }
+  }
+  
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+  
+  .section {
+    padding: 5rem 0;
+  }
+  
+  .section-dark {
+    background: var(--background-light);
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .section-subtitle {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-family: monospace;
+    font-size: 0.8rem;
+  }
+  
+  .telemetry-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.5rem;
+  }
+  
+  .feature-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: all 0.3s;
+  }
+  
+  .feature-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+  }
+  
+  .feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .feature-card h3 {
+    font-size: 0.85rem;
+    letter-spacing: 2px;
+    margin-bottom: 0.75rem;
+    color: var(--primary);
+  }
+  
+  .feature-card p {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+    line-height: 1.5;
+    margin-bottom: 1rem;
+  }
+  
+  .card-footer {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    font-family: monospace;
+    border-top: 1px solid var(--border);
+    padding-top: 0.75rem;
+    margin-top: 0.5rem;
+  }
+  
+  .stats {
+    background: linear-gradient(135deg, #cc3700, #ff4500);
+  }
+  
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1.5rem;
+    text-align: center;
+  }
+  
+  .stat-card {
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(10px);
+    border-radius: 8px;
+    padding: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .stat-number {
+    font-size: 2.5rem;
+    font-weight: 900;
+    font-family: 'Orbitron', monospace;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+    letter-spacing: 2px;
+    margin-top: 0.5rem;
+    opacity: 0.8;
+  }
+  
+  .model-controls {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    font-family: monospace;
+    letter-spacing: 1px;
+  }
+  
+  @media (max-width: 768px) {
+    .hero-title {
+      font-size: 2.5rem;
+    }
+    
+    .hero-subtitle {
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+    }
+    
+    .status-badge {
+      font-size: 0.6rem;
+    }
+    
+    .container {
+      padding: 0 1rem;
+    }
+    
+    .section {
+      padding: 3rem 0;
+    }
+  }
+</style>

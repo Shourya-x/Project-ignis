@@ -1,0 +1,93 @@
+---
+export interface Props {
+  title: string;
+  description: string;
+  icon: string;
+  specs: string[];
+  modelSrc?: string;
+}
+
+const { title, description, icon, specs, modelSrc } = Astro.props;
+---
+
+<div class="hardware-card">
+  <div class="card-icon">{icon}</div>
+  <h3>{title}</h3>
+  <p>{description}</p>
+  <div class="specs">
+    <h4>Specifications:</h4>
+    <ul>
+      {specs.map(spec => <li>{spec}</li>)}
+    </ul>
+  </div>
+  {modelSrc && (
+    <button class="btn-view-model" data-model={modelSrc}>
+      View 3D Model →
+    </button>
+  )}
+</div>
+
+<style>
+  .hardware-card {
+    background: var(--gray);
+    border-radius: 16px;
+    padding: 1.5rem;
+    transition: all 0.3s ease;
+    border: 1px solid rgba(255, 69, 0, 0.1);
+  }
+  
+  .hardware-card:hover {
+    transform: translateY(-5px);
+    border-color: var(--primary);
+  }
+  
+  .card-icon {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+  
+  .specs {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .specs h4 {
+    font-size: 0.9rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+  }
+  
+  .specs ul {
+    list-style: none;
+    font-size: 0.85rem;
+    color: var(--text-muted);
+  }
+  
+  .specs li {
+    margin-bottom: 0.25rem;
+    padding-left: 1rem;
+    position: relative;
+  }
+  
+  .specs li::before {
+    content: "▹";
+    position: absolute;
+    left: 0;
+    color: var(--primary);
+  }
+  
+  .btn-view-model {
+    margin-top: 1rem;
+    background: transparent;
+    border: none;
+    color: var(--primary);
+    cursor: pointer;
+    font-family: inherit;
+    transition: transform 0.3s;
+  }
+  
+  .btn-view-model:hover {
+    transform: translateX(5px);
+  }
+</style>
