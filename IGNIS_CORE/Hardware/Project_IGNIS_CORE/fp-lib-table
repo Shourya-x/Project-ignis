@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "Footprints") (type "KiCad") (uri "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/Footprints.pretty") (options "") (descr ""))
+)

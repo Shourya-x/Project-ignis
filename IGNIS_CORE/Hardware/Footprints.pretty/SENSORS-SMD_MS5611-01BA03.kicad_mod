@@ -1,0 +1,469 @@
+(footprint "SENSORS-SMD_MS5611-01BA03"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at -0.014967 -3.025 180)
+		(layer "F.SilkS")
+		(uuid "8233cc8e-d209-4b0e-b16f-5841cb1d16b0")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "MS561101BA03-50"
+		(at -0.014967 3.025 180)
+		(layer "F.Fab")
+		(uuid "bb4b3e44-b4c1-4ca8-b2a9-de120334ff16")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://item.szlcsc.com/datasheet/MS561101BA03-50/16320.html"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "da0e2f13-00a3-4d1c-a608-f8512fd2f017")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Pressure range:1Kpa~1.2bar Pressure range:1Kpa~1.2bar Voltage - Supply:1.8V~3.6V Voltage - Supply:1.8V~3.6V Standby Current:140nA Interface:SPI；I2C Module:Yes Absolute Accuracy:150pa Relative Accuracy:- Features:On-chip temperature output；Standby mode；Int"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "89f0736a-9370-4c9f-83af-0c906e7d44bb")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "JLC_3DModel_Q" "672fc546baaf493a9f668044721589aa"
+		(at 0 0 180)
+		(layer "Cmts.User")
+		(hide yes)
+		(uuid "11cb3ced-cdcc-495b-9e47-a59fe2a81085")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "JLC_3D_Size" "5 3"
+		(at 0 0 180)
+		(layer "Cmts.User")
+		(hide yes)
+		(uuid "763574d4-d92a-4032-af05-94594c952003")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Part" "MS561101BA03-50"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "a6444ebc-8706-4676-aa60-baae4494ca79")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "TE Connectivity(泰科电子)"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "3f30663a-b54b-4874-a384-89a9f2fe5e4d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Supplier Part" "C15639"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "61f50984-41d3-44e7-bb96-0d2ce790fe41")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Supplier" "LCSC"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "9d6d5d9d-48f3-4f53-85a1-323aae810a81")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC Part Name" "气压传感器，带不锈钢帽"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "fb040963-4c8e-47f3-96d5-93a7a05c3e51")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(sheetname "/")
+	(sheetfile "ProPrj_Project Ignis_2026-06-03.kicad_sch")
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -2.7 -1.7)
+		(end -2.425 -1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "85dc5866-169e-478f-b864-6ab15aff899f")
+	)
+	(fp_line
+		(start -2.7 1.7)
+		(end -2.7 -1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "fafa9e1a-aaa5-4e46-9263-92879cf39422")
+	)
+	(fp_line
+		(start -2.425 1.7)
+		(end -2.7 1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "d6157cce-871f-497e-aa66-034f5dfe5030")
+	)
+	(fp_line
+		(start 2.425 1.7)
+		(end 2.7 1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "98a32159-3913-4903-ab80-e8735a041ccc")
+	)
+	(fp_line
+		(start 2.7 -1.7)
+		(end 2.425 -1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "f9210eba-9cc4-4cde-90e0-6fb4ceaee421")
+	)
+	(fp_line
+		(start 2.7 1.7)
+		(end 2.7 -1.7)
+		(stroke
+			(width 0.2)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "3edcf757-8d47-4033-bb6f-dc1d1a23a222")
+	)
+	(fp_arc
+		(start -2.5985 2.019)
+		(mid -2.60025 2.179014)
+		(end -2.601 2.019)
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "e15c1970-93a3-457d-942e-c2350993997e")
+	)
+	(fp_circle
+		(center -1.8925 2.0065)
+		(end -1.7655 2.0065)
+		(stroke
+			(width 0.254)
+			(type default)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+		(uuid "3aeb1a86-d182-400e-9432-6db7f690fa0a")
+	)
+	(fp_rect
+		(start -2.805433 -2.3)
+		(end 2.7755 2.3)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "206daaa5-8ad5-4ecd-9d72-f56df7229be0")
+	)
+	(fp_line
+		(start -2.5 -1.5)
+		(end 2.5 -1.5)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "f01675f6-21f5-445e-9aa6-f089196a2db6")
+	)
+	(fp_line
+		(start -2.5 1.5)
+		(end -2.5 -1.5)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "ef33719e-3edc-4af1-94c4-055ec43784dc")
+	)
+	(fp_line
+		(start 2.5 -1.5)
+		(end 2.5 1.5)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "3b54b3fb-2086-46e4-8a4a-d8d15ede246e")
+	)
+	(fp_line
+		(start 2.5 1.5)
+		(end -2.5 1.5)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "d548d825-4bf6-4174-a5d9-2db42b35d98c")
+	)
+	(fp_poly
+		(pts
+			(xy -2.444567 1.477039) (xy -2.477039 1.444567) (xy -2.522961 1.444567) (xy -2.555433 1.477039) (xy -2.555433 1.522961)
+			(xy -2.522961 1.555433) (xy -2.477039 1.555433) (xy -2.444567 1.522961)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "ad3f7641-c7fd-461d-b725-ce1fdf6b3957")
+	)
+	(fp_poly
+		(pts
+			(xy -2.126 0.55) (xy -1.625 0.55) (xy -1.625 1.5) (xy -2.126 1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "12e2d529-5d89-4a5f-ae54-49ea5502b5de")
+	)
+	(fp_poly
+		(pts
+			(xy -1.6245 -0.55) (xy -2.125 -0.5505) (xy -2.125 -1.5) (xy -1.624 -1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "c91100d6-6165-41c7-b564-2920abd1f92b")
+	)
+	(fp_poly
+		(pts
+			(xy -0.876 0.55) (xy -0.3755 0.55) (xy -0.3755 1.5) (xy -0.876 1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "adec6e94-b6de-427c-8d4c-73cc1a06b297")
+	)
+	(fp_poly
+		(pts
+			(xy -0.3745 -0.55) (xy -0.875 -0.5505) (xy -0.875 -1.5) (xy -0.374 -1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "6d30abf3-a96a-4773-9857-75414e1b66f0")
+	)
+	(fp_poly
+		(pts
+			(xy 0.374 0.55) (xy 0.875 0.55) (xy 0.875 1.5) (xy 0.374 1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "496852ec-e0a4-42e8-9ba3-ac4a1e9607c2")
+	)
+	(fp_poly
+		(pts
+			(xy 0.876 -0.55) (xy 0.375 -0.5505) (xy 0.375 -1.5) (xy 0.876 -1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "c4342072-7627-4d9d-8268-71e6d638bee8")
+	)
+	(fp_poly
+		(pts
+			(xy 1.624 0.55) (xy 2.125 0.55) (xy 2.125 1.5) (xy 1.624 1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "cef81ad1-ad30-4674-a5bd-2a6d3dba43ac")
+	)
+	(fp_poly
+		(pts
+			(xy 2.1255 -0.55) (xy 1.625 -0.5505) (xy 1.625 -1.5) (xy 2.126 -1.5)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "a5f60417-15f7-4c7b-ac6d-b81b814fabdc")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "814a0aed-0794-41dd-9165-3b6c557ab714")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(pad "1" smd rect
+		(at -1.875 1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "935f5ce8-fdb7-4b09-9f1c-6ec9642e2a8f")
+	)
+	(pad "2" smd rect
+		(at -0.625 1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "67a08ec3-6f82-4c1c-976c-afd9d3829b39")
+	)
+	(pad "3" smd rect
+		(at 0.625 1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "b95f85dd-19ea-4df1-bd22-a25d92356f11")
+	)
+	(pad "4" smd rect
+		(at 1.875 1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "d125c164-ad78-402e-84a7-8b50ef7264d4")
+	)
+	(pad "5" smd rect
+		(at 1.875 -1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "6308c99c-7034-44ee-a85d-e4fae3ab6a95")
+	)
+	(pad "6" smd rect
+		(at 0.625 -1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "6c1b41ce-e5cc-4754-8fe5-21162ab7cc08")
+	)
+	(pad "7" smd rect
+		(at -0.625 -1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "597ad681-7388-40eb-877f-15472645c8c1")
+	)
+	(pad "8" smd rect
+		(at -1.875 -1.3 90)
+		(size 1.5 0.6)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(uuid "e48ad766-3640-4ad9-97ba-33fdcc0d4a26")
+	)
+	(embedded_fonts no)
+	(model "${KIPRJMOD}/EASYEDA_MODELS/SENSORS-SMD_MS5611-01BA03.step"
+		(hide yes)
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -0 -0 -0)
+		)
+	)
+	(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/MS5611-01BA03--3DModel-STEP-510211.STEP"
+		(offset
+			(xyz 0 0 0)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 -90)
+		)
+	)
+)

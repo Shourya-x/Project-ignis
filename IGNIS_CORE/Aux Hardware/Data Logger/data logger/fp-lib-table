@@ -1,0 +1,4 @@
+(fp_lib_table
+	(version 7)
+	(lib (name "ATMEGA328P-AU") (type "KiCad") (uri "${KIPRJMOD}/Libraries/ATMEGA328P-AU") (options "") (descr ""))
+)

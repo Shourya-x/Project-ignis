@@ -1,0 +1,530 @@
+(footprint "WLCSP-12_L1.6-W1.6_BMM150"
+	(version 20260206)
+	(generator "pcbnew")
+	(generator_version "10.0")
+	(layer "F.Cu")
+	(property "Reference" "REF**"
+		(at 0.015216 -1.810433 180)
+		(layer "F.SilkS")
+		(uuid "801e7c83-3be8-4be5-9ecb-b8e65979951d")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Value" "BMM150"
+		(at 0.015216 1.7805 180)
+		(layer "F.Fab")
+		(uuid "0d03ec6e-54b4-48d8-8e43-e45db5a3376b")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Datasheet" "https://item.szlcsc.com/datasheet/BMM150/183067.html"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "790fa6d3-976e-4047-bbdf-ffc24b98b1dd")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Description" "Magnetic Sensing Range(X,Y):±1.3mT Magnetic Sensing Range(X,Y):±1.3mT Magnetic Sensing Range(Z):±2.5mT Magnetic Sensing Range(Z):±2.5mT Output bit:- Interface Type:SPI；I2C Voltage - Supply:1.62V~3.6V Voltage - Supply:1.62V~3.6V Current - Supply:- Operatin"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5b4567b3-248b-46fa-9e12-d57675b7b76f")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "JLC_3DModel_Q" "e29c6614a3ad4a06ae6fc9d5a7a1f09f"
+		(at 0 0 180)
+		(layer "Cmts.User")
+		(hide yes)
+		(uuid "985ad1a9-3bdc-47b0-a7f8-923c643cb5c8")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "JLC_3D_Size" "1.56 1.56"
+		(at 0 0 180)
+		(layer "Cmts.User")
+		(hide yes)
+		(uuid "ebf3cf9b-237f-4293-befc-ce1343917e33")
+		(effects
+			(font
+				(size 1.27 1.27)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer Part" "BMM150"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "96f284bd-b71a-4b17-b125-493068102167")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Manufacturer" "Bosch(博世)"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "5b2230a9-b973-4e94-9d62-bd22779e26f7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Supplier Part" "C171681"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "f417ed39-3b2e-4e9d-b52c-ca779a1814a7")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "Supplier" "LCSC"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "d8e8e7b2-d0a4-44da-922f-8a23020aa2d9")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(property "LCSC Part Name" "三轴地磁式传感器 停产"
+		(at 0 0 0)
+		(unlocked yes)
+		(layer "F.Fab")
+		(hide yes)
+		(uuid "dc277eed-2c60-4e0b-bd67-39232e74324a")
+		(effects
+			(font
+				(size 1 1)
+				(thickness 0.15)
+			)
+		)
+	)
+	(sheetname "/")
+	(sheetfile "ProPrj_Project Ignis_2026-06-03.kicad_sch")
+	(duplicate_pad_numbers_are_jumpers no)
+	(fp_line
+		(start -0.849 -0.8505)
+		(end 0.65 -0.8505)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "b3a33ffb-aa87-446f-8f6d-f3b6036820fe")
+	)
+	(fp_line
+		(start -0.849 0.849)
+		(end -0.849 -0.8505)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "95e3b60e-9e66-4e71-961a-d8237fac8e84")
+	)
+	(fp_line
+		(start -0.849 0.849)
+		(end 0.8505 0.849)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "02394848-dc35-4466-9674-ccda6dffc3bb")
+	)
+	(fp_line
+		(start 0.65 -0.8505)
+		(end 0.8505 -0.65)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "e9e8db0e-1754-4729-805d-4a5aa9637286")
+	)
+	(fp_line
+		(start 0.8505 -0.65)
+		(end 0.8505 -0.0505)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "714b1b2c-0110-41d0-a02f-87d29a410c73")
+	)
+	(fp_line
+		(start 0.8505 0.849)
+		(end 0.8505 -0.101)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(layer "F.SilkS")
+		(uuid "b354ad41-06c6-4618-8cbc-641cbaa04613")
+	)
+	(fp_circle
+		(center 0.889 -0.635)
+		(end 0.964 -0.635)
+		(stroke
+			(width 0.15)
+			(type default)
+		)
+		(fill no)
+		(layer "Dwgs.User")
+		(uuid "3d6fa9c0-072f-4c4d-a5b0-a4e3d12fd903")
+	)
+	(fp_rect
+		(start -1.0555 -1.085433)
+		(end 1.085933 1.0555)
+		(stroke
+			(width 0.05)
+			(type default)
+		)
+		(fill no)
+		(layer "F.CrtYd")
+		(uuid "f6ea4301-8b1c-4ff5-a27c-bd67d7a3048a")
+	)
+	(fp_line
+		(start -0.78 -0.78)
+		(end 0.78 -0.78)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "1ebd1901-410a-47c0-8516-c5fb954f94fb")
+	)
+	(fp_line
+		(start -0.78 0.78)
+		(end -0.78 -0.78)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "ce3e8b81-8fd4-4a6d-961d-87aeb49e7162")
+	)
+	(fp_line
+		(start 0.78 -0.78)
+		(end 0.78 0.78)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "c39bbdab-4a5c-4aac-9474-7d38d6e672b4")
+	)
+	(fp_line
+		(start 0.78 0.78)
+		(end -0.78 0.78)
+		(stroke
+			(width 0.051)
+			(type default)
+		)
+		(layer "F.Fab")
+		(uuid "4ea7bfe2-4055-4682-a0ba-a1d6b1d4a4f0")
+	)
+	(fp_poly
+		(pts
+			(xy 0.835933 -0.802961) (xy 0.803461 -0.835433) (xy 0.757539 -0.835433) (xy 0.725067 -0.802961) (xy 0.725067 -0.757039)
+			(xy 0.757539 -0.724567) (xy 0.803461 -0.724567) (xy 0.835933 -0.757039)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "F.Fab")
+		(uuid "6752366e-152f-4bd2-9da7-311b6b8edbac")
+	)
+	(fp_poly
+		(pts
+			(xy -0.666 -0.666) (xy -0.466 -0.666) (xy -0.466 -0.466) (xy -0.666 -0.466)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "df58502e-3c41-4efb-9220-0211e067c007")
+	)
+	(fp_poly
+		(pts
+			(xy -0.666 -0.1) (xy -0.466 -0.1) (xy -0.466 0.1) (xy -0.666 0.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "3de7246f-d9e7-4c14-9417-dc75741cab1e")
+	)
+	(fp_poly
+		(pts
+			(xy -0.666 0.466) (xy -0.466 0.466) (xy -0.466 0.666) (xy -0.666 0.666)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "205d644f-0408-471b-812e-436793ca8742")
+	)
+	(fp_poly
+		(pts
+			(xy -0.383 -0.383) (xy -0.183 -0.383) (xy -0.183 -0.183) (xy -0.383 -0.183)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "3f72756e-434b-4b67-b6b9-f6417bcda495")
+	)
+	(fp_poly
+		(pts
+			(xy -0.383 0.183) (xy -0.183 0.183) (xy -0.183 0.383) (xy -0.383 0.383)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "319452a1-dbcd-4702-8a9c-60ad0bbdb3a6")
+	)
+	(fp_poly
+		(pts
+			(xy -0.1 -0.666) (xy 0.1 -0.666) (xy 0.1 -0.466) (xy -0.1 -0.466)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "bece534e-d98f-4284-9776-e0334d25eeb1")
+	)
+	(fp_poly
+		(pts
+			(xy -0.1 0.466) (xy 0.1 0.466) (xy 0.1 0.666) (xy -0.1 0.666)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "a4f50419-3555-43d4-8bd8-78c697a6f968")
+	)
+	(fp_poly
+		(pts
+			(xy 0.183 -0.383) (xy 0.383 -0.383) (xy 0.383 -0.183) (xy 0.183 -0.183)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "a11920e4-c348-4765-bb8c-9111a469d270")
+	)
+	(fp_poly
+		(pts
+			(xy 0.183 0.183) (xy 0.383 0.183) (xy 0.383 0.383) (xy 0.183 0.383)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "dda366eb-4b07-4ece-93a3-e4e0fa875640")
+	)
+	(fp_poly
+		(pts
+			(xy 0.466 -0.666) (xy 0.666 -0.666) (xy 0.666 -0.466) (xy 0.466 -0.466)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "fa09fc85-06de-4aec-92b5-6b3b9c261d79")
+	)
+	(fp_poly
+		(pts
+			(xy 0.466 -0.1) (xy 0.666 -0.1) (xy 0.666 0.1) (xy 0.466 0.1)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "3393038e-a608-48b1-8d75-21f8f8bc349a")
+	)
+	(fp_poly
+		(pts
+			(xy 0.466 0.466) (xy 0.666 0.466) (xy 0.666 0.666) (xy 0.466 0.666)
+		)
+		(stroke
+			(width 0)
+			(type default)
+		)
+		(fill yes)
+		(layer "User.1")
+		(uuid "614c7453-62df-4fd9-ac92-c7bbba9ec120")
+	)
+	(fp_text user "${REFERENCE}"
+		(at 0 0 180)
+		(layer "F.Fab")
+		(uuid "bda1887d-32f6-44cb-bb5d-5c61a837d732")
+		(effects
+			(font
+				(size 0.5 0.5)
+				(thickness 0.1)
+			)
+		)
+	)
+	(pad "A1" smd circle
+		(at 0.566 -0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "44c5f722-38ea-4ed5-8bf1-add8136921b9")
+	)
+	(pad "A3" smd circle
+		(at 0.566 0)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "ed1a37d1-25f4-4fa3-b2c2-69b01048f54f")
+	)
+	(pad "A5" smd circle
+		(at 0.566 0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "8e366109-2021-4be6-aaea-936175fb1fba")
+	)
+	(pad "B2" smd circle
+		(at 0.283 -0.283)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "ec318954-b684-4b8d-95ca-d7a6861fc0af")
+	)
+	(pad "B4" smd circle
+		(at 0.283 0.283)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "1fa3a567-e06f-4930-9cc4-881f71577fce")
+	)
+	(pad "C1" smd circle
+		(at 0 -0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "10e01bce-f1b0-48cd-ac01-5487a9b61490")
+	)
+	(pad "C5" smd circle
+		(at 0 0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "50fdd4e3-2772-4b71-9c4d-b0ff4d24bd1f")
+	)
+	(pad "D2" smd circle
+		(at -0.283 -0.283)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "71b23331-15c0-4f73-9aa0-398d93682628")
+	)
+	(pad "D4" smd circle
+		(at -0.283 0.283)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "4b8887e7-9d5a-47d0-a1dd-45d2c8df2c02")
+	)
+	(pad "E1" smd circle
+		(at -0.566 -0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "ac15121f-0818-4602-8122-13d90755a741")
+	)
+	(pad "E3" smd circle
+		(at -0.566 0)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "b40f482a-c9c2-4670-a1bd-a56365c4244a")
+	)
+	(pad "E5" smd circle
+		(at -0.566 0.566)
+		(size 0.2 0.2)
+		(layers "F.Cu" "F.Mask" "F.Paste")
+		(thermal_bridge_angle 90)
+		(uuid "f1cae90c-ffa7-45ac-b4ec-0c33c8ba899f")
+	)
+	(embedded_fonts no)
+	(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/BMM150--3DModel-STEP-56544.STEP"
+		(offset
+			(xyz 0 0 -0.2)
+		)
+		(scale
+			(xyz 1 1 1)
+		)
+		(rotate
+			(xyz -90 -0 90)
+		)
+	)
+)
