@@ -370,3 +370,4 @@ Hardware designs are under **CERN Open Hardware License**.
 | Tool stack | ✅ |
 | License | ✅ |
 | Contact/Community | ✅ |
+hehe
