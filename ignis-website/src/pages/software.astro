@@ -2,326 +2,231 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import { FIRMWARE_MODULES } from '../data/ignisData';
 ---
 
-<Layout title="Software | IGNIS TVC System">
+<Layout title="Software & Firmware Stack | Project IGNIS Avionics">
   <Header />
 
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Software Stack</h1>
-      <p class="section-subtitle">Firmware, ground station, and tools powering IGNIS</p>
-      
-      <div class="software-grid">
-        <div class="software-card">
-          <div class="software-icon">🖥️</div>
-          <h2>IGNIS-CORE Firmware</h2>
-          <p>Flight computer firmware running on STM32F411</p>
-          <div class="tech-stack">
-            <span class="tech-tag">C++</span>
-            <span class="tech-tag">Arduino Framework</span>
-            <span class="tech-tag">PlatformIO</span>
-          </div>
-          <ul>
-            <li>Sensor fusion (MPU6500 + MS5611)</li>
-            <li>Complementary filter for altitude</li>
-            <li>PID control for servos</li>
-            <li>SD card data logging</li>
-            <li>LoRa telemetry transmission</li>
-          </ul>
-          <a href="/downloads" class="btn-download">Download →</a>
+      <div class="section-header">
+        <div>
+          <span class="section-index">FIRMWARE & GROUND CONTROL // SOFTWARE ARCHITECTURE</span>
+          <h1 class="section-title">IGNIS Software Stack & GNC Algorithms</h1>
         </div>
-        
-        <div class="software-card">
-          <div class="software-icon">📡</div>
-          <h2>IGNIS-NET Firmware</h2>
-          <p>Ground station receiver firmware</p>
-          <div class="tech-stack">
-            <span class="tech-tag">C++</span>
-            <span class="tech-tag">Arduino</span>
-            <span class="tech-tag">PlatformIO</span>
+        <p class="section-desc">
+          High-rate bare-metal STM32 HAL C firmware, CubeMX-safe modular architecture, 100 Hz attitude determination &amp; control (GNC), and the PyQt6/OpenGL ground control station.
+        </p>
+      </div>
+
+      <!-- Overview Cards -->
+      <div class="sw-grid">
+        <div class="panel">
+          <span class="badge badge-accent">PRIMARY FLIGHT SOFTWARE</span>
+          <h2 style="margin:0.5rem 0;">IGNIS_CORE_STM32G473VET6 Firmware</h2>
+          <p class="body-copy">
+            Built using <code>arm-none-eabi-gcc 15.2.0</code> + CMake + Ninja under Fedora 44 Linux. Uses the STM32G4 HAL with hardware floating-point unit (FPU) and zero dynamic memory allocation for rock-solid determinism.
+          </p>
+          <div class="code-box mono">
+            <span class="code-comment"># Build & flash via ST-Link:</span>
+            <span>$ cmake --preset Debug</span>
+            <span>$ cmake --build build/Debug -j</span>
+            <span>$ STM32_Programmer_CLI -c port=SWD -w build/Debug/IGNIS_CORE_STM32G473VET6.elf -v -rst</span>
           </div>
-          <ul>
-            <li>LoRa packet reception</li>
-            <li>OLED display driver</li>
-            <li>Data validation and parsing</li>
-            <li>USB serial forwarding</li>
-            <li>Status indication LEDs</li>
-          </ul>
-          <a href="/downloads" class="btn-download">Download →</a>
         </div>
-        
-        <div class="software-card">
-          <div class="software-icon">💻</div>
-          <h2>IGNIS Ground Station</h2>
-          <p>Desktop application for telemetry monitoring</p>
-          <div class="tech-stack">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">PyQt6</span>
-            <span class="tech-tag">Matplotlib</span>
+
+        <div class="panel">
+          <span class="badge badge-blue">MISSION CONTROL & ANALYSIS</span>
+          <h2 style="margin:0.5rem 0;">IGNIS-NET-SIM Ground Station</h2>
+          <p class="body-copy">
+            Cross-platform desktop application built in Python 3.9+ using <strong>PyQt6</strong> for UI, <strong>PyQtGraph</strong> for real-time 100 Hz telemetry plotting, and <strong>PyOpenGL</strong> for 3D vehicle attitude tracking.
+          </p>
+          <div class="code-box mono">
+            <span class="code-comment"># Launch the Ground Station:</span>
+            <span>$ cd IGNIS_NET/IGNIS-NET-SIM</span>
+            <span>$ pip install -r requirements.txt</span>
+            <span>$ python3 src/main.py</span>
           </div>
-          <ul>
-            <li>Real-time telemetry display</li>
-            <li>Live plotting (altitude, altitude)</li>
-            <li>GPS trajectory on map</li>
-            <li>Data logging to CSV/JSON</li>
-            <li>Cross-platform (Win/Mac/Linux)</li>
-          </ul>
-          <a href="/downloads" class="btn-download">Download →</a>
-        </div>
-        
-        <div class="software-card">
-          <div class="software-icon">📊</div>
-          <h2>Data Analysis Tools</h2>
-          <p>Python scripts for post-flight analysis</p>
-          <div class="tech-stack">
-            <span class="tech-tag">Python</span>
-            <span class="tech-tag">Pandas</span>
-            <span class="tech-tag">NumPy</span>
-          </div>
-          <ul>
-            <li>Flight data visualization</li>
-            <li>Performance calculations</li>
-            <li>Export to PDF reports</li>
-            <li>Comparison tools</li>
-            <li>Statistical analysis</li>
-          </ul>
-          <a href="/downloads" class="btn-download">Download →</a>
         </div>
       </div>
-      
-      <!-- GitHub Repository Links -->
-      <div class="repo-links">
-        <h2>🔗 Source Code Repositories</h2>
-        <div class="repo-grid">
-          <a href="#" class="repo-card">
-            <span class="repo-icon">📁</span>
-            <div>
-              <h3>IGNIS-CORE</h3>
-              <p>Flight computer firmware - STM32F411</p>
+
+      <!-- 100 Hz Control Loop Math Section -->
+      <div class="panel" style="margin-top:2rem;">
+        <span class="badge badge-green">GNC CONTROL LAWS</span>
+        <h2 style="margin:0.5rem 0 1rem;">100 Hz Attitude Determination &amp; Fin Mixing Mathematical Formulation</h2>
+
+        <div class="math-grid">
+          <div class="math-card">
+            <h4>1. Complementary Filter (α = 0.98)</h4>
+            <p>Fuses high-rate gyroscope rates with gravity-referenced accelerations every 10 ms:</p>
+            <div class="mono math-formula">
+              θ_accel = atan2(-a_x, sqrt(a_y² + a_z²)) × 57.3°<br />
+              ϕ_accel = atan2(a_y, -a_z) × 57.3°<br /><br />
+              θ_k = 0.98 × (θ[k-1] + ω_x × dt) + 0.02 × θ_accel<br />
+              ϕ_k = 0.98 × (ϕ[k-1] + ω_y × dt) + 0.02 × ϕ_accel
             </div>
-          </a>
-          <a href="#" class="repo-card">
-            <span class="repo-icon">📁</span>
-            <div>
-              <h3>IGNIS-CTRL</h3>
-              <p>TVC mechanism control library</p>
+          </div>
+
+          <div class="math-card">
+            <h4>2. 3-Axis PID Control with Anti-Windup</h4>
+            <p>Computes restoring moments to maintain vertical attitude (Setpoint = 0.0°):</p>
+            <div class="mono math-formula">
+              error = Setpoint - Measurement<br />
+              P = K_p × error (K_p = 1.20)<br />
+              I = I_prev + K_i × error × dt (clamped ±100)<br />
+              D = K_d × (error - error_prev) / dt<br />
+              Output = clamp(P + I + D, -100, +100)
             </div>
-          </a>
-          <a href="#" class="repo-card">
-            <span class="repo-icon">📁</span>
-            <div>
-              <h3>IGNIS-NET</h3>
-              <p>Ground station Python application</p>
+          </div>
+
+          <div class="math-card">
+            <h4>3. True Aerodynamic 4-Fin X-Configuration Mixing Matrix</h4>
+            <p>Maps 3-axis attitude moments onto 4 radial fin servos (TIM2_CH1..4) mounted at 45°, 135°, 225°, and 315°:</p>
+            <div class="mono math-formula">
+              Fin 1 (45°  / Q1: +X, +Y) = 90° + (-0.707·Pitch - 0.707·Yaw + Roll)<br />
+              Fin 2 (135° / Q2: -X, +Y) = 90° + (+0.707·Pitch - 0.707·Yaw + Roll)<br />
+              Fin 3 (225° / Q3: -X, -Y) = 90° + (+0.707·Pitch + 0.707·Yaw + Roll)<br />
+              Fin 4 (315° / Q4: +X, -Y) = 90° + (-0.707·Pitch + 0.707·Yaw + Roll)<br />
+              All fins share +Roll sign for pure roll damping; Pitch &amp; Yaw are decoupled and orthogonal.
             </div>
-          </a>
-          <a href="#" class="repo-card">
-            <span class="repo-icon">📁</span>
-            <div>
-              <h3>IGNIS-Website</h3>
-              <p>This website source code</p>
-            </div>
-          </a>
+          </div>
         </div>
       </div>
-      
-      <!-- Documentation Links -->
-      <div class="docs-section">
-        <h2>📚 Documentation</h2>
-        <div class="docs-grid">
-          <a href="#" class="doc-card">
-            <span class="doc-icon">📘</span>
-            <div>
-              <h3>Getting Started Guide</h3>
-              <p>Setup your IGNIS system from scratch</p>
+
+      <!-- 11 Firmware Modules -->
+      <div style="margin-top:3rem;">
+        <h2 class="section-title">STM32G473VET6 Modular HAL Architecture</h2>
+        <p class="section-desc" style="margin-bottom:1.5rem;">
+          Cleanly separated into 11 application modules under <code>Modules/</code> with zero edits in auto-generated CubeMX driver files.
+        </p>
+
+        <div class="modules-grid">
+          {FIRMWARE_MODULES.map((mod) => (
+            <div class="panel module-card">
+              <div class="module-top">
+                <span class="badge badge-accent">{mod.name}</span>
+                <span class="mono" style="font-size:0.72rem;color:var(--text-muted);">{mod.rateOrBus}</span>
+              </div>
+              <div class="mono module-path">{mod.path} • {mod.peripheral}</div>
+              <p class="module-summary">{mod.summary}</p>
+              <div class="fn-tags">
+                {mod.keyFunctions.map((fn) => (
+                  <code class="fn-tag">{fn}</code>
+                ))}
+              </div>
             </div>
-          </a>
-          <a href="#" class="doc-card">
-            <span class="doc-icon">🔧</span>
-            <div>
-              <h3>API Reference</h3>
-              <p>Complete function documentation</p>
-            </div>
-          </a>
-          <a href="#" class="doc-card">
-            <span class="doc-icon">📊</span>
-            <div>
-              <h3>Telemetry Protocol</h3>
-              <p>LoRa packet structure and parsing</p>
-            </div>
-          </a>
-          <a href="#" class="doc-card">
-            <span class="doc-icon">⚠️</span>
-            <div>
-              <h3>Troubleshooting Guide</h3>
-              <p>Common issues and solutions</p>
-            </div>
-          </a>
+          ))}
         </div>
       </div>
-      
+
+      <!-- Telemetry Protocol Reference -->
+      <div class="panel" style="margin-top:2.5rem;">
+        <span class="badge badge-amber">STREAMING PROTOCOL</span>
+        <h3 style="margin:0.5rem 0;">USB CDC Real-Time CSV Telemetry Frame &amp; Interactive CLI</h3>
+        <p class="body-copy">
+          The flight computer outputs an 11-column CSV frame at 100 Hz over Full-Speed USB (<code>PA11/PA12</code>) and accepts single-byte commands for benchtop verification:
+        </p>
+        <div class="mono" style="background:var(--bg-subtle);padding:0.85rem 1rem;border-radius:6px;font-size:0.78rem;overflow-x:auto;">
+          <strong>CSV Format:</strong> Pitch,Roll,YawRate,PitchCmd,RollCmd,YawCmd,Fin1,Fin2,Fin3,Fin4,Armed<br />
+          <strong>Example:</strong> 0.14,-0.08,0.02,-0.17,0.10,-0.01,90,90,90,90,0<br /><br />
+          <strong>Interactive CLI Commands:</strong><br />
+          • <code>A</code> / <code>a</code> : Arm Flight Loop (Active 100 Hz PID &amp; fin deflection; LED turns Red)<br />
+          • <code>D</code> / <code>d</code> : Disarm Flight Loop (Fins locked at 90° center; LED turns Green)<br />
+          • <code>C</code> / <code>c</code> : Re-calibrate IMU (Captures 500 stationary samples over 1.0 s; LED turns Amber)<br />
+          • <code>S</code> / <code>s</code> : Diagnostic Bus Scan (Scans I2C2 0x08–0x77 and prints MPU6500, MS5611, HMC5883L data)
+        </div>
+      </div>
     </div>
   </section>
-<!-- Add this spacer div -->
-  <div class="page-spacer"></div>
+
   <Footer />
 </Layout>
 
 <style>
-  .section-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
+  .sw-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
-  
-  .software-grid {
+  .code-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+    font-size: 0.76rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    margin-top: 1rem;
+  }
+  .code-comment {
+    color: var(--text-muted);
+  }
+  .math-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
-    margin-bottom: 3rem;
-  }
-  
-  .software-card {
-    background: var(--surface);
-    border-radius: 12px;
-    padding: 1.5rem;
-    transition: all 0.3s;
-    border: 1px solid var(--border);
-  }
-  
-  .software-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
-    box-shadow: 0 0 20px rgba(220, 191, 228, 0.1);
-  }
-  
-  .software-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
-  }
-  
-  .software-card h2 {
-    font-size: 1.2rem;
-    margin-bottom: 0.75rem;
-    color: var(--primary);
-  }
-  
-  .software-card p {
-    color: var(--text-muted);
-    margin-bottom: 1rem;
-    font-size: 0.85rem;
-  }
-  
-  .tech-stack {
-    display: flex;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-    margin-bottom: 1rem;
-  }
-  
-  .tech-tag {
-    background: rgba(220, 191, 228, 0.15);
-    padding: 0.25rem 0.75rem;
-    border-radius: 20px;
-    font-size: 0.7rem;
-    color: var(--primary);
-    font-family: monospace;
-  }
-  
-  .software-card ul {
-    list-style: none;
-    margin: 1rem 0;
-  }
-  
-  .software-card li {
-    margin-bottom: 0.5rem;
-    padding-left: 1.2rem;
-    position: relative;
-    color: var(--text-muted);
-    font-size: 0.8rem;
-  }
-  
-  .software-card li::before {
-    content: "→";
-    position: absolute;
-    left: 0;
-    color: var(--primary);
-  }
-  
-  .btn-download {
-    display: inline-block;
+    gap: 1.25rem;
     margin-top: 1rem;
-    padding: 0.5rem 1rem;
-    background: transparent;
-    border: 1px solid var(--primary);
-    color: var(--primary);
-    text-decoration: none;
-    border-radius: 6px;
-    transition: all 0.3s;
-    font-size: 0.8rem;
   }
-  
-  .btn-download:hover {
-    background: var(--primary);
-    color: var(--background);
-  }
-  
-  .repo-links, .docs-section {
-    margin-top: 3rem;
-  }
-  
-  .repo-links h2, .docs-section h2 {
-    color: var(--primary);
-    margin-bottom: 1.5rem;
-    font-size: 1.3rem;
-  }
-  
-  .repo-grid, .docs-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 1rem;
-  }
-  
-  .repo-card, .doc-card {
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-    padding: 1rem;
-    background: var(--surface);
-    border-radius: 10px;
-    text-decoration: none;
-    transition: all 0.3s;
+  .math-card {
+    background: var(--bg-subtle);
     border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
   }
-  
-  .repo-card:hover, .doc-card:hover {
-    transform: translateX(5px);
-    border-color: var(--primary);
-    background: var(--surface-hover);
+  .math-card h4 {
+    color: var(--accent);
+    margin-bottom: 0.35rem;
+    font-size: 0.92rem;
   }
-  
-  .repo-icon, .doc-icon {
-    font-size: 1.8rem;
+  .math-card p {
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
   }
-  
-  .repo-card h3, .doc-card h3 {
-    color: var(--primary);
-    font-size: 1rem;
-    margin-bottom: 0.25rem;
+  .math-formula {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.65rem;
+    font-size: 0.72rem;
+    line-height: 1.5;
+    color: var(--text);
   }
-  
-  .repo-card p, .doc-card p {
-    color: var(--text-muted);
-    font-size: 0.75rem;
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.15rem;
   }
-  
-  @media (max-width: 768px) {
-    .software-grid {
-      grid-template-columns: 1fr;
-    }
-    
-    .repo-grid, .docs-grid {
-      grid-template-columns: 1fr;
-    }
+  .module-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.45rem;
+  }
+  .module-path {
+    font-size: 0.74rem;
+    color: var(--blue);
+    margin-bottom: 0.55rem;
+  }
+  .module-summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+  }
+  .fn-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .fn-tag {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: var(--text);
   }
 </style>

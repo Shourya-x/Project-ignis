@@ -109,7 +109,8 @@ uint8_t UserTxBufferFS[APP_TX_DATA_SIZE];
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
-
+extern uint8_t usb_rx_buffer[64];
+extern uint8_t usb_rx_len;
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**
@@ -261,9 +262,13 @@ static int8_t CDC_Control_FS(uint8_t cmd, uint8_t* pbuf, uint16_t length)
 static int8_t CDC_Receive_FS(uint8_t* Buf, uint32_t *Len)
 {
   /* USER CODE BEGIN 6 */
-  // Echo received data back to host (simple echo)
-  CDC_Transmit_FS(Buf, (uint16_t)*Len);
-  
+  if (*Len > 0)
+  {
+    uint32_t copy_len = (*Len < sizeof(usb_rx_buffer)) ? *Len : sizeof(usb_rx_buffer);
+    memcpy(usb_rx_buffer, Buf, copy_len);
+    usb_rx_len = (uint8_t)copy_len;
+  }
+
   // Prepare for next packet
   USBD_CDC_SetRxBuffer(&hUsbDeviceFS, &Buf[0]);
   USBD_CDC_ReceivePacket(&hUsbDeviceFS);
@@ -287,8 +292,14 @@ uint8_t CDC_Transmit_FS(uint8_t* Buf, uint16_t Len)
   uint8_t result = USBD_OK;
   /* USER CODE BEGIN 7 */
   USBD_CDC_HandleTypeDef *hcdc = (USBD_CDC_HandleTypeDef*)hUsbDeviceFS.pClassData;
-  if (hcdc->TxState != 0){
-    return USBD_BUSY;
+  if (hcdc == NULL) {
+    return USBD_FAIL;
+  }
+  uint32_t start = HAL_GetTick();
+  while (hcdc->TxState != 0) {
+    if ((HAL_GetTick() - start) >= 5U) {
+      return USBD_BUSY;
+    }
   }
   USBD_CDC_SetTxBuffer(&hUsbDeviceFS, Buf, Len);
   result = USBD_CDC_TransmitPacket(&hUsbDeviceFS);

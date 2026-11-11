@@ -1,40 +1,45 @@
 ---
-// IGNIS Website Layout Component
 export interface Props {
   title: string;
   description?: string;
 }
 
-const { title, description = "Advanced Thrust Vector Control System for Model Rockets" } = Astro.props;
+const {
+  title,
+  description = "Project IGNIS — STM32G473VET6 Rocket Flight Computer, 100 Hz X-Fin / TVC Attitude Control, 3-Stage Pyro Igniter & 433 MHz LoRa Avionics Suite"
+} = Astro.props;
 
-// Import the CSS file directly. Astro will handle the rest.
 import '../styles/global.css';
 ---
 
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{title} | IGNIS TVC System</title>
+  <title>{title}</title>
   <meta name="description" content={description} />
-  <meta name="keywords" content="rocketry, thrust vectoring, TVC, STM32, model rocket, ignis" />
-  <meta name="author" content="IGNIS Project" />
-  
-  <!-- Open Graph -->
-  <meta property="og:title" content={title} />
-  <meta property="og:description" content={description} />
-  <meta property="og:type" content="website" />
-  <meta property="og:image" content="/images/ignis-og.png" />
-  
-  <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-  
-  <!-- Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Saira+Stencil:wght@400;700;900&family=Share+Tech+Mono&display=swap" rel="stylesheet" />
-  
-  <!-- model-viewer for 3D models -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <script type="module" src="https://ajax.googleapis.com/ajax/libs/model-viewer/3.5.0/model-viewer.min.js"></script>
+  <script is:inline>
+    (function () {
+      try {
+        const saved = localStorage.getItem('ignis-theme') || 'dark';
+        document.documentElement.setAttribute('data-theme', saved);
+      } catch (e) {}
+      window.__toggleIgnisTheme = function () {
+        const root = document.documentElement;
+        const next = root.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+        root.setAttribute('data-theme', next);
+        try { localStorage.setItem('ignis-theme', next); } catch (e) {}
+        const label = document.getElementById('ignis-theme-label');
+        if (label) label.textContent = next === 'light' ? 'DARK LAB' : 'LIGHT DATASHEET';
+      };
+    })();
+  </script>
 </head>
 <body>
   <main>
@@ -42,10 +47,3 @@ import '../styles/global.css';
   </main>
 </body>
 </html>
-
-<style is:global>
-  main {
-    width: 100%;
-    min-height: 100vh;
-  }
-</style>

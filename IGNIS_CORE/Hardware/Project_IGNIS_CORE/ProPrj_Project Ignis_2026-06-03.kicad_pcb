@@ -2818,7 +2818,7 @@
 			(uuid "fb444487-5132-4a17-91bf-81420dcb4be6")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/Ra-02 LoRa--3DModel-STEP-1.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/Ra-02 LoRa--3DModel-STEP-1.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -6040,7 +6040,7 @@
 			(uuid "e20f4506-dd2d-400b-8c9e-04ff326e807c")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/BMM150--3DModel-STEP-56544.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/BMM150--3DModel-STEP-56544.STEP"
 			(offset
 				(xyz 0 0 -0.2)
 			)
@@ -6539,7 +6539,7 @@
 				(xyz -0 -0 -0)
 			)
 		)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/MS5611-01BA03--3DModel-STEP-510211.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/MS5611-01BA03--3DModel-STEP-510211.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -8596,7 +8596,7 @@
 			(uuid "349c21a8-b63f-4bb6-bb16-5fa48011176e")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/MPU-6500--3DModel-STEP-1.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/MPU-6500--3DModel-STEP-1.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9253,7 +9253,7 @@
 			(uuid "dbf616c8-a4f4-41f2-9d98-98a900b4e04d")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/HC-49_U-S8000000ABJB.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/HC-49_U-S8000000ABJB.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -9862,7 +9862,7 @@
 			(uuid "237a9727-6c67-49f0-83fe-001463f7114f")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/ABS05-32.768KHZ-6-T.stp"
+		(model "${KIPRJMOD}/../3D_Models/STEP/ABS05-32.768KHZ-6-T.stp"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -14209,7 +14209,7 @@
 			(uuid "df0403e5-4042-473a-b68c-11c186d29930")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/STM32G473VET6.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/STM32G473VET6.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -15203,7 +15203,7 @@
 			(uuid "5c67c2c2-a3a8-4921-b309-1a7e21951907")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/User Library-BULVACK LM2596 DC-DC 1_25V-30V 3A-1.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/User Library-BULVACK LM2596 DC-DC 1_25V-30V 3A-1.STEP"
 			(offset
 				(xyz 0 0 0)
 			)
@@ -15961,7 +15961,7 @@
 			(uuid "eb479426-5564-4d83-8b89-b755e1ab43f5")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/ZXTN4004KTC.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/ZXTN4004KTC.STEP"
 			(offset
 				(xyz -1 0 0)
 			)
@@ -18070,7 +18070,7 @@
 			(uuid "86b8238b-4848-4f47-bf70-3c53217e24d1")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/2340901-1.step"
+		(model "${KIPRJMOD}/../3D_Models/STEP/2340901-1.step"
 			(offset
 				(xyz 0 -2 0)
 			)
@@ -20234,7 +20234,7 @@
 			(uuid "1cc467f1-4180-4753-8682-bd0b0ea0080b")
 		)
 		(embedded_fonts no)
-		(model "C:/Users/Shourya Pandey/Documents/Project-ignis/IGNIS_CORE/Hardware/3D_Models/STEP/ZXTN4004KTC.STEP"
+		(model "${KIPRJMOD}/../3D_Models/STEP/ZXTN4004KTC.STEP"
 			(offset
 				(xyz -1 0 0)
 			)

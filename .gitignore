@@ -1,0 +1,34 @@
+# Dependencies & Builds
+ignis-website/node_modules/
+ignis-website/dist/
+ignis-website/.astro/
+node_modules/
+
+# KiCad history & locks
+.history/
+*/.history/
+*/*/.history/
+*/*/*/.history/
+*.lck
+~*.lck
+*.kicad_prl
+
+# STM32 build directories & toolchain caches
+build/
+*/build/
+*/*/build/
+*/*/*/build/
+.metadata/
+*.su
+*.o
+*.obj
+
+# Python caches & virtualenvs
+__pycache__/
+*.pyc
+venv/
+.venv/
+
+# Environment files
+.env
+.env.*

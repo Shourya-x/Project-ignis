@@ -42,14 +42,25 @@ target_link_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined library search paths
 )
 
+# Automatically find all modules under Modules/
+file(GLOB_RECURSE MODULE_SOURCES CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/Modules/*.c"
+    "${CMAKE_CURRENT_SOURCE_DIR}/Modules/*.cpp"
+)
+file(GLOB MODULE_INCLUDE_DIRS LIST_DIRECTORIES true CONFIGURE_DEPENDS
+    "${CMAKE_CURRENT_SOURCE_DIR}/Modules/*"
+)
+
 # Add sources to executable
 target_sources(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user sources here
+    ${MODULE_SOURCES}
 )
 
 # Add include paths
 target_include_directories(${CMAKE_PROJECT_NAME} PRIVATE
     # Add user defined include paths
+    ${MODULE_INCLUDE_DIRS}
 )
 
 # Add project symbols (macros)

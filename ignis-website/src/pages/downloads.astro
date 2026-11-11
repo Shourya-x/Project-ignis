@@ -4,153 +4,172 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 ---
 
-<Layout title="Downloads | IGNIS TVC System">
+<Layout title="Hardware & Engineering Downloads Vault | Project IGNIS">
   <Header />
 
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Downloads</h1>
-      <p class="section-subtitle">All the files you need to build your own IGNIS system</p>
-      
-      <div class="downloads-grid">
-        <div class="download-category">
-          <h2>📁 Firmware</h2>
-          <ul>
-            <li><a href="#" class="download-link">IGNIS-CORE Firmware v1.0 <span class="file-size">(256KB)</span></a></li>
-            <li><a href="#" class="download-link">IGNIS-NET Firmware v1.0 <span class="file-size">(128KB)</span></a></li>
-            <li><a href="#" class="download-link">Bootloader <span class="file-size">(32KB)</span></a></li>
+      <div class="section-header">
+        <div>
+          <span class="section-index">VAULT // DIRECT ENGINEERING ARCHIVES</span>
+          <h1 class="section-title">Hardware, ECAD &amp; 3D CAD Downloads</h1>
+        </div>
+        <p class="section-desc">
+          Verified, direct download links to KiCad schematics, mechanical 3D STEP/GLB models, STL airframe components, and firmware archives.
+        </p>
+      </div>
+
+      <div class="vault-grid">
+        <!-- ECAD Schematics -->
+        <div class="panel dl-category">
+          <span class="badge badge-accent">ECAD SCHEMATICS (PDF)</span>
+          <h2>Electrical Schematics</h2>
+          <ul class="dl-list mono">
+            <li>
+              <a href="/docs/ignis-core-schematics.pdf" download class="dl-item">
+                <span>IGNIS-CORE Flight Computer Schematic (PDF)</span>
+                <span class="badge">243 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/docs/datalogger-schematics.pdf" download class="dl-item">
+                <span>Aux Blackbox Data Logger Schematic (PDF)</span>
+                <span class="badge">164 KB</span>
+              </a>
+            </li>
           </ul>
         </div>
-        
-        <div class="download-category">
-          <h2>🔧 CAD Files</h2>
-          <ul>
-            <li><a href="#" class="download-link">Complete Rocket Assembly (STEP) <span class="file-size">(45MB)</span></a></li>
-            <li><a href="#" class="download-link">TVC Mechanism (STL) <span class="file-size">(12MB)</span></a></li>
-            <li><a href="#" class="download-link">Ground Station Enclosure (STL) <span class="file-size">(8MB)</span></a></li>
-            <li><a href="#" class="download-link">Avionics Bay (STEP) <span class="file-size">(15MB)</span></a></li>
+
+        <!-- 3D PCBA Models -->
+        <div class="panel dl-category">
+          <span class="badge badge-blue">3D PCBA CAD (STEP / GLB)</span>
+          <h2>Electronic Assemblies</h2>
+          <ul class="dl-list mono">
+            <li>
+              <a href="/models/ignis-core-pcb.step" download class="dl-item">
+                <span>IGNIS-CORE Populated PCBA (STEP)</span>
+                <span class="badge">11.0 MB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/ignis-core-pcb.glb" download class="dl-item">
+                <span>IGNIS-CORE WebGL Model (GLB)</span>
+                <span class="badge">4.8 MB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/datalogger-pcb.glb" download class="dl-item">
+                <span>Aux Blackbox Data Logger (GLB)</span>
+                <span class="badge">884 KB</span>
+              </a>
+            </li>
           </ul>
         </div>
-        
-        <div class="download-category">
-          <h2>📊 PCB Files</h2>
-          <ul>
-            <li><a href="#" class="download-link">IGNIS-CORE PCB (Gerber) <span class="file-size">(2MB)</span></a></li>
-            <li><a href="#" class="download-link">IGNIS-NET PCB (Gerber) <span class="file-size">(1.5MB)</span></a></li>
-            <li><a href="#" class="download-link">Bill of Materials (CSV) <span class="file-size">(50KB)</span></a></li>
-            <li><a href="#" class="download-link">Schematic PDFs <span class="file-size">(3MB)</span></a></li>
+
+        <!-- 3D Printable Airframe -->
+        <div class="panel dl-category">
+          <span class="badge badge-green">3D PRINTING (STL)</span>
+          <h2>Airframe &amp; Structural Sleds</h2>
+          <ul class="dl-list mono">
+            <li>
+              <a href="/models/AvionicsBay.stl" download class="dl-item">
+                <span>Modular Avionics Bay Structural Sled (STL)</span>
+                <span class="badge">124 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/nose_cone.stl" download class="dl-item">
+                <span>Aerodynamic Nose Cone (STL)</span>
+                <span class="badge">578 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/fin.stl" download class="dl-item">
+                <span>High-Speed Trapezoidal Control Fin (STL)</span>
+                <span class="badge">42 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/rocket_body.stl" download class="dl-item">
+                <span>Rocket Body Airframe Section (STL)</span>
+                <span class="badge">50 KB</span>
+              </a>
+            </li>
           </ul>
         </div>
-        
-        <div class="download-category">
-          <h2>📖 Documentation</h2>
-          <ul>
-            <li><a href="#" class="download-link">Assembly Guide (PDF) <span class="file-size">(5MB)</span></a></li>
-            <li><a href="#" class="download-link">Wiring Manual (PDF) <span class="file-size">(2MB)</span></a></li>
-            <li><a href="#" class="download-link">Calibration Guide (PDF) <span class="file-size">(1MB)</span></a></li>
-            <li><a href="#" class="download-link">Troubleshooting Guide (PDF) <span class="file-size">(500KB)</span></a></li>
-          </ul>
-        </div>
-        
-        <div class="download-category">
-          <h2>🎨 3D Models (Web Ready)</h2>
-          <ul>
-            <li><a href="#" class="download-link">Rocket Assembly (GLB) <span class="file-size">(8MB)</span></a></li>
-            <li><a href="#" class="download-link">TVC Mechanism (GLB) <span class="file-size">(3MB)</span></a></li>
-            <li><a href="#" class="download-link">Ground Station (GLB) <span class="file-size">(2MB)</span></a></li>
-          </ul>
-        </div>
-        
-        <div class="download-category">
-          <h2>🛠️ Software Tools</h2>
-          <ul>
-            <li><a href="#" class="download-link">IGNIS Ground Station (Windows) <span class="file-size">(50MB)</span></a></li>
-            <li><a href="#" class="download-link">IGNIS Ground Station (Linux) <span class="file-size">(45MB)</span></a></li>
-            <li><a href="#" class="download-link">Telemetry Viewer (macOS) <span class="file-size">(48MB)</span></a></li>
-            <li><a href="#" class="download-link">Data Analysis Scripts (Python) <span class="file-size">(100KB)</span></a></li>
+
+        <!-- Full Airframe CAD -->
+        <div class="panel dl-category">
+          <span class="badge badge-amber">FULL ASSEMBLY CAD</span>
+          <h2>Airframe CAD Assemblies</h2>
+          <ul class="dl-list mono">
+            <li>
+              <a href="/models/rocket-full.step" download class="dl-item">
+                <span>Complete Rocket Airframe Assembly (STEP)</span>
+                <span class="badge">15 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/Rocket.gltf" download class="dl-item">
+                <span>Full Rocket Assembly (glTF)</span>
+                <span class="badge">14 KB</span>
+              </a>
+            </li>
+            <li>
+              <a href="/models/AvionicsBay.gltf" download class="dl-item">
+                <span>Avionics Bay Assembly (glTF)</span>
+                <span class="badge">10 KB</span>
+              </a>
+            </li>
           </ul>
         </div>
       </div>
-      
-      <div class="download-note">
-        <p>📌 All files are open-source under MIT License. Feel free to use, modify, and distribute.</p>
+
+      <!-- License & Source Note -->
+      <div class="panel" style="margin-top:2.5rem;">
+        <span class="badge badge-accent">OPEN HARDWARE &amp; REPOSITORIES</span>
+        <h3 style="margin:0.5rem 0;">Source Repositories &amp; Licensing Information</h3>
+        <p class="body-copy">
+          All hardware schematics, PCB layouts, and mechanical CAD designs are released under the <strong>CERN Open Hardware Licence v2 — Permissive (CERN-OHL-P v2)</strong>. All STM32 HAL C firmware, Python ground station applications, and telemetry libraries are licensed under the <strong>MIT License</strong>.
+        </p>
       </div>
     </div>
   </section>
-  <!-- Add this spacer div -->
-  <div class="page-spacer"></div>
 
   <Footer />
 </Layout>
 
 <style>
-  .section-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-  }
-  
-  .downloads-grid {
+  .vault-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
-  
-  .download-category {
-    background: var(--gray);
-    border-radius: 16px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 69, 0, 0.1);
+  .dl-category h2 {
+    font-size: 1.25rem;
+    margin: 0.5rem 0 1rem;
   }
-  
-  .download-category h2 {
-    font-size: 1.3rem;
-    color: var(--primary);
-    margin-bottom: 1rem;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid rgba(255, 69, 0, 0.3);
-  }
-  
-  .download-category ul {
+  .dl-list {
     list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
-  
-  .download-category li {
-    margin-bottom: 0.75rem;
-  }
-  
-  .download-link {
-    color: var(--text);
-    text-decoration: none;
-    transition: color 0.3s;
+  .dl-item {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 0.7rem 0.85rem;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.8rem;
+    transition: all 0.15s ease;
   }
-  
-  .download-link:hover {
-    color: var(--primary);
-  }
-  
-  .file-size {
-    font-size: 0.75rem;
-    color: var(--text-muted);
-    font-family: monospace;
-  }
-  
-  .download-note {
-    margin-top: 3rem;
-    padding: 1.5rem;
-    background: rgba(255, 69, 0, 0.1);
-    border-radius: 16px;
-    text-align: center;
-    border-left: 4px solid var(--primary);
-  }
-  
-  @media (max-width: 768px) {
-    .downloads-grid {
-      grid-template-columns: 1fr;
-    }
+  .dl-item:hover {
+    border-color: var(--accent);
+    color: var(--accent);
   }
 </style>

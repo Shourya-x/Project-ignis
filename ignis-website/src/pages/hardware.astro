@@ -2,123 +2,140 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ModelViewer from '../components/ModelViewer.astro';
-import HardwareCard from '../components/HardwareCard.astro';
+import { STM32_PINOUT, BOM_ITEMS } from '../data/ignisData';
 ---
 
-<Layout title="Hardware | IGNIS TVC System">
+<Layout title="Hardware Specifications | Project IGNIS Avionics">
   <Header />
 
-  <!-- Spacer for fixed navbar -->
-  <div class="page-spacer"></div>
-
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Hardware Modules</h1>
-      <p class="section-subtitle">Explore the three core modules of the IGNIS system</p>
-      
-      <div class="grid">
-        <HardwareCard 
-          title="IGNIS-CORE"
-          description="The main flight computer with all sensors and telemetry"
-          icon="🖥️"
-          specs={[
-            "STM32F411CEU6 (100MHz)",
-            "MPU6500 - 6-axis IMU",
-            "MS5611 - High-precision barometer",
-            "NEO-6M - GPS module",
-            "SX1278 - LoRa telemetry",
-            "MicroSD card logging"
-          ]}
-        />
-        
-        <HardwareCard 
-          title="IGNIS-CTRL"
-          description="Mechanical thrust vectoring mechanism"
-          icon="⚙️"
-          specs={[
-            "2x High-torque servos",
-            "3D printed gimbal mount",
-            "Precision linkage system",
-            "Motor mount adapter",
-            "Vibration dampening",
-            "Weight: ~200g"
-          ]}
-        />
-
-        <HardwareCard 
-          title="IGNIS-NET"
-          description="Ground station for telemetry reception"
-          icon="📡"
-          specs={[
-            "LoRa receiver module",
-            "OLED display (128x64)",
-            "USB-C connectivity",
-            "Handheld enclosure",
-            "Battery powered",
-            "Range: 5km+"
-          ]}
-        />
+      <div class="section-header">
+        <div>
+          <span class="section-index">HARDWARE SUBSYSTEMS // ARCHITECTURE SPECIFICATION</span>
+          <h1 class="section-title">IGNIS Avionics & Actuation Hardware</h1>
+        </div>
+        <p class="section-desc">
+          Complete electrical and mechanical breakdown of the IGNIS-CORE flight computer, auxiliary blackbox data logger, sensor arrays, and 4-fin X-configuration aerodynamic control stage.
+        </p>
       </div>
-    </div>
-  </section>
 
-  <!-- 3D Models Gallery -->
-  <section class="section section-dark">
-    <div class="container">
-      <h2 class="section-title">3D Models</h2>
-      
-      <div class="model-gallery">
-        <div class="model-item">
-          <h3>Avionics Bay</h3>
-          <ModelViewer 
-            src="/models/AvionicsBay.gltf" 
-            autoRotate={true}
-            cameraControls={true}
-            className="small-viewer"
-          />
-          <p class="model-caption">Electronics enclosure with sensor mounting</p>
-        </div>
-        
-        <div class="model-item">
-          <h3>TVC Mechanism</h3>
-          <ModelViewer 
-            src="/models/tvc_mechanism.glb" 
-            autoRotate={true}
-            cameraControls={true}
-            className="small-viewer"
-          />
-          <p class="model-caption">Gimbal mount with servo linkages</p>
-        </div>
-        
-        <div class="model-item">
-          <h3>Core Mount</h3>
-          <ModelViewer 
-            src="/models/core_mount.stl" 
-            autoRotate={true}
-            cameraControls={true}
-            className="small-viewer"
-          />
-          <p class="model-caption">PCB mounting bracket for flight computer</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Wiring Diagram -->
-  <section class="section">
-    <div class="container">
-      <h2 class="section-title">Wiring Diagram</h2>
-      <div class="wiring-container">
-        <img src="/images/wiring-diagram.png" alt="IGNIS Wiring Diagram" class="wiring-diagram" />
-        <div class="wiring-notes">
-          <h3>Connection Notes:</h3>
-          <ul>
-            <li>All sensors connect to IGNIS-CORE via I2C/SPI</li>
-            <li>Servos connect directly to IGNIS-CORE PWM pins</li>
-            <li>LoRa modules communicate wirelessly between CORE and NET</li>
-            <li>IGNIS-NET connects to PC via USB for data logging</li>
+      <!-- Core Modules Grid -->
+      <div class="hw-module-grid">
+        <div class="panel">
+          <div class="hw-card-header">
+            <span class="badge badge-accent">PRIMARY AVIONICS</span>
+            <h2>IGNIS-CORE Flight Computer</h2>
+          </div>
+          <p class="hw-desc">
+            Custom 2-layer KiCad flight computer board built around the <strong>STM32G473VET6</strong> (LQFP-100, 170 MHz Cortex-M4F with CORDIC and FMAC hardware accelerators).
+          </p>
+          <ul class="hw-specs mono">
+            <li><strong>MCU:</strong> STM32G473VET6 (512 KB ECC Flash, 128 KB Parity SRAM)</li>
+            <li><strong>Clocks:</strong> 8.000 MHz HSE (X1) → 144 MHz PLL SYSCLK, 32.768 kHz LSE (X2)</li>
+            <li><strong>IMU:</strong> MPU-6500 6-Axis MEMS (±8g, ±1000°/s) on I2C2 (0x68)</li>
+            <li><strong>Barometer:</strong> MS5611-01BA03 24-bit ΔΣ Altimeter on I2C2 (0x77)</li>
+            <li><strong>Magnetometer:</strong> HMC5883L / BMM150 3-Axis Heading Sensor (0x1E)</li>
+            <li><strong>EEPROM:</strong> 24LC16B 16-Kbit (2 KB) Hot-Start & Calibration Store (0x50–0x57)</li>
+            <li><strong>Telemetry:</strong> Ai-Thinker Ra-02 (SX1278) 433 MHz LoRa on SPI1 (PB3–PB8)</li>
+            <li><strong>GNSS:</strong> u-blox NEO-7M GPS on USART1 (PA9 TX / PA10 RX, 9600 baud)</li>
+            <li><strong>Storage:</strong> High-speed microSD socket on SPI2 (PB12–PB15)</li>
+            <li><strong>Power Stage:</strong> LM2596 Buck (VIN → 5V) + AMS1117-5.0 & 3.3 LDOs + 1N5819 OR-ing</li>
           </ul>
+        </div>
+
+        <div class="panel">
+          <div class="hw-card-header">
+            <span class="badge badge-blue">SURVIVABLE REDUNDANCY</span>
+            <h2>Auxiliary Blackbox Data Logger</h2>
+          </div>
+          <p class="hw-desc">
+            Autonomous secondary flight recorder PCB designed to log flight telemetry into non-volatile EEPROM banks independent of main battery power.
+          </p>
+          <ul class="hw-specs mono">
+            <li><strong>MCU:</strong> ATmega328P-AU (TQFP-32 @ 16.000 MHz crystal Y2)</li>
+            <li><strong>EEPROM Array:</strong> Dual 24LC1025 CMOS EEPROMs (2× 1-Mbit = 256 KB total)</li>
+            <li><strong>Addressing:</strong> U1 (0x50/0x54) + U2 (0x51/0x55) via hardware A0/A1 strapping</li>
+            <li><strong>Real-Time Clock:</strong> DS1337S+ (SOIC-8) with 32.768 kHz crystal Y1 & coin-cell holder</li>
+            <li><strong>Interface:</strong> Dedicated I2C telemetry downlink link to IGNIS-CORE</li>
+            <li><strong>Form Factor:</strong> Compact PCB with 4× M3 standoff mounting holes for sled integration</li>
+          </ul>
+        </div>
+
+        <div class="panel">
+          <div class="hw-card-header">
+            <span class="badge badge-amber">ACTUATION & PYRO</span>
+            <h2>IGNIS-CTRL & Pyrotechnics</h2>
+          </div>
+          <p class="hw-desc">
+            High-speed aerodynamic fin mixing and 3-stage MOSFET pyrotechnic ignition with flyback inductive suppression and failsafe level shifting.
+          </p>
+          <ul class="hw-specs mono">
+            <li><strong>Fin Actuation:</strong> 4× 50 Hz Hardware PWM Servos on TIM2_CH1..4 (PA0–PA3)</li>
+            <li><strong>Pulse Range:</strong> 1000 µs (0°) to 2000 µs (180°) with 1500 µs (90°) neutral center</li>
+            <li><strong>Pyro Ch 1 (Motor):</strong> IRLZ44N Logic-Level N-MOSFET on PC7 (100 Ω gate, 10 kΩ pull-down)</li>
+            <li><strong>Pyro Ch 2 (Sep):</strong> IRLZ44N Logic-Level N-MOSFET on PC8 (Stage separation)</li>
+            <li><strong>Pyro Ch 3 (Chute):</strong> IRF520 N-MOSFET on PC9 driven by Dual-BC547 Level Shifter to +V_BAT</li>
+            <li><strong>Flyback Protection:</strong> 1N4007 clamp diodes (D1–D3) across all igniter screw terminals</li>
+            <li><strong>Audio Alert:</strong> 5V Piezo Buzzer driven by BC547 NPN low-side switch on PC6</li>
+            <li><strong>Visual Telemetry:</strong> WS2812B RGB NeoPixel on PB9 (TIM4_CH4 + DMA1_CH1)</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Raytraced 3D Renders Strip -->
+      <div class="panel" style="margin-top:2rem;">
+        <div class="sub-header">
+          <span class="badge badge-green">ECAD VISUALIZATION</span>
+          <h3>Raytraced 3D Hardware Renders & Schematics</h3>
+        </div>
+        <div class="render-strip-grid">
+          <div class="render-strip-item">
+            <img src="/renders/ignis-core-3d-iso.png" alt="IGNIS-CORE 3D ISO" />
+            <span class="mono">IGNIS-CORE 3D Isometric View</span>
+          </div>
+          <div class="render-strip-item">
+            <img src="/renders/ignis-core-3d-top.png" alt="IGNIS-CORE 3D Top" />
+            <span class="mono">IGNIS-CORE 3D Component Top</span>
+          </div>
+          <div class="render-strip-item">
+            <img src="/renders/datalogger-3d-iso.png" alt="Data Logger 3D ISO" />
+            <span class="mono">Aux Blackbox Data Logger 3D Render</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pinout Table Reference -->
+      <div style="margin-top:3rem;">
+        <h2 class="section-title">STM32G473VET6 Master Pinout Reference</h2>
+        <p class="section-desc" style="margin-bottom:1.5rem;">
+          Complete peripheral allocation table as configured in <code>IGNIS_CORE_STM32G473VET6.ioc</code>.
+        </p>
+        <div class="data-table-wrap">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>LQFP-100</th>
+                <th>GPIO</th>
+                <th>Peripheral Mode</th>
+                <th>Signal</th>
+                <th>Subsystem</th>
+                <th>Hardware Target</th>
+              </tr>
+            </thead>
+            <tbody>
+              {STM32_PINOUT.map((p) => (
+                <tr>
+                  <td class="mono">Pin {p.lqfpPin}</td>
+                  <td class="mono" style="color:var(--accent);font-weight:600;">{p.gpio}</td>
+                  <td class="mono">{p.peripheral}</td>
+                  <td class="mono"><span class="badge">{p.signal}</span></td>
+                  <td>{p.subsystem}</td>
+                  <td><strong>{p.targetDevice}</strong></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -128,119 +145,58 @@ import HardwareCard from '../components/HardwareCard.astro';
 </Layout>
 
 <style>
-  .page-spacer {
-    height: 80px;
-  }
-  
-  .section-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
-  }
-  
-  .grid {
+  .hw-module-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 2rem;
+    grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
   }
-  
-  .model-gallery {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-    gap: 2rem;
-    margin-top: 2rem;
-  }
-  
-  .model-item {
-    background: var(--surface);
-    border-radius: 16px;
-    padding: 1.5rem;
-    border: 1px solid var(--border);
-    transition: transform 0.3s ease;
-  }
-  
-  .model-item:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
-  }
-  
-  .model-item h3 {
-    text-align: center;
-    margin-bottom: 1rem;
-    color: var(--primary);
-  }
-  
-  .model-caption {
-    text-align: center;
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    margin-top: 0.75rem;
-  }
-  
-  .small-viewer {
-    height: 300px !important;
-    width: 100%;
-    border-radius: 8px;
-    background: var(--background-light);
-  }
-  
-  .wiring-container {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-    align-items: start;
-  }
-  
-  .wiring-diagram {
-    width: 100%;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-  }
-  
-  .wiring-notes {
-    background: var(--surface);
-    padding: 1.5rem;
-    border-radius: 16px;
-    border: 1px solid var(--border);
-  }
-  
-  .wiring-notes h3 {
-    color: var(--primary);
-    margin-bottom: 1rem;
-  }
-  
-  .wiring-notes ul {
-    list-style: none;
-  }
-  
-  .wiring-notes li {
+  .hw-card-header {
     margin-bottom: 0.75rem;
-    padding-left: 1.8rem;
-    position: relative;
+  }
+  .hw-card-header h2 {
+    font-size: 1.25rem;
+    margin-top: 0.35rem;
+  }
+  .hw-desc {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+  }
+  .hw-specs {
+    list-style: none;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+  .hw-specs strong {
+    color: var(--text);
+  }
+  .render-strip-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1.25rem;
+    margin-top: 1rem;
+  }
+  .render-strip-item {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+  }
+  .render-strip-item img {
+    max-width: 100%;
+    max-height: 220px;
+    object-fit: contain;
+  }
+  .render-strip-item span {
+    font-size: 0.75rem;
     color: var(--text-muted);
-  }
-  
-  .wiring-notes li::before {
-    content: "🔌";
-    position: absolute;
-    left: 0;
-  }
-  
-  @media (max-width: 768px) {
-    .page-spacer {
-      height: 120px;
-    }
-    
-    .wiring-container {
-      grid-template-columns: 1fr;
-    }
-    
-    .model-gallery {
-      grid-template-columns: 1fr;
-    }
-    
-    .grid {
-      grid-template-columns: 1fr;
-    }
   }
 </style>

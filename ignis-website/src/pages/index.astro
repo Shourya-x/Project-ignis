@@ -2,151 +2,953 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ModelViewer from '../components/ModelViewer.astro';
-import TelemetryCard from '../components/TelemetryCard.astro';
+import {
+  SYSTEM_METRICS,
+  STM32_PINOUT,
+  BOM_ITEMS,
+  FIRMWARE_MODULES,
+  BUILD_SESSIONS,
+  SAMPLE_FLIGHT_DATA
+} from '../data/ignisData';
 ---
 
-<Layout title="IGNIS | Mission Control">
+<Layout title="Project IGNIS — Open-Source Rocket Avionics, TVC & Active Fin Stabilization">
   <Header />
 
-  <!-- Hero Section - Mission Control Style -->
-  <section class="hero">
-    <div class="hero-content">
-      <div class="status-badge">🟢 SYSTEM STATUS: NOMINAL</div>
-      <h1 class="hero-title">
-        <span class="fire">🔥</span> IGNIS <span class="fire">🔥</span>
-      </h1>
-      <p class="hero-subtitle">THRUST VECTOR CONTROL SYSTEM // MISSION READY</p>
-      <div class="hero-buttons">
-        <a href="/hardware" class="btn btn-primary">VIEW TELEMETRY</a>
-        <a href="/downloads" class="btn btn-secondary">ACCESS DATA</a>
-      </div>
-    </div>
-    
-    <div class="hero-scroll">
-      <span>▼ MISSION STATUS ▼</span>
-    </div>
-  </section>
-
-  <!-- Live Telemetry Dashboard -->
-  <section class="section">
+  <!-- HERO SECTION -->
+  <section class="hero-section">
     <div class="container">
-      <h2>📡 LIVE TELEMETRY</h2>
-      <p class="section-subtitle">Real-time sensor data from IGNIS-CORE flight computer</p>
-      <div class="telemetry-grid">
-        <TelemetryCard 
-          title="ALTITUDE CONTROL"
-          data={[
-            { label: "PITCH", value: "2.4", unit: "°" },
-            { label: "ROLL", value: "-1.2", unit: "°" },
-            { label: "YAW", value: "0.8", unit: "°" },
-            { label: "CONTROL MODE", value: "ACTIVE" }
-          ]}
-        />
-        <TelemetryCard 
-          title="ENVIRONMENT"
-          data={[
-            { label: "ALTITUDE", value: "124.5", unit: "m AGL" },
-            { label: "PRESSURE", value: "1013.2", unit: "hPa" },
-            { label: "TEMPERATURE", value: "24.8", unit: "°C" },
-            { label: "VELOCITY", value: "12.3", unit: "m/s" }
-          ]}
-        />
-        <TelemetryCard 
-          title="GPS STATUS"
-          data={[
-            { label: "LATITUDE", value: "28.6139", unit: "°N" },
-            { label: "LONGITUDE", value: "77.2090", unit: "°E" },
-            { label: "SAT FIX", value: "8", unit: "sats" },
-            { label: "HDOP", value: "1.2" }
-          ]}
-        />
-        <TelemetryCard 
-          title="SYSTEM HEALTH"
-          data={[
-            { label: "CPU LOAD", value: "23", unit: "%" },
-            { label: "MEMORY", value: "42", unit: "KB free" },
-            { label: "LOOP TIME", value: "10", unit: "ms" },
-            { label: "UPTIME", value: "03:24:17" }
-          ]}
-        />
+      <div class="hero-top-meta">
+        <span class="badge badge-accent">OPEN-SOURCE ROCKETRY AVIONICS</span>
+        <span class="badge badge-blue">STM32G473VET6 • 170 MHz CORTEX-M4F</span>
+        <span class="badge badge-green">100 Hz COMPLEMENTARY + PID + 4-FIN X-MIX</span>
+        <span class="badge badge-amber">3-CHANNEL MOSFET PYRO & DUAL NVM</span>
+      </div>
+
+      <div class="hero-grid">
+        <div class="hero-left">
+          <div class="hero-kicker mono">WHY MODEL ROCKETS NEED ACTIVE CONTROL // PROJECT IGNIS</div>
+          <h1 class="hero-title">
+            MAKE ROCKETS FLY <span class="accent-text">STRAIGHT.</span>
+          </h1>
+          <p class="hero-lead">
+            Traditional model rockets rely on passive fins that turn into crosswinds and veer off-course. <strong>Project IGNIS</strong> is a complete open-source avionics platform that actively steers model rockets using <strong>real-time 100 Hz thrust vectoring (TVC)</strong> and <strong>4-fin X-configuration aerodynamic surfaces</strong> powered by an <strong>STM32G473VET6</strong> flight computer.
+          </p>
+
+          <div class="hero-cta-row">
+            <a href="#why-needed" class="btn btn-primary">THE MISSION &amp; WHY →</a>
+            <a href="#fin-simulator" class="btn">ANIMATED FIN SIMULATOR</a>
+            <a href="#mission-timeline" class="btn">FLIGHT STAGING (T-0 TO T+45s)</a>
+            <a href="#telemetry-replayer" class="btn">LIVE FLIGHT REPLAYER</a>
+            <a href="#studio-3d" class="btn">3D HARDWARE STUDIO</a>
+          </div>
+        </div>
+
+        <div class="hero-right panel">
+          <div class="panel-bar">
+            <span class="mono" style="font-size:0.74rem;color:var(--accent);">IGNIS-CORE 3D PCBA • HARDWARE ROTATION</span>
+            <span class="badge badge-green">VERIFIED KICAD EXPORT</span>
+          </div>
+          <div class="hero-pcb-preview">
+            <img src="/renders/ignis-core-3d-iso.png" alt="IGNIS-CORE STM32G473VET6 Flight Computer 3D PCB" />
+          </div>
+          <div class="hero-pcb-caption mono">
+            <span>U3: STM32G473VET6</span>
+            <span>U7: MPU-6500</span>
+            <span>U8: MS5611</span>
+            <span>U10: Ra-02 LoRa</span>
+            <span>Q1–Q3: IRLZ44N / IRF520</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- KEY METRICS STRIP -->
+      <div class="metrics-grid">
+        {SYSTEM_METRICS.map((m) => (
+          <div class="metric-card panel">
+            <span class="metric-label">{m.label}</span>
+            <div class="metric-value">{m.value}</div>
+            <span class="metric-sub">{m.sub}</span>
+          </div>
+        ))}
       </div>
     </div>
   </section>
 
-  <!-- System Overview -->
-  <section class="section section-dark">
+  <!-- 00. THE GENESIS, INSPIRATION & WHY THIS PROJECT EXISTS -->
+  <section id="why-needed" class="section">
     <div class="container">
-      <h2>🎯 SYSTEM OVERVIEW</h2>
-      <p class="section-subtitle">Mission-critical components for active thrust vectoring</p>
-      <div class="feature-grid">
-        <div class="feature-card">
-          <div class="feature-icon">🎯</div>
-          <h3>PRECISION CONTROL</h3>
-          <p>Real-time altitude control with complementary filter and PID algorithm for stable flight.</p>
-          <div class="card-footer">STATUS: ONLINE</div>
+      <div class="section-header">
+        <div>
+          <span class="section-index">00 // THE MISSION, INSPIRATION &amp; PROBLEM STATEMENT</span>
+          <h2 class="section-title">Why Model Rockets Crash &amp; Why We Built Project IGNIS</h2>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">📡</div>
-          <h3>LORA TELEMETRY</h3>
-          <p>Long-range telemetry up to 5km with SX1278 module for real-time data monitoring.</p>
-          <div class="card-footer">BAND: 868 MHz</div>
+        <p class="section-desc">
+          The engineering motivation: from the aerodynamic flaws of passive model rocketry to the benchtop disasters and breakthroughs that created IGNIS.
+        </p>
+      </div>
+
+      <div class="why-grid">
+        <!-- The Problem -->
+        <div class="panel story-card">
+          <div class="story-badge">
+            <span class="badge badge-red">THE CURSE OF PASSIVE STABILITY</span>
+          </div>
+          <h3>1. The "Weathercocking" Problem</h3>
+          <p>
+            For 70 years, model rocketry has relied entirely on <em>passive aerodynamic stability</em>: ensuring the Center of Pressure (CP) sits behind the Center of Mass (CM). But passive fins have a fatal flaw: <strong>when a horizontal crosswind strikes the rocket, aerodynamic lift on the tail rotates the vehicle INTO the wind.</strong>
+          </p>
+          <p>
+            Instead of flying straight up to space, the rocket arcs sideways, burns propellant horizontally at 300 km/h, and crashes into trees, power lines, or distant fields. Without active steering, every launch in a 10-knot breeze is a roll of the dice.
+          </p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">🛰️</div>
-          <h3>GPS TRACKING</h3>
-          <p>NEO-6M GPS module for position tracking, speed, and altitude data.</p>
-          <div class="card-footer">FIX: 3D LOCK</div>
+
+        <!-- The Inspiration -->
+        <div class="panel story-card">
+          <div class="story-badge">
+            <span class="badge badge-accent">INSPIRATION &amp; VISION</span>
+          </div>
+          <h3>2. Orbital Technology for Amateur Rockets</h3>
+          <p>
+            Modern orbital rockets don't rely on passive stability. <strong>SpaceX's Falcon 9</strong> and <strong>Starship</strong> steer actively using gimbaled rocket engines (TVC) during ascent and deploy aerodynamic grid fins and steerable body flaps to stabilize through supersonic and subsonic atmospheric descent.
+          </p>
+          <p>
+            Pioneered in amateur rocketry by innovators like <strong>Joe Barnard (BPS.space)</strong>, active thrust vectoring proved that model rockets can fly vertically and land autonomously. But existing commercial hardware was either closed-source, cost over $500, or relied on fragile hobby dev boards. <strong>IGNIS was born to make active GNC 100% open-source, affordable, and reproducible.</strong>
+          </p>
         </div>
-        <div class="feature-card">
-          <div class="feature-icon">⚙️</div>
-          <h3>MODULAR DESIGN</h3>
-          <p>Separate modules for sensor hub, TVC mechanism, and ground station.</p>
-          <div class="card-footer">ARCH: DISTRIBUTED</div>
+
+        <!-- Why Drones Failed -->
+        <div class="panel story-card">
+          <div class="story-badge">
+            <span class="badge badge-amber">THE SILICON BREAKTHROUGH</span>
+          </div>
+          <h3>3. Why Drone Flight Controllers Can't Fly Rockets</h3>
+          <p>
+            Many makers try putting Betaflight or ArduPilot drone controllers on a rocket. <strong>They fail immediately:</strong>
+          </p>
+          <ul class="story-list">
+            <li><strong>Propellers vs. Fins:</strong> Drones steer by varying the RPM of 4 spinning electric motors. Rockets steer with pulsed PWM servos pushing aerodynamic fins or a gimbaled motor mount against solid motor exhaust.</li>
+            <li><strong>High-G Saturation:</strong> Drone gyros and accelerometers saturate and clip at 16g during rocket launch, causing the attitude filter to instantly lose orientation.</li>
+            <li><strong>No Pyrotechnics:</strong> Drone boards have zero high-current MOSFET stages to fire electric matches for parachute ejection at apogee.</li>
+          </ul>
+        </div>
+
+        <!-- The Solution: TVC + Active Fins -->
+        <div class="panel story-card">
+          <div class="story-badge">
+            <span class="badge badge-green">THE IGNIS ARCHITECTURE</span>
+          </div>
+          <h3>4. Hybrid TVC + Coast-Phase Aerodynamic Fins</h3>
+          <p>
+            <strong>Thrust Vector Control (TVC) only works while the motor is burning</strong> (typically 1.5 to 2.5 seconds on solid composite motors). Once the motor burns out, TVC is completely powerless!
+          </p>
+          <p>
+            Project IGNIS solves this by implementing an <strong>X-configuration 4-fin aerodynamic mixing system</strong>. During the high-speed coast phase (2.5s to 8.2s up to apogee), our 100 Hz PID controller continues to actively deflect the 4 fins, damping roll and holding the vehicle locked to vertical until peak altitude.
+          </p>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- 3D Preview Section - ONLY THE src PATH CHANGED -->
-  <section class="section">
+  <!-- 01. INTERACTIVE 3D WEBGL STUDIO -->
+  <section id="studio-3d" class="section">
     <div class="container">
-      <h2>🛸 3D INTERACTIVE MODEL</h2>
-      <p class="section-subtitle">Explore the IGNIS rocket assembly in 3D space</p>
-      <ModelViewer 
-        src="/models/Rocket.gltf"
-        autoRotate={true}
-        cameraControls={true}
-        exposure={1.2}
-      />
-      <div class="model-controls">
-        <span>🖱️ DRAG TO ROTATE</span> • 
-        <span>🔍 SCROLL TO ZOOM</span> • 
-        <span>🎮 RIGHT-CLICK TO PAN</span>
+      <div class="section-header">
+        <div>
+          <span class="section-index">01 // INTERACTIVE 3D WEBGL HARDWARE &amp; AIRFRAME STUDIO</span>
+          <h2 class="section-title">Explore the Flight Computer &amp; Airframe in 3D Space</h2>
+        </div>
+        <p class="section-desc">
+          Interact with populated 3D PCBA models (with 3D STEP components) and parametric FreeCAD airframe assemblies.
+        </p>
+      </div>
+
+      <div class="studio-layout panel">
+        <div class="studio-toolbar">
+          <div class="model-tabs">
+            <button type="button" class="btn model-tab active" data-src="/models/ignis-core-pcb.glb" data-title="IGNIS-CORE Flight Computer PCBA (STM32G473VET6)" data-meta="KiCad 3D Export • 71 Components • LQFP-100 + Ra-02 LoRa + MPU-6500 + MS5611 + IRLZ44N">
+              1. IGNIS-CORE PCBA (.GLB)
+            </button>
+            <button type="button" class="btn model-tab" data-src="/models/datalogger-pcb.glb" data-title="Auxiliary Blackbox Data Logger PCBA (ATmega328P + Dual 24LC1025)" data-meta="KiCad 3D Export • TQFP-32 ATmega328P + 2× 24LC1025 EEPROM + DS1337S+ RTC">
+              2. Aux Data Logger PCBA (.GLB)
+            </button>
+            <button type="button" class="btn model-tab" data-src="/models/AvionicsBay.gltf" data-title="Modular Avionics Bay Sled & Enclosure Assembly" data-meta="FreeCAD Assembly • Internal Shock-Damped Sled & Core Mounting Frame">
+              3. Avionics Bay (.GLTF)
+            </button>
+            <button type="button" class="btn model-tab" data-src="/models/Rocket.gltf" data-title="Complete IGNIS Active-Controlled Rocket Airframe" data-meta="FreeCAD Full Airframe • Nose Cone, Payload Bay, Avionics Bay & Fin Can">
+              4. Full Rocket Assembly (.GLTF)
+            </button>
+          </div>
+
+          <div class="camera-controls">
+            <button type="button" class="btn" id="cam-iso">ISO VIEW</button>
+            <button type="button" class="btn" id="cam-top">TOP VIEW</button>
+            <button type="button" class="btn" id="cam-side">SIDE VIEW</button>
+            <button type="button" class="btn" id="toggle-rot">AUTO-ROTATE: ON</button>
+          </div>
+        </div>
+
+        <div class="viewer-stage">
+          <model-viewer
+            id="ignis-3d-viewer"
+            src="/models/ignis-core-pcb.glb"
+            alt="IGNIS 3D Hardware Model"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.1"
+            interaction-prompt="none"
+          ></model-viewer>
+        </div>
+
+        <div class="studio-footer">
+          <div>
+            <strong id="viewer-model-title" class="mono">IGNIS-CORE Flight Computer PCBA (STM32G473VET6)</strong>
+            <p id="viewer-model-meta" class="mono" style="font-size:0.75rem;color:var(--text-muted);">
+              KiCad 3D Export • 71 Components • LQFP-100 + Ra-02 LoRa + MPU-6500 + MS5611 + IRLZ44N
+            </p>
+          </div>
+          <span class="mono" style="font-size:0.74rem;color:var(--text-secondary);">
+            [LMB + DRAG] ORBIT • [SCROLL] ZOOM • [RMB + DRAG] PAN
+          </span>
+        </div>
       </div>
     </div>
   </section>
 
-  <!-- Mission Stats -->
-  <section class="section stats">
+  <!-- 02. ANIMATED X-FIN PHYSICS & PID SIMULATOR (THE FINS MOVE!) -->
+  <section id="fin-simulator" class="section">
     <div class="container">
-      <div class="stats-grid">
-        <div class="stat-card">
-          <div class="stat-number">100+</div>
-          <div class="stat-label">HOURS OF DEVELOPMENT</div>
+      <div class="section-header">
+        <div>
+          <span class="section-index">02 // REAL-TIME GNC ATTITUDE CONTROL &amp; FIN KINEMATICS</span>
+          <h2 class="section-title">Interactive 100 Hz PID &amp; Dynamic Moving Fin Simulator</h2>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">3</div>
-          <div class="stat-label">MODULES</div>
+        <p class="section-desc">
+          Drag the attitude error sliders or click <strong>Trigger Wind Gust</strong> to watch the 4 fin blades physically pivot in real time and see the restoring aerodynamic lift vectors calculated by the <code>Flight.c</code> autopilot.
+        </p>
+      </div>
+
+      <div class="sim-grid">
+        <!-- Controls Panel -->
+        <div class="panel">
+          <div class="sub-header">
+            <span class="badge badge-accent">AUTOPILOT CONTROLS</span>
+            <h3>Attitude Perturbation &amp; Autopilot Mode</h3>
+          </div>
+
+          <div class="mode-row">
+            <button type="button" class="btn btn-primary" id="sim-arm-btn" data-armed="1">
+              STATE: ARMED (ACTIVE PID CONTROL)
+            </button>
+            <button type="button" class="btn" id="sim-gust-btn" style="border-color:var(--accent);color:var(--accent);">
+              💨 TRIGGER WIND GUST (DEMO)
+            </button>
+            <button type="button" class="btn" id="sim-reset-btn">
+              CENTER / ZERO
+            </button>
+          </div>
+
+          <div class="led-indicator-box" id="sim-led-box">
+            <span class="led-dot" id="sim-led-dot" style="background:#ef4444;box-shadow:0 0 12px #ef4444;"></span>
+            <div>
+              <div class="mono" id="sim-led-title" style="font-size:0.8rem;font-weight:700;">PB9 WS2812B: SOLID RED (255, 0, 0) — ARMED</div>
+              <div class="mono" style="font-size:0.72rem;color:var(--text-muted);">TIM4_CH4 + DMA1_CH1 (800 kHz Pulse Train Actively Streaming)</div>
+            </div>
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Filtered Pitch Angle Error (<code>θ</code>)</span>
+              <strong class="mono" id="val-pitch">+10.0°</strong>
+            </div>
+            <input type="range" id="slider-pitch" min="-30" max="30" step="0.5" value="10" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Filtered Roll Angle Error (<code>ϕ</code>)</span>
+              <strong class="mono" id="val-roll">-8.0°</strong>
+            </div>
+            <input type="range" id="slider-roll" min="-30" max="30" step="0.5" value="-8" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Gyro Yaw Angular Rate (<code>ω_z</code>)</span>
+              <strong class="mono" id="val-yaw">+15.0 °/s</strong>
+            </div>
+            <input type="range" id="slider-yaw" min="-60" max="60" step="1" value="15" />
+          </div>
+
+          <div class="pid-readout-grid mono">
+            <div class="pid-box">
+              <span>PID PITCH CMD</span>
+              <strong id="out-pitch-cmd">-12.00</strong>
+            </div>
+            <div class="pid-box">
+              <span>PID ROLL CMD</span>
+              <strong id="out-roll-cmd">+9.60</strong>
+            </div>
+            <div class="pid-box">
+              <span>PID YAW CMD</span>
+              <strong id="out-yaw-cmd">-9.00</strong>
+            </div>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">5KM</div>
-          <div class="stat-label">TELEMETRY RANGE</div>
+
+        <!-- Dynamic Visual Moving Fins Panel -->
+        <div class="panel">
+          <div class="sub-header">
+            <span class="badge badge-green">3D WEBGL DYNAMICS &amp; AERODYNAMIC FORCES</span>
+            <h3>Real-Time 3D Rocket Fin Kinematics &amp; Lift Vectors</h3>
+          </div>
+
+          <!-- Configuration & Camera Toolbar -->
+          <div class="fin-stage-toolbar mono">
+            <div class="toolbar-group">
+              <span class="toolbar-label">AERO CONFIG:</span>
+              <button type="button" class="btn btn-xs cfg-btn active" id="btn-cfg-x">X-CONFIG (45°/135°/225°/315°)</button>
+              <button type="button" class="btn btn-xs cfg-btn" id="btn-cfg-plus">CRUCIFORM + (0°/90°/180°/270°)</button>
+            </div>
+            <div class="toolbar-group">
+              <span class="toolbar-label">CAMERA:</span>
+              <button type="button" class="btn btn-xs cam-btn active" id="btn-cam-orbit">3D ORBIT</button>
+              <button type="button" class="btn btn-xs cam-btn" id="btn-cam-side">SIDE (PITCH)</button>
+              <button type="button" class="btn btn-xs cam-btn" id="btn-cam-aft">AFT BASE (RADIAL)</button>
+              <button type="button" class="btn btn-xs" id="btn-toggle-flow">AIRFLOW: ON</button>
+            </div>
+          </div>
+
+          <div class="xfin-interactive-stage">
+            <!-- 3D Three.js WebGL Stage -->
+            <div class="three-stage-wrap">
+              <canvas id="three-fin-canvas"></canvas>
+              <div class="canvas-hint mono">[LMB + DRAG] 3D Orbit • [SCROLL] Zoom • [RMB + DRAG] Pan</div>
+              <div class="canvas-overlay-legend mono">
+                <div class="legend-item"><span class="legend-dot" style="background:#f59e0b;"></span><span>LIFT FORCE VECTORS (PERPENDICULAR TO CHORD)</span></div>
+                <div class="legend-item"><span class="legend-dot" style="background:#06b6d4;"></span><span>AIRFLOW STREAMLINES (DOWNWARD V_INF)</span></div>
+                <div class="legend-item"><span class="legend-dot" style="background:#ffffff;"></span><span>RADIAL HINGE PIVOT AXES (SPANWISE)</span></div>
+              </div>
+            </div>
+
+            <!-- Fin Angles & Pulse Width Readout Cards -->
+            <div class="fin-angle-cards">
+              <div class="fin-card">
+                <div class="fin-card-top mono">
+                  <span style="color:var(--accent);" id="fin1-title">FIN 1: QUADRANT I (45° • PA0/TIM2_CH1)</span>
+                  <strong id="fin1-angle-badge">90° (1500 µs)</strong>
+                </div>
+                <div class="fin-bar-track"><div class="fin-bar-fill" id="fin1-bar" style="width:50%;background:var(--accent);"></div></div>
+                <div class="fin-card-sub mono">
+                  <small>Deflection: <span id="fin1-deflect-deg">0.0°</span></small>
+                  <small id="fin1-mix-formula">-0.71·P - 0.71·Y + R</small>
+                </div>
+              </div>
+
+              <div class="fin-card">
+                <div class="fin-card-top mono">
+                  <span style="color:var(--blue);" id="fin2-title">FIN 2: QUADRANT II (135° • PA1/TIM2_CH2)</span>
+                  <strong id="fin2-angle-badge">90° (1500 µs)</strong>
+                </div>
+                <div class="fin-bar-track"><div class="fin-bar-fill" id="fin2-bar" style="width:50%;background:var(--blue);"></div></div>
+                <div class="fin-card-sub mono">
+                  <small>Deflection: <span id="fin2-deflect-deg">0.0°</span></small>
+                  <small id="fin2-mix-formula">+0.71·P - 0.71·Y + R</small>
+                </div>
+              </div>
+
+              <div class="fin-card">
+                <div class="fin-card-top mono">
+                  <span style="color:var(--green);" id="fin3-title">FIN 3: QUADRANT III (225° • PA2/TIM2_CH3)</span>
+                  <strong id="fin3-angle-badge">90° (1500 µs)</strong>
+                </div>
+                <div class="fin-bar-track"><div class="fin-bar-fill" id="fin3-bar" style="width:50%;background:var(--green);"></div></div>
+                <div class="fin-card-sub mono">
+                  <small>Deflection: <span id="fin3-deflect-deg">0.0°</span></small>
+                  <small id="fin3-mix-formula">+0.71·P + 0.71·Y + R</small>
+                </div>
+              </div>
+
+              <div class="fin-card">
+                <div class="fin-card-top mono">
+                  <span style="color:var(--amber);" id="fin4-title">FIN 4: QUADRANT IV (315° • PA3/TIM2_CH4)</span>
+                  <strong id="fin4-angle-badge">90° (1500 µs)</strong>
+                </div>
+                <div class="fin-bar-track"><div class="fin-bar-fill" id="fin4-bar" style="width:50%;background:var(--amber);"></div></div>
+                <div class="fin-card-sub mono">
+                  <small>Deflection: <span id="fin4-deflect-deg">0.0°</span></small>
+                  <small id="fin4-mix-formula">-0.71·P + 0.71·Y + R</small>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Mathematical Physics Explainer Strip -->
+          <div class="matrix-explainer-box mono" style="margin-top:1rem;">
+            <strong>AERODYNAMIC RIGOR: WHY DRONE MIXERS FAIL ON ROCKETS</strong>
+            <p style="font-size:0.75rem;margin:0.35rem 0 0;color:var(--text-secondary);line-height:1.5;">
+              • <strong>True Radial Pivot Axis:</strong> Each fin rotates on an outward spanwise shaft perpendicular to the airframe centerline. Deflection changes angle of attack <code>α</code> to the oncoming air, generating lift perpendicular to the chord.<br />
+              • <strong>Pure Roll Damping:</strong> All 4 fins share an identical <code>+Roll</code> sign (like a windmill/propeller). If signs were mixed (+ − − + like a quadcopter), roll moments would cancel each other out.<br />
+              • <strong>Orthogonal Pitch &amp; Yaw:</strong> In 45° X-config, <code>Pitch</code> creates equal and opposite couples on diagonal pairs without inducing roll or yaw: <code>[−P, +P, +P, −P]</code> dot <code>[+R, +R, +R, +R] = 0</code>.
+            </p>
+          </div>
+
+          <!-- Live USB Telemetry Broadcast -->
+          <div class="usb-frame-box mono" style="margin-top:0.75rem;">
+            <span class="usb-frame-label">STREAMING USB CDC CSV FRAME (PA11/PA12 @ 100 Hz):</span>
+            <code id="sim-csv-line">10.00,-8.00,15.00,-12.00,9.60,-9.00,81,79,84,118,1</code>
+          </div>
         </div>
-        <div class="stat-card">
-          <div class="stat-number">50HZ</div>
-          <div class="stat-label">CONTROL LOOP</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 03. INTERACTIVE 5-STAGE FLIGHT PROFILE & STAGING WALKTHROUGH -->
+  <section id="mission-timeline" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">03 // FLIGHT PHASES &amp; PYROTECHNIC SEQUENCING</span>
+          <h2 class="section-title">Interactive Flight Profile: From Pad (T-0) to Recovery (T+45s)</h2>
         </div>
+        <p class="section-desc">
+          Click each flight phase below to inspect the avionics state machine, pyro firing triggers, and sensor transitions.
+        </p>
+      </div>
+
+      <div class="mission-layout panel">
+        <!-- Phase Tabs -->
+        <div class="phase-tabs">
+          <button type="button" class="btn phase-tab active" data-phase="0">
+            PHASE 1: PAD STANDBY (T-0s)
+          </button>
+          <button type="button" class="btn phase-tab" data-phase="1">
+            PHASE 2: MOTOR BOOST (T+0s – T+2.5s)
+          </button>
+          <button type="button" class="btn phase-tab" data-phase="2">
+            PHASE 3: COAST &amp; FIN DAMPING (T+2.5s – T+8.2s)
+          </button>
+          <button type="button" class="btn phase-tab" data-phase="3">
+            PHASE 4: APOGEE &amp; CHUTE PYRO (T+8.2s)
+          </button>
+          <button type="button" class="btn phase-tab" data-phase="4">
+            PHASE 5: DESCENT &amp; BEACON (T+15s – T+45s)
+          </button>
+        </div>
+
+        <div class="phase-body-grid">
+          <div class="phase-info">
+            <span class="badge badge-accent" id="phase-badge">PAD STANDBY &amp; HEALTH CHECK</span>
+            <h3 id="phase-title" style="margin:0.5rem 0;">Pad Initialization &amp; 500-Sample Gyro Bias Zeroing</h3>
+            <p id="phase-desc" class="body-copy">
+              On the pad, the flight computer reads baseline barometric pressure P0 (MS5611), locks GPS fix (NEO-7M), and runs 500 stationary samples over 1.0s to compute IMU gyro/accel biases. The status LED glows Amber during calibration and turns Green when disarmed ready.
+            </p>
+
+            <div class="phase-telemetry-box mono">
+              <div><span>ALTITUDE AGL:</span> <strong id="ph-alt">0.0 m</strong></div>
+              <div><span>VELOCITY:</span> <strong id="ph-vel">0.0 m/s (Mach 0.0)</strong></div>
+              <div><span>ACTIVE ACTUATOR:</span> <strong id="ph-act">Fins Locked at 90° (Disarmed)</strong></div>
+              <div><span>PYRO STATUS:</span> <strong id="ph-pyro">All MOSFETs Gate Clamped to 0V (Safe)</strong></div>
+              <div><span>WS2812 STATUS:</span> <strong id="ph-led" style="color:var(--green);">SOLID GREEN (Ready)</strong></div>
+              <div><span>DOWNLINK:</span> <strong id="ph-rf">433 MHz LoRa Pad Beacon @ 1 Hz</strong></div>
+            </div>
+          </div>
+
+          <div class="phase-visual">
+            <div class="rocket-anim-box" id="rocket-anim-box">
+              <div class="anim-sky">
+                <div class="anim-cloud cloud-1"></div>
+                <div class="anim-cloud cloud-2"></div>
+              </div>
+              <!-- Visual rocket container -->
+              <div class="anim-rocket" id="anim-rocket-sprite">
+                <div class="anim-nose"></div>
+                <div class="anim-body">
+                  <span class="anim-ignis-text mono">IGNIS</span>
+                </div>
+                <div class="anim-fins">
+                  <div class="anim-fin fin-left" id="vis-fin-left"></div>
+                  <div class="anim-fin fin-right" id="vis-fin-right"></div>
+                </div>
+                <div class="anim-flame" id="vis-flame"></div>
+                <div class="anim-chute" id="vis-chute">🪂</div>
+              </div>
+              <div class="anim-ground"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 04. LIVE FLIGHT TELEMETRY REPLAYER (REAL DATA) -->
+  <section id="telemetry-replayer" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">04 // MISSION DATA ANALYSIS &amp; TELEMETRY PLAYBACK</span>
+          <h2 class="section-title">Interactive Telemetry Replayer (Real Flight 001 Dataset)</h2>
+        </div>
+        <p class="section-desc">
+          Replay recorded flight data from <code>flight_001.csv</code> (4600 ms mission time). Scrub the timeline or press Play to inspect synchronized altitude, velocity, and Euler attitude.
+        </p>
+      </div>
+
+      <div class="replayer-panel panel">
+        <div class="replayer-controls">
+          <div class="replayer-btn-group">
+            <button type="button" class="btn btn-primary" id="replay-play-btn">▶ PLAY FLIGHT</button>
+            <button type="button" class="btn" id="replay-reset-btn">⏮ RESET</button>
+          </div>
+
+          <div class="replayer-scrubber-wrap">
+            <span class="mono" id="replay-time-label">T+ 0 ms</span>
+            <input type="range" id="replay-scrubber" min="0" max="4600" step="100" value="0" />
+            <span class="mono">T+ 4600 ms</span>
+          </div>
+
+          <div class="replayer-speed-group">
+            <button type="button" class="btn speed-btn active" data-speed="1">1.0x</button>
+            <button type="button" class="btn speed-btn" data-speed="2">2.0x</button>
+            <button type="button" class="btn speed-btn" data-speed="4">4.0x</button>
+          </div>
+        </div>
+
+        <!-- Cockpit HUD Cards -->
+        <div class="hud-grid mono">
+          <div class="hud-card">
+            <span>ALTITUDE (MS5611)</span>
+            <strong id="hud-alt" style="color:var(--accent);">0.0 m</strong>
+            <small>Peak: 1328.0 m</small>
+          </div>
+          <div class="hud-card">
+            <span>SPEED (GPS / ACCEL)</span>
+            <strong id="hud-speed" style="color:var(--blue);">0.0 km/h</strong>
+            <small>Max: 325.0 km/h</small>
+          </div>
+          <div class="hud-card">
+            <span>ATTITUDE (PITCH / ROLL)</span>
+            <strong id="hud-att">θ: 0.0° • ϕ: 0.0°</strong>
+            <small>Max Tilt: 23.0°</small>
+          </div>
+          <div class="hud-card">
+            <span>BARO PRESSURE</span>
+            <strong id="hud-pres">1013.2 hPa</strong>
+            <small>Min: 939.2 hPa</small>
+          </div>
+        </div>
+
+        <!-- Canvas Flight Telemetry Graph -->
+        <div class="graph-container">
+          <canvas id="flight-canvas" width="1000" height="260"></canvas>
+          <div class="graph-legend mono">
+            <span style="color:#f97316;">── Altitude (m)</span>
+            <span style="color:#38bdf8;">── Speed (km/h)</span>
+            <span style="color:#22c55e;">── Pitch Angle (°)</span>
+            <span style="color:var(--text-muted);">| Cursor Time</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 05. INTERACTIVE FIN SIZING & TORQUE CALCULATOR -->
+  <section id="sizing-calc" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">05 // AERODYNAMIC DESIGN &amp; SERVO TORQUE SIZING</span>
+          <h2 class="section-title">Interactive Fin Sizing &amp; Required Servo Torque Calculator</h2>
+        </div>
+        <p class="section-desc">
+          Calculate the dynamic pressure ($q = \frac{1}{2}\rho v^2$), normal aerodynamic force, and required servo stall torque for your custom rocket build.
+        </p>
+      </div>
+
+      <div class="calc-grid panel">
+        <div class="calc-inputs">
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Expected Max Flight Velocity (<code>v</code>)</span>
+              <strong class="mono" id="calc-val-vel">150 m/s (540 km/h)</strong>
+            </div>
+            <input type="range" id="calc-vel" min="40" max="300" step="5" value="150" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Single Fin Exposed Area (<code>S</code>)</span>
+              <strong class="mono" id="calc-val-area">35 cm²</strong>
+            </div>
+            <input type="range" id="calc-area" min="15" max="80" step="1" value="35" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Center of Pressure Hinge Offset (<code>Δc_p</code>)</span>
+              <strong class="mono" id="calc-val-offset">8.0 mm</strong>
+            </div>
+            <input type="range" id="calc-offset" min="3" max="25" step="0.5" value="8" />
+          </div>
+
+          <div class="slider-group">
+            <div class="slider-label">
+              <span>Max Deflection Angle (<code>δ_max</code>)</span>
+              <strong class="mono" id="calc-val-def">15°</strong>
+            </div>
+            <input type="range" id="calc-def" min="5" max="25" step="1" value="15" />
+          </div>
+        </div>
+
+        <div class="calc-results mono">
+          <div class="calc-stat-box">
+            <span>DYNAMIC PRESSURE (q)</span>
+            <strong id="res-q" style="color:var(--accent);">13.78 kPa</strong>
+            <small>q = ½ × 1.225 kg/m³ × v²</small>
+          </div>
+
+          <div class="calc-stat-box">
+            <span>MAX NORMAL LIFT FORCE (N)</span>
+            <strong id="res-force" style="color:var(--blue);">12.58 N (1.28 kgf)</strong>
+            <small>Per individual fin blade</small>
+          </div>
+
+          <div class="calc-stat-box" style="border-left:3px solid var(--green);">
+            <span>MIN REQUIRED SERVO TORQUE</span>
+            <strong id="res-torque" style="color:var(--green);font-size:1.35rem;">1.03 kg·cm</strong>
+            <small>With 2.0× safety margin: <strong>2.05 kg·cm</strong></small>
+          </div>
+
+          <div class="calc-verdict">
+            <strong style="color:var(--text);">RECOMMENDED SERVO CLASS:</strong>
+            <p style="font-size:0.8rem;color:var(--text-secondary);margin-top:0.3rem;" id="res-verdict">
+              Metal-Gear 9g–12g Digital Micro Servos (e.g. EMAX ES08MDII or Corona DS-939MG, 2.0+ kg·cm rated) provide ample torque margin.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 06. INTERACTIVE BENCHTOP SERIAL CLI SIMULATOR -->
+  <section id="terminal-cli" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">06 // USB CDC DIAGNOSTICS &amp; BENCH CONSOLE</span>
+          <h2 class="section-title">Interactive Flight Computer USB Terminal Simulator</h2>
+        </div>
+        <p class="section-desc">
+          Test the exact serial commands parsed by <code>USB_ProcessCommands()</code> in <code>USB.c</code>. Click the command buttons to see live firmware responses and LED state changes.
+        </p>
+      </div>
+
+      <div class="terminal-panel panel">
+        <div class="terminal-bar">
+          <div class="terminal-dots">
+            <span class="term-dot red"></span>
+            <span class="term-dot yellow"></span>
+            <span class="term-dot green"></span>
+          </div>
+          <span class="mono" style="font-size:0.75rem;color:var(--text-muted);">IGNIS-CORE CDC COM PORT (115200 BAUD)</span>
+          <button type="button" class="btn" id="term-clear-btn" style="padding:0.25rem 0.6rem;font-size:0.7rem;">CLEAR</button>
+        </div>
+
+        <div class="terminal-screen mono" id="term-screen">
+          <div class="term-line" style="color:var(--accent);">========================================</div>
+          <div class="term-line" style="color:var(--accent);">  IGNIS ROCKET - X-CONFIGURATION FINS</div>
+          <div class="term-line" style="color:var(--accent);">  STM32G473VET6 | MPU6500 | MS5611 | HMC5883L</div>
+          <div class="term-line" style="color:var(--accent);">========================================</div>
+          <div class="term-line">[1/4] Initializing MPU6500... WHO_AM_I = 0x70 (OK)</div>
+          <div class="term-line">[2/4] Initializing MS5611... PROM C1..C6 read (OK)</div>
+          <div class="term-line">[3/4] Calibrating IMU... Offsets: A(-12,24,-18) G(4,-2,1)</div>
+          <div class="term-line">[4/4] Initializing Servos &amp; Flight Loop... Ready</div>
+          <div class="term-line" style="color:var(--green);">=== SYSTEM READY (DISARMED) ===</div>
+          <div class="term-line" style="color:var(--text-muted);">Commands: A=ARM, D=DISARM, C=CALIBRATE, S=DIAGNOSTICS</div>
+          <div class="term-line mono" style="color:var(--accent);">Pitch,Roll,YawRate,PitchCmd,RollCmd,YawCmd,Fin1,Fin2,Fin3,Fin4,Armed</div>
+          <div class="term-line">0.02,-0.01,0.00,0.00,0.00,0.00,90,90,90,90,0</div>
+        </div>
+
+        <div class="terminal-input-bar">
+          <div class="quick-cmd-btns">
+            <button type="button" class="btn btn-primary term-btn" data-cmd="A">A: ARM FLIGHT LOOP</button>
+            <button type="button" class="btn term-btn" data-cmd="D">D: DISARM FINS</button>
+            <button type="button" class="btn term-btn" data-cmd="C">C: RE-CALIBRATE IMU</button>
+            <button type="button" class="btn term-btn" data-cmd="S">S: SCAN I2C2 SENSORS</button>
+          </div>
+          <div class="custom-cmd-row">
+            <input type="text" id="term-input" class="mono search-input" placeholder="Type single character (A, D, C, S) and press Enter..." maxlength="4" />
+            <button type="button" class="btn" id="term-send-btn">SEND</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 07. INTERACTIVE KICAD SCHEMATIC, PCB LAYER & 3D RENDER EXPLORER -->
+  <section id="ecad-explorer" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">07 // KICAD ECAD SCHEMATICS, COPPER PLOTS &amp; RAYTRACED RENDERS</span>
+          <h2 class="section-title">Interactive Dual-Board Schematic &amp; PCB Layer Inspector</h2>
+        </div>
+        <p class="section-desc">
+          Switch between the <strong>IGNIS-CORE Flight Computer PCB</strong> and the <strong>Auxiliary Blackbox Data Logger PCB</strong>. Use zoom and pan controls to inspect every net, copper trace, and footprint.
+        </p>
+      </div>
+
+      <div class="ecad-panel panel">
+        <div class="ecad-toolbar">
+          <div class="ecad-tabs">
+            <button type="button" class="btn ecad-tab active" data-img="/renders/ignis-core-schematic.svg" data-caption="IGNIS-CORE Flight Computer — Full KiCad Schematic (STM32G473VET6 + Sensors + LoRa + 3× Pyro)">
+              CORE: Schematic
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/ignis-core-pcb-top.svg" data-caption="IGNIS-CORE Flight Computer — Top Copper (F.Cu), Silkscreen & Solder Mask">
+              CORE: Top PCB (F.Cu)
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/ignis-core-pcb-bottom.svg" data-caption="IGNIS-CORE Flight Computer — Bottom Copper (B.Cu) & Edge.Cuts">
+              CORE: Bottom PCB (B.Cu)
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/ignis-core-3d-iso.png" data-caption="IGNIS-CORE Flight Computer — Raytraced 3D Isometric PCBA Render">
+              CORE: 3D Raytraced
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/datalogger-schematic.svg" data-caption="Aux Blackbox Data Logger — KiCad Schematic (ATmega328P + Dual 24LC1025 + DS1337S+ RTC)">
+              LOGGER: Schematic
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/datalogger-pcb-top.svg" data-caption="Aux Blackbox Data Logger — Top Copper (F.Cu) & Silkscreen">
+              LOGGER: Top PCB
+            </button>
+            <button type="button" class="btn ecad-tab" data-img="/renders/datalogger-3d-iso.png" data-caption="Aux Blackbox Data Logger — Raytraced 3D Isometric PCBA Render">
+              LOGGER: 3D Raytraced
+            </button>
+          </div>
+
+          <div class="ecad-zoom-btns">
+            <button type="button" class="btn" id="ecad-zoom-in">ZOOM +</button>
+            <button type="button" class="btn" id="ecad-zoom-out">ZOOM −</button>
+            <button type="button" class="btn" id="ecad-zoom-reset">RESET (100%)</button>
+          </div>
+        </div>
+
+        <div class="ecad-viewport" id="ecad-viewport">
+          <img id="ecad-image" src="/renders/ignis-core-schematic.svg" alt="KiCad Schematic / PCB Plot" />
+        </div>
+
+        <div class="ecad-footer mono">
+          <span id="ecad-caption">IGNIS-CORE Flight Computer — Full KiCad Schematic (STM32G473VET6 + Sensors + LoRa + 3× Pyro)</span>
+          <span id="ecad-zoom-label">SCALE: 100%</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 08. PINOUT MATRIX & SEARCHABLE DUAL-BOARD BOM -->
+  <section id="pinout-bom" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">08 // HARDWARE PIN ASSIGNMENT &amp; BILL OF MATERIALS</span>
+          <h2 class="section-title">STM32G473VET6 Pinout Matrix &amp; Searchable Dual-Board BOM</h2>
+        </div>
+        <div class="bom-actions">
+          <input type="text" id="bom-search" class="search-input mono" placeholder="Filter pinout or BOM (e.g. SPI1, IRLZ44N, PC4)..." />
+          <button type="button" class="btn btn-primary" id="export-bom-csv">EXPORT BOM (.CSV)</button>
+        </div>
+      </div>
+
+      <h3 class="table-heading mono">A. STM32G473VET6 (LQFP-100) Complete Peripheral &amp; Bus Pinout</h3>
+      <div class="data-table-wrap" style="margin-bottom:2.5rem;">
+        <table class="data-table" id="pinout-table">
+          <thead>
+            <tr>
+              <th>LQFP-100 Pin</th>
+              <th>STM32 GPIO</th>
+              <th>Peripheral / AF Mode</th>
+              <th>Signal Label</th>
+              <th>Subsystem</th>
+              <th>Connected Hardware</th>
+              <th>Engineering Notes</th>
+            </tr>
+          </thead>
+          <tbody>
+            {STM32_PINOUT.map((p) => (
+              <tr class="filterable-row">
+                <td class="mono"><strong>Pin {p.lqfpPin}</strong></td>
+                <td class="mono" style="color:var(--accent);font-weight:600;">{p.gpio}</td>
+                <td class="mono">{p.peripheral}</td>
+                <td class="mono"><span class="badge">{p.signal}</span></td>
+                <td>{p.subsystem}</td>
+                <td><strong>{p.targetDevice}</strong></td>
+                <td>{p.notes}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <h3 class="table-heading mono">B. Dual-Board Bill of Materials (IGNIS-CORE + Aux Blackbox Data Logger)</h3>
+      <div class="data-table-wrap">
+        <table class="data-table" id="bom-table">
+          <thead>
+            <tr>
+              <th>Board</th>
+              <th>Designator</th>
+              <th>Qty</th>
+              <th>Part / Value</th>
+              <th>Package / Footprint</th>
+              <th>Category</th>
+              <th>Engineering Description</th>
+            </tr>
+          </thead>
+          <tbody>
+            {BOM_ITEMS.map((item) => (
+              <tr class="filterable-row" data-csv={`${item.board},"${item.ref}",${item.qty},"${item.value}","${item.package}","${item.category}","${item.description}"`}>
+                <td>
+                  <span class={`badge ${item.board === 'IGNIS-CORE' ? 'badge-accent' : 'badge-blue'}`}>
+                    {item.board}
+                  </span>
+                </td>
+                <td class="mono"><strong>{item.ref}</strong></td>
+                <td class="mono">{item.qty}</td>
+                <td class="mono" style="color:var(--text);font-weight:600;">{item.value}</td>
+                <td class="mono">{item.package}</td>
+                <td>{item.category}</td>
+                <td>{item.description}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- 09. FIRMWARE MODULES -->
+  <section id="firmware" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">09 // CUBEMX-SAFE MODULAR HAL FIRMWARE ARCHITECTURE</span>
+          <h2 class="section-title">STM32G473VET6 Firmware Modules</h2>
+        </div>
+        <p class="section-desc">
+          Compiled with <code>arm-none-eabi-gcc 15.2.0</code> + CMake + Ninja (<code>66,844 B</code> Flash [12.75%], <code>10,384 B</code> RAM [7.92%], 0 warnings).
+        </p>
+      </div>
+
+      <div class="modules-grid">
+        {FIRMWARE_MODULES.map((mod) => (
+          <div class="panel module-card">
+            <div class="module-top">
+              <span class="badge badge-accent">{mod.name}</span>
+              <span class="mono" style="font-size:0.72rem;color:var(--text-muted);">{mod.rateOrBus}</span>
+            </div>
+            <div class="mono module-path">{mod.path} • {mod.peripheral}</div>
+            <p class="module-summary">{mod.summary}</p>
+            <div class="fn-tags">
+              {mod.keyFunctions.map((fn) => (
+                <code class="fn-tag">{fn}</code>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 10. REAL 10-SESSION ENGINEERING BUILD & DEBUGGING LOG -->
+  <section id="build-log" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">10 // CHRONOLOGICAL ENGINEERING LOG (FROM BENCH TO FLIGHT)</span>
+          <h2 class="section-title">10-Session Hardware Debugging, Oscilloscope &amp; SPICE Log</h2>
+        </div>
+        <p class="section-desc">
+          Documented directly from the 10 engineering sessions (885+ tool &amp; debugging steps across Fedora Linux, STM32CubeMX, SWD register inspection, OWON VDS1022 oscilloscope captures, LTspice/Qucs-S simulations, and KiCad DRC audits).
+        </p>
+      </div>
+
+      <div class="timeline-list">
+        {BUILD_SESSIONS.map((s) => (
+          <div class="panel timeline-card">
+            <div class="timeline-header">
+              <div class="timeline-meta">
+                <span class="badge badge-accent">{s.phase}</span>
+                <span class="badge">{s.date}</span>
+                <span class="badge badge-blue">{s.subsystem}</span>
+                <span class="mono" style="font-size:0.72rem;color:var(--text-muted);">Session ID: {s.id} ({s.steps} steps)</span>
+              </div>
+              <h3>{s.title}</h3>
+              <p class="timeline-summary">{s.summary}</p>
+            </div>
+            <ul class="timeline-highlights">
+              {s.highlights.map((h) => (
+                <li>{h}</li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 11. DOWNLOADS & HARDWARE ARCHIVE VAULT -->
+  <section id="downloads" class="section">
+    <div class="container">
+      <div class="section-header">
+        <div>
+          <span class="section-index">11 // DIRECT ENGINEERING ARCHIVES &amp; CAD VAULT</span>
+          <h2 class="section-title">Schematics, 3D STEP/GLB Assemblies &amp; STL Airframe Downloads</h2>
+        </div>
+        <p class="section-desc">
+          All links below point directly to verified, non-empty engineering files generated from the repository's KiCad and FreeCAD sources.
+        </p>
+      </div>
+
+      <div class="vault-grid">
+        <a href="/docs/ignis-core-schematics.pdf" download class="panel vault-card">
+          <span class="badge badge-accent">PDF SCHEMATIC • 243 KB</span>
+          <h3>IGNIS-CORE Flight Computer Schematic</h3>
+          <p>Exported vector PDF schematic for the STM32G473VET6 flight computer, I2C2 sensor suite, Ra-02 LoRa, and 3-stage pyro igniters.</p>
+          <span class="vault-dl mono">DOWNLOAD PDF →</span>
+        </a>
+
+        <a href="/docs/datalogger-schematics.pdf" download class="panel vault-card">
+          <span class="badge badge-blue">PDF SCHEMATIC • 164 KB</span>
+          <h3>Aux Blackbox Data Logger Schematic</h3>
+          <p>Vector PDF schematic for the standalone ATmega328P-AU + Dual 24LC1025 EEPROM + DS1337S+ RTC flight recorder board.</p>
+          <span class="vault-dl mono">DOWNLOAD PDF →</span>
+        </a>
+
+        <a href="/models/ignis-core-pcb.step" download class="panel vault-card">
+          <span class="badge badge-green">CAD STEP • 11.0 MB</span>
+          <h3>IGNIS-CORE 3D PCBA (.STEP)</h3>
+          <p>Full mechanical 3D STEP assembly of the routed IGNIS-CORE flight computer PCB for CAD clearance verification.</p>
+          <span class="vault-dl mono">DOWNLOAD .STEP →</span>
+        </a>
+
+        <a href="/models/ignis-core-pcb.glb" download class="panel vault-card">
+          <span class="badge badge-amber">WEBGL 3D • 4.8 MB</span>
+          <h3>IGNIS-CORE 3D PCBA (.GLB)</h3>
+          <p>Binary glTF 3D model of the populated IGNIS-CORE flight computer with all IC, connector, and passive 3D models.</p>
+          <span class="vault-dl mono">DOWNLOAD .GLB →</span>
+        </a>
+
+        <a href="/models/AvionicsBay.stl" download class="panel vault-card">
+          <span class="badge badge-accent">3D PRINT STL • 124 KB</span>
+          <h3>Modular Avionics Bay Sled (.STL)</h3>
+          <p>3D-printable avionics bay structural sled for mounting IGNIS-CORE inside the rocket airframe.</p>
+          <span class="vault-dl mono">DOWNLOAD .STL →</span>
+        </a>
+
+        <a href="/models/nose_cone.stl" download class="panel vault-card">
+          <span class="badge badge-blue">3D PRINT STL • 578 KB</span>
+          <h3>Aerodynamic Nose Cone &amp; Fin Set (.STL)</h3>
+          <p>Printable aerodynamic nose cone and airframe components exported from the parametric FreeCAD rocket assembly.</p>
+          <span class="vault-dl mono">DOWNLOAD .STL →</span>
+        </a>
       </div>
     </div>
   </section>
@@ -154,237 +956,1931 @@ import TelemetryCard from '../components/TelemetryCard.astro';
   <Footer />
 </Layout>
 
+<script is:inline define:vars={{ SAMPLE_FLIGHT_DATA }}>
+  // ==========================================
+  // 1. 3D STUDIO MODEL SWITCHER & CONTROLS
+  // ==========================================
+  (function () {
+    const viewer = document.getElementById('ignis-3d-viewer');
+    const titleEl = document.getElementById('viewer-model-title');
+    const metaEl = document.getElementById('viewer-model-meta');
+    const tabs = document.querySelectorAll('.model-tab');
+
+    tabs.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        tabs.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        const src = btn.getAttribute('data-src');
+        const t = btn.getAttribute('data-title');
+        const m = btn.getAttribute('data-meta');
+        if (viewer && src) viewer.setAttribute('src', src);
+        if (titleEl && t) titleEl.textContent = t;
+        if (metaEl && m) metaEl.textContent = m;
+      });
+    });
+
+    const isoBtn = document.getElementById('cam-iso');
+    const topBtn = document.getElementById('cam-top');
+    const sideBtn = document.getElementById('cam-side');
+    const rotBtn = document.getElementById('toggle-rot');
+
+    if (isoBtn && viewer) isoBtn.addEventListener('click', () => { viewer.cameraOrbit = '35deg 60deg auto'; });
+    if (topBtn && viewer) topBtn.addEventListener('click', () => { viewer.cameraOrbit = '0deg 5deg auto'; });
+    if (sideBtn && viewer) sideBtn.addEventListener('click', () => { viewer.cameraOrbit = '90deg 85deg auto'; });
+    if (rotBtn && viewer) {
+      rotBtn.addEventListener('click', () => {
+        if (viewer.hasAttribute('auto-rotate')) {
+          viewer.removeAttribute('auto-rotate');
+          rotBtn.textContent = 'AUTO-ROTATE: OFF';
+        } else {
+          viewer.setAttribute('auto-rotate', '');
+          rotBtn.textContent = 'AUTO-ROTATE: ON';
+        }
+      });
+    }
+  })();
+
+  // (Section 02 3D Fin Kinematics handled in modular Three.js script below)
+
+  // ==========================================
+  // 3. 5-STAGE FLIGHT PROFILE WALKTHROUGH
+  // ==========================================
+  (function () {
+    const phases = [
+      {
+        badge: 'PHASE 1: PAD STANDBY & HEALTH CHECK (T-0s)',
+        title: 'Pad Standby, Ground Zeroing & Pre-Flight Continuity',
+        desc: 'On the launch rail, IGNIS-CORE measures ambient atmospheric pressure P0 (MS5611), acquires 3D GPS lock (NEO-7M), and runs 500 stationary samples over 1.0s to calibrate gyro/accel biases. The status LED glows Amber during calibration and solid Green once ready.',
+        alt: '0.0 m (AGL)',
+        vel: '0.0 m/s (Mach 0.0)',
+        act: 'Servos Centered at 90° (1500 µs)',
+        pyro: 'All MOSFET Gates Clamped to 0V (Safe)',
+        led: 'SOLID GREEN (Ready)',
+        ledColor: 'var(--green)',
+        rf: '433 MHz LoRa Beaconing Pad Status @ 1 Hz',
+        flame: false,
+        chute: false,
+        rocketY: 0
+      },
+      {
+        badge: 'PHASE 2: POWERED BOOST (T+0s – T+2.5s)',
+        title: 'Solid Motor Ignition & High-G Active Attitude Control',
+        desc: 'The solid rocket motor ignites, generating up to 8g vertical acceleration. The 100 Hz complementary filter integrates IMU gyro rates and accelerations, driving the 4 X-fins to continuously correct for thrust vector misalignment and pad tip-off disturbances.',
+        alt: '120.0 m – 650.0 m',
+        vel: '+220.0 m/s (Mach 0.65)',
+        act: 'Active 100 Hz PID X-Fin Deflection (±25°)',
+        pyro: 'PC7 (PYRO_MOTOR) Fired → E-Match Burned',
+        led: 'SOLID RED (Armed Flight)',
+        ledColor: 'var(--red)',
+        rf: 'Streaming 100 Hz CSV Telemetry Downlink',
+        flame: true,
+        chute: false,
+        rocketY: -70
+      },
+      {
+        badge: 'PHASE 3: COAST & ROLL/PITCH DAMPING (T+2.5s – T+8.2s)',
+        title: 'High-Altitude Unpowered Coast to Apogee',
+        desc: 'Following motor burnout, the rocket decelerates as kinetic energy converts to altitude. The X-fins actively damp atmospheric roll and pitch rates, holding the vehicle perfectly vertical into the oncoming airflow until vertical velocity drops to zero.',
+        alt: '650.0 m – 1328.0 m (Apogee)',
+        vel: '+95.0 m/s → 0.0 m/s (Apex)',
+        act: 'Active Aerodynamic Fin Stabilization',
+        pyro: 'Standby / Armed for Apogee Detection',
+        led: 'SOLID RED (Armed Flight)',
+        ledColor: 'var(--red)',
+        rf: 'High-Speed LoRa Downlink to Ground Station',
+        flame: false,
+        chute: false,
+        rocketY: -140
+      },
+      {
+        badge: 'PHASE 4: APOGEE & DROGUE CHUTE EJECTION (T+8.2s)',
+        title: 'Barometric Peak Detection & Pyro Chute Deployment',
+        desc: 'The MS5611 altimeter detects pressure minimum (dP/dt = 0). The STM32G473 immediately asserts PC9 = HIGH for 1.0 second, triggering the Dual-BC547 level shifter and driving Q3 (IRF520) gate to +V_BAT to fire the parachute ejection charge.',
+        alt: '1328.0 m (Peak Apogee)',
+        vel: '0.0 m/s (Zero-Crossing)',
+        act: 'Fins Locked to Neutral 90°',
+        pyro: 'PC9 (PYRO_CHUTE) ACTIVE (1.0s Firing Pulse)',
+        led: 'FLASHING AMBER / RED (Chute Deployed)',
+        ledColor: 'var(--amber)',
+        rf: 'Apogee Altitude Packet Transmitted',
+        flame: false,
+        chute: true,
+        rocketY: -150
+      },
+      {
+        badge: 'PHASE 5: CONTROLLED DESCENT & BEACON (T+15s – T+45s)',
+        title: 'Parachute Descent & GPS Recovery Audio Beacon',
+        desc: 'The rocket descends under parachute at 5 m/s. Telemetry is saved to the auxiliary dual-24LC1025 EEPROM blackbox. The PC6 5V piezo buzzer beeps continuously, and the 433 MHz LoRa transceiver beacons live GPS coordinates to the ground station.',
+        alt: '800.0 m → 0.0 m (Touchdown)',
+        vel: '-5.2 m/s (Terminal Descent)',
+        act: 'Fins Powered Down to Conserve Battery',
+        pyro: 'All Pyro Channels Safed (0V)',
+        led: 'FLASHING BLUE / GREEN (Touchdown Recovery)',
+        ledColor: 'var(--blue)',
+        rf: 'LoRa GPS Recovery Beacon @ 1 Hz',
+        flame: false,
+        chute: true,
+        rocketY: -30
+      }
+    ];
+
+    const tabs = document.querySelectorAll('.phase-tab');
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => {
+        tabs.forEach((t) => t.classList.remove('active'));
+        tab.classList.add('active');
+        const idx = parseInt(tab.getAttribute('data-phase') || '0', 10);
+        const p = phases[idx];
+        if (!p) return;
+
+        document.getElementById('phase-badge').textContent = p.badge;
+        document.getElementById('phase-title').textContent = p.title;
+        document.getElementById('phase-desc').textContent = p.desc;
+        document.getElementById('ph-alt').textContent = p.alt;
+        document.getElementById('ph-vel').textContent = p.vel;
+        document.getElementById('ph-act').textContent = p.act;
+        document.getElementById('ph-pyro').textContent = p.pyro;
+        const ledEl = document.getElementById('ph-led');
+        if (ledEl) { ledEl.textContent = p.led; ledEl.style.color = p.ledColor; }
+        document.getElementById('ph-rf').textContent = p.rf;
+
+        const flame = document.getElementById('vis-flame');
+        const chute = document.getElementById('vis-chute');
+        const sprite = document.getElementById('anim-rocket-sprite');
+        if (flame) flame.style.display = p.flame ? 'block' : 'none';
+        if (chute) chute.style.display = p.chute ? 'block' : 'none';
+        if (sprite) sprite.style.transform = `translateY(${p.rocketY}px)`;
+      });
+    });
+  })();
+
+  // ==========================================
+  // 4. LIVE FLIGHT TELEMETRY REPLAYER (CANVAS)
+  // ==========================================
+  (function () {
+    const data = SAMPLE_FLIGHT_DATA || [];
+    const canvas = document.getElementById('flight-canvas');
+    if (!canvas || !data.length) return;
+    const ctx = canvas.getContext('2d');
+    const scrubber = document.getElementById('replay-scrubber');
+    const playBtn = document.getElementById('replay-play-btn');
+    const resetBtn = document.getElementById('replay-reset-btn');
+    const speedBtns = document.querySelectorAll('.speed-btn');
+
+    let isPlaying = false;
+    let playTimer = null;
+    let speedMult = 1;
+    let currentIndex = 0;
+
+    function drawGraph(activeIdx) {
+      if (!ctx) return;
+      const W = canvas.width;
+      const H = canvas.height;
+      ctx.clearRect(0, 0, W, H);
+
+      // Background grid lines
+      ctx.strokeStyle = 'rgba(148, 163, 184, 0.15)';
+      ctx.lineWidth = 1;
+      for (let y = 30; y < H; y += 45) {
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(W - 20, y);
+        ctx.stroke();
+      }
+
+      const maxAlt = 1400;
+      const maxSpeed = 350;
+      const count = data.length;
+      const stepX = (W - 80) / (count - 1);
+
+      // Draw Altitude curve (Orange)
+      ctx.beginPath();
+      ctx.strokeStyle = '#f97316';
+      ctx.lineWidth = 2.5;
+      data.forEach((pt, i) => {
+        const x = 50 + i * stepX;
+        const y = H - 25 - (pt.alt / maxAlt) * (H - 55);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // Draw Speed curve (Blue)
+      ctx.beginPath();
+      ctx.strokeStyle = '#38bdf8';
+      ctx.lineWidth = 2;
+      data.forEach((pt, i) => {
+        const x = 50 + i * stepX;
+        const y = H - 25 - (pt.speed / maxSpeed) * (H - 55);
+        if (i === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+
+      // Vertical cursor at active timestamp
+      const curX = 50 + activeIdx * stepX;
+      ctx.strokeStyle = '#ffffff';
+      ctx.lineWidth = 1.5;
+      ctx.setLineDash([4, 4]);
+      ctx.beginPath();
+      ctx.moveTo(curX, 10);
+      ctx.lineTo(curX, H - 20);
+      ctx.stroke();
+      ctx.setLineDash([]);
+
+      // Cursor point circle
+      const curPt = data[activeIdx];
+      const curAltY = H - 25 - (curPt.alt / maxAlt) * (H - 55);
+      ctx.fillStyle = '#f97316';
+      ctx.beginPath();
+      ctx.arc(curX, curAltY, 5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    function updateReplayer(idx) {
+      currentIndex = clamp(idx, 0, data.length - 1);
+      const pt = data[currentIndex];
+      if (!pt) return;
+
+      document.getElementById('hud-alt').textContent = `${pt.alt.toFixed(1)} m`;
+      document.getElementById('hud-speed').textContent = `${pt.speed.toFixed(1)} km/h`;
+      document.getElementById('hud-att').textContent = `θ: ${pt.pitch.toFixed(1)}° • ϕ: ${pt.roll.toFixed(1)}°`;
+      document.getElementById('hud-pres').textContent = `${pt.pres.toFixed(1)} hPa`;
+      document.getElementById('replay-time-label').textContent = `T+ ${pt.t} ms`;
+
+      if (scrubber) scrubber.value = `${pt.t}`;
+      drawGraph(currentIndex);
+    }
+
+    function clamp(v, lo, hi) {
+      return Math.max(lo, Math.min(hi, v));
+    }
+
+    if (scrubber) {
+      scrubber.addEventListener('input', () => {
+        const tVal = parseInt(scrubber.value, 10);
+        const idx = data.findIndex((d) => d.t >= tVal);
+        updateReplayer(idx !== -1 ? idx : 0);
+      });
+    }
+
+    if (playBtn) {
+      playBtn.addEventListener('click', () => {
+        isPlaying = !isPlaying;
+        if (isPlaying) {
+          playBtn.textContent = '⏸ PAUSE';
+          playBtn.classList.remove('btn-primary');
+          playTimer = setInterval(() => {
+            if (currentIndex >= data.length - 1) {
+              currentIndex = 0;
+            } else {
+              currentIndex++;
+            }
+            updateReplayer(currentIndex);
+          }, 100 / speedMult);
+        } else {
+          playBtn.textContent = '▶ PLAY FLIGHT';
+          playBtn.classList.add('btn-primary');
+          if (playTimer) clearInterval(playTimer);
+        }
+      });
+    }
+
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (playTimer) clearInterval(playTimer);
+        isPlaying = false;
+        if (playBtn) { playBtn.textContent = '▶ PLAY FLIGHT'; playBtn.classList.add('btn-primary'); }
+        updateReplayer(0);
+      });
+    }
+
+    speedBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        speedBtns.forEach((b) => b.classList.remove('active'));
+        btn.classList.add('active');
+        speedMult = parseFloat(btn.getAttribute('data-speed') || '1');
+        if (isPlaying) {
+          clearInterval(playTimer);
+          playTimer = setInterval(() => {
+            if (currentIndex >= data.length - 1) currentIndex = 0;
+            else currentIndex++;
+            updateReplayer(currentIndex);
+          }, 100 / speedMult);
+        }
+      });
+    });
+
+    updateReplayer(0);
+  })();
+
+  // ==========================================
+  // 5. INTERACTIVE FIN SIZING & TORQUE CALCULATOR
+  // ==========================================
+  (function () {
+    const inVel = document.getElementById('calc-vel');
+    const inArea = document.getElementById('calc-area');
+    const inOffset = document.getElementById('calc-offset');
+    const inDef = document.getElementById('calc-def');
+
+    function updateCalc() {
+      const v = parseFloat(inVel ? inVel.value : '150');
+      const areaCm2 = parseFloat(inArea ? inArea.value : '35');
+      const offsetMm = parseFloat(inOffset ? inOffset.value : '8');
+      const defDeg = parseFloat(inDef ? inDef.value : '15');
+
+      document.getElementById('calc-val-vel').textContent = `${v} m/s (${Math.round(v * 3.6)} km/h)`;
+      document.getElementById('calc-val-area').textContent = `${areaCm2} cm²`;
+      document.getElementById('calc-val-offset').textContent = `${offsetMm.toFixed(1)} mm`;
+      document.getElementById('calc-val-def').textContent = `${defDeg}°`;
+
+      const rho = 1.225; // sea-level air density
+      const q = 0.5 * rho * v * v; // Pa
+      const areaM2 = areaCm2 / 10000;
+      const defRad = (defDeg * Math.PI) / 180;
+      const CN_alpha = 3.2; // normal force slope per radian
+      const normalForceN = q * areaM2 * CN_alpha * defRad;
+      const torqueNm = normalForceN * (offsetMm / 1000);
+      const torqueKgCm = torqueNm * 10.197; // 1 N·m = 10.197 kg·cm
+      const torqueSafe = torqueKgCm * 2.0;
+
+      document.getElementById('res-q').textContent = `${(q / 1000).toFixed(2)} kPa`;
+      document.getElementById('res-force').textContent = `${normalForceN.toFixed(2)} N (${(normalForceN / 9.81).toFixed(2)} kgf)`;
+      document.getElementById('res-torque').textContent = `${torqueKgCm.toFixed(2)} kg·cm`;
+
+      const verdictEl = document.getElementById('res-verdict');
+      if (verdictEl) {
+        if (torqueSafe < 2.5) {
+          verdictEl.textContent = `Standard Metal-Gear Micro Servos (e.g. EMAX ES08MDII or Corona DS-939MG, 2.0–2.5 kg·cm) provide ample torque margin.`;
+        } else if (torqueSafe < 5.0) {
+          verdictEl.textContent = `High-Torque Thin Wing Servos (e.g. KST DS135MG or Corona CS239MG, 4.0+ kg·cm) recommended to prevent aerodynamic blowback.`;
+        } else {
+          verdictEl.textContent = `Heavy-Duty High-Speed Coreless Servos (6.0+ kg·cm) required due to extreme transonic dynamic pressure.`;
+        }
+      }
+    }
+
+    if (inVel) inVel.addEventListener('input', updateCalc);
+    if (inArea) inArea.addEventListener('input', updateCalc);
+    if (inOffset) inOffset.addEventListener('input', updateCalc);
+    if (inDef) inDef.addEventListener('input', updateCalc);
+
+    updateCalc();
+  })();
+
+  // ==========================================
+  // 6. BENCHTOP SERIAL TERMINAL SIMULATOR
+  // ==========================================
+  (function () {
+    const screen = document.getElementById('term-screen');
+    const input = document.getElementById('term-input');
+    const sendBtn = document.getElementById('term-send-btn');
+    const clearBtn = document.getElementById('term-clear-btn');
+    const quickBtns = document.querySelectorAll('.term-btn');
+
+    function appendLine(text, color) {
+      if (!screen) return;
+      const line = document.createElement('div');
+      line.className = 'term-line';
+      if (color) line.style.color = color;
+      line.textContent = text;
+      screen.appendChild(line);
+      screen.scrollTop = screen.scrollHeight;
+    }
+
+    function executeCmd(raw) {
+      const cmd = (raw || '').trim().toUpperCase();
+      if (!cmd) return;
+      appendLine(`> ${cmd}`, '#ffffff');
+
+      if (cmd === 'A') {
+        appendLine('>>> ARMED <<<', 'var(--red)');
+        appendLine('Flight loop active: 100 Hz PID & Fin Mixing enabled. LED set to RED.');
+      } else if (cmd === 'D') {
+        appendLine('>>> DISARMED <<<', 'var(--green)');
+        appendLine('Flight loop idle: Fin servos locked to neutral 90°. LED set to GREEN.');
+      } else if (cmd === 'C') {
+        appendLine('Calibrating... KEEP BOARD STILL!', 'var(--amber)');
+        setTimeout(() => {
+          appendLine('Offsets: A(-12,24,-18) G(4,-2,1)', 'var(--text-secondary)');
+          appendLine('Calibration complete. LED restored.', 'var(--green)');
+        }, 600);
+      } else if (cmd === 'S') {
+        appendLine('=== SENSOR DIAGNOSTIC ===', 'var(--accent)');
+        appendLine('Scanning I2C2 bus (SCL=PC4, SDA=PA8)...');
+        appendLine('  [FOUND] 0x1E -> HMC5883L Magnetometer');
+        appendLine('  [FOUND] 0x50 -> 24LC16B EEPROM');
+        appendLine('  [FOUND] 0x68 -> MPU6500 IMU (WHO_AM_I: 0x70 OK)');
+        appendLine('  [FOUND] 0x77 -> MS5611 Barometer (T=25.4C, P=101325 Pa)');
+      } else {
+        appendLine(`Unknown command: "${cmd}". Available: A, D, C, S`, 'var(--amber)');
+      }
+    }
+
+    quickBtns.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        executeCmd(btn.getAttribute('data-cmd') || '');
+      });
+    });
+
+    if (sendBtn && input) {
+      sendBtn.addEventListener('click', () => {
+        executeCmd(input.value);
+        input.value = '';
+      });
+      input.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter') {
+          executeCmd(input.value);
+          input.value = '';
+        }
+      });
+    }
+
+    if (clearBtn && screen) {
+      clearBtn.addEventListener('click', () => {
+        screen.innerHTML = '';
+        appendLine('=== TERMINAL CLEARED ===', 'var(--text-muted)');
+      });
+    }
+  })();
+
+  // ==========================================
+  // 7. ECAD SCHEMATIC & PCB EXPLORER
+  // ==========================================
+  (function () {
+    const img = document.getElementById('ecad-image');
+    const cap = document.getElementById('ecad-caption');
+    const zoomLbl = document.getElementById('ecad-zoom-label');
+    const tabs = document.querySelectorAll('.ecad-tab');
+    let scale = 1;
+
+    function applyScale() {
+      if (img) img.style.transform = `scale(${scale})`;
+      if (zoomLbl) zoomLbl.textContent = `SCALE: ${Math.round(scale * 100)}%`;
+    }
+
+    tabs.forEach((t) => {
+      t.addEventListener('click', () => {
+        tabs.forEach((b) => b.classList.remove('active'));
+        t.classList.add('active');
+        const src = t.getAttribute('data-img');
+        const c = t.getAttribute('data-caption');
+        if (img && src) img.setAttribute('src', src);
+        if (cap && c) cap.textContent = c;
+        scale = 1;
+        applyScale();
+      });
+    });
+
+    const zIn = document.getElementById('ecad-zoom-in');
+    const zOut = document.getElementById('ecad-zoom-out');
+    const zReset = document.getElementById('ecad-zoom-reset');
+    if (zIn) zIn.addEventListener('click', () => { scale = Math.min(4, scale + 0.25); applyScale(); });
+    if (zOut) zOut.addEventListener('click', () => { scale = Math.max(0.5, scale - 0.25); applyScale(); });
+    if (zReset) zReset.addEventListener('click', () => { scale = 1; applyScale(); });
+  })();
+
+  // ==========================================
+  // 8. PINOUT & BOM SEARCH & CSV EXPORTER
+  // ==========================================
+  (function () {
+    const searchInput = document.getElementById('bom-search');
+    const rows = document.querySelectorAll('.filterable-row');
+    if (searchInput) {
+      searchInput.addEventListener('input', () => {
+        const q = searchInput.value.toLowerCase().trim();
+        rows.forEach((r) => {
+          const txt = r.textContent ? r.textContent.toLowerCase() : '';
+          r.style.display = !q || txt.includes(q) ? '' : 'none';
+        });
+      });
+    }
+
+    const csvBtn = document.getElementById('export-bom-csv');
+    if (csvBtn) {
+      csvBtn.addEventListener('click', () => {
+        const lines = ['Board,Reference,Qty,Value,Package,Category,Description'];
+        document.querySelectorAll('#bom-table tbody tr').forEach((tr) => {
+          const rowCsv = tr.getAttribute('data-csv');
+          if (rowCsv) lines.push(rowCsv);
+        });
+        const blob = new Blob([lines.join('\n')], { type: 'text/csv;charset=utf-8;' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'Project-IGNIS-Dual-Board-BOM.csv';
+        a.click();
+        URL.revokeObjectURL(url);
+      });
+    }
+  })();
+</script>
+
+<script>
+  import * as THREE from 'three';
+  import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
+
+  (function () {
+    const canvas = document.getElementById('three-fin-canvas');
+    if (!canvas) return;
+
+    const container = canvas.parentElement;
+
+    // SCENE, CAMERA, RENDERER
+    const scene = new THREE.Scene();
+    const camera = new THREE.PerspectiveCamera(42, container.clientWidth / container.clientHeight, 0.1, 100);
+    camera.position.set(9.5, 1.0, 9.5);
+
+    const renderer = new THREE.WebGLRenderer({ canvas, antialias: true, alpha: true });
+    renderer.setSize(container.clientWidth, container.clientHeight, false);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+    controls.target.set(0, -1.6, 0);
+
+    // LIGHTING
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.8);
+    scene.add(ambientLight);
+
+    const dirLight1 = new THREE.DirectionalLight(0xffffff, 1.2);
+    dirLight1.position.set(8, 12, 10);
+    scene.add(dirLight1);
+
+    const dirLight2 = new THREE.DirectionalLight(0x06b6d4, 0.6);
+    dirLight2.position.set(-8, -4, -8);
+    scene.add(dirLight2);
+
+    const rimLight = new THREE.DirectionalLight(0xf97316, 0.5);
+    rimLight.position.set(0, 8, -10);
+    scene.add(rimLight);
+
+    // ROCKET ROOT GROUP
+    const rocketGroup = new THREE.Group();
+    scene.add(rocketGroup);
+
+    // 1. FUSELAGE TUBE (Cylinder along Y)
+    const bodyRadius = 1.35;
+    const bodyHeight = 9.5;
+    const bodyGeom = new THREE.CylinderGeometry(bodyRadius, bodyRadius, bodyHeight, 36);
+    const bodyMat = new THREE.MeshStandardMaterial({
+      color: 0x1e293b,
+      metalness: 0.75,
+      roughness: 0.35
+    });
+    const bodyMesh = new THREE.Mesh(bodyGeom, bodyMat);
+    bodyMesh.position.y = 1.2;
+    rocketGroup.add(bodyMesh);
+
+    // Accent Rings & Decals
+    const ringMat = new THREE.MeshStandardMaterial({ color: 0xf97316, metalness: 0.8, roughness: 0.3 });
+    const ring1 = new THREE.Mesh(new THREE.CylinderGeometry(bodyRadius + 0.02, bodyRadius + 0.02, 0.12, 36), ringMat);
+    ring1.position.y = 4.8;
+    rocketGroup.add(ring1);
+
+    const ring2 = new THREE.Mesh(new THREE.CylinderGeometry(bodyRadius + 0.02, bodyRadius + 0.02, 0.08, 36), new THREE.MeshStandardMaterial({ color: 0x64748b, metalness: 0.9, roughness: 0.2 }));
+    ring2.position.y = -2.0;
+    rocketGroup.add(ring2);
+
+    // NOSE CONE
+    const noseGeom = new THREE.ConeGeometry(bodyRadius, 3.4, 36);
+    const noseMesh = new THREE.Mesh(noseGeom, ringMat);
+    noseMesh.position.y = 1.2 + bodyHeight / 2 + 1.7;
+    rocketGroup.add(noseMesh);
+
+    // MOTOR NOZZLE
+    const nozzleGeom = new THREE.CylinderGeometry(bodyRadius * 0.85, bodyRadius * 0.65, 1.2, 32);
+    const nozzleMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.95, roughness: 0.5 });
+    const nozzleMesh = new THREE.Mesh(nozzleGeom, nozzleMat);
+    nozzleMesh.position.y = 1.2 - bodyHeight / 2 - 0.6;
+    rocketGroup.add(nozzleMesh);
+
+    // CENTER OF MASS MARKER RING
+    const cmRing = new THREE.Mesh(
+      new THREE.TorusGeometry(bodyRadius + 0.03, 0.03, 16, 36),
+      new THREE.MeshBasicMaterial({ color: 0xeab308 })
+    );
+    cmRing.rotation.x = Math.PI / 2;
+    cmRing.position.y = 1.6;
+    rocketGroup.add(cmRing);
+
+    // 2. 4 ACTIVE CONTROL FINS
+    const finColors = [0xf97316, 0x06b6d4, 0x10b981, 0xf59e0b];
+    const finAssemblies = [];
+
+    // Fin blade shape (tapered trapezoidal aerofoil in local XY plane)
+    const finShape = new THREE.Shape();
+    finShape.moveTo(0, -1.4);         // root trailing edge
+    finShape.lineTo(2.35, -1.15);     // tip trailing edge (span = 2.35)
+    finShape.lineTo(2.35, 0.35);      // tip leading edge
+    finShape.lineTo(0, 1.45);         // root leading edge
+    finShape.closePath();
+
+    const finExtrudeGeom = new THREE.ExtrudeGeometry(finShape, {
+      depth: 0.12,
+      bevelEnabled: true,
+      bevelThickness: 0.03,
+      bevelSize: 0.03,
+      bevelSegments: 2
+    });
+    finExtrudeGeom.translate(0, 0, -0.06); // center thickness along Z
+
+    // Reusable Arrow geometries
+    const arrowShaftGeom = new THREE.CylinderGeometry(0.04, 0.04, 1.0, 10);
+    arrowShaftGeom.translate(0, 0.5, 0); // origin at base
+    const arrowHeadGeom = new THREE.ConeGeometry(0.12, 0.35, 14);
+    arrowHeadGeom.translate(0, 1.15, 0);
+
+    for (let i = 0; i < 4; i++) {
+      const azimuthPivot = new THREE.Group();
+      azimuthPivot.position.set(0, -2.6, 0); // Fin can station along rocket
+      rocketGroup.add(azimuthPivot);
+
+      // Radial servo hinge pin (silver cylinder along local X axis)
+      const pinGeom = new THREE.CylinderGeometry(0.08, 0.08, 0.5, 16);
+      const pinMat = new THREE.MeshStandardMaterial({ color: 0x94a3b8, metalness: 0.95, roughness: 0.15 });
+      const pinMesh = new THREE.Mesh(pinGeom, pinMat);
+      pinMesh.rotation.z = Math.PI / 2;
+      pinMesh.position.x = bodyRadius + 0.1;
+      azimuthPivot.add(pinMesh);
+
+      // FIN HINGE GROUP: Rotates about local X (RADIAL SPANWISE AXIS)!
+      const finHinge = new THREE.Group();
+      finHinge.position.set(bodyRadius, 0, 0);
+      azimuthPivot.add(finHinge);
+
+      // Fin blade mesh
+      const finMat = new THREE.MeshStandardMaterial({
+        color: finColors[i],
+        metalness: 0.35,
+        roughness: 0.4
+      });
+      const finMesh = new THREE.Mesh(finExtrudeGeom, finMat);
+      finHinge.add(finMesh);
+
+      // 3D Aerodynamic Lift Force Arrow
+      const arrowGroup = new THREE.Group();
+      arrowGroup.position.set(1.15, -0.1, 0);
+      arrowGroup.visible = false;
+      finHinge.add(arrowGroup);
+
+      const arrowMat = new THREE.MeshStandardMaterial({
+        color: 0xf59e0b,
+        emissive: 0xd97706,
+        emissiveIntensity: 0.6,
+        metalness: 0.8,
+        roughness: 0.2
+      });
+      const shaft = new THREE.Mesh(arrowShaftGeom, arrowMat);
+      const head = new THREE.Mesh(arrowHeadGeom, arrowMat);
+      arrowGroup.add(shaft);
+      arrowGroup.add(head);
+
+      finAssemblies.push({
+        azimuthPivot,
+        finHinge,
+        arrowGroup,
+        color: finColors[i]
+      });
+    }
+
+    // 3. AIRFLOW STREAMLINES (DOWNWARD V_INF)
+    const streamlineCount = 42;
+    const streamGroup = new THREE.Group();
+    scene.add(streamGroup);
+
+    const streamPositions = new Float32Array(streamlineCount * 6);
+    const streamSpeeds = new Float32Array(streamlineCount);
+    const streamRadii = new Float32Array(streamlineCount);
+    const streamThetas = new Float32Array(streamlineCount);
+    const streamYs = new Float32Array(streamlineCount);
+
+    for (let i = 0; i < streamlineCount; i++) {
+      streamThetas[i] = (i / streamlineCount) * Math.PI * 2 + (Math.random() - 0.5) * 0.2;
+      streamRadii[i] = bodyRadius + 0.4 + Math.random() * 2.2;
+      streamYs[i] = (Math.random() - 0.5) * 14;
+      streamSpeeds[i] = 0.16 + Math.random() * 0.12;
+    }
+
+    const streamGeom = new THREE.BufferGeometry();
+    streamGeom.setAttribute('position', new THREE.BufferAttribute(streamPositions, 3));
+    const streamMat = new THREE.LineBasicMaterial({
+      color: 0x06b6d4,
+      transparent: true,
+      opacity: 0.6
+    });
+    const streamLines = new THREE.LineSegments(streamGeom, streamMat);
+    streamGroup.add(streamLines);
+
+    // SIMULATION STATE
+    let mode = 'x'; // 'x' or 'plus'
+    let armed = true;
+    let showAirflow = true;
+    let gustAnim = null;
+
+    // AZIMUTH ANGLES BY MODE
+    function updateAzimuths() {
+      const angles = mode === 'x'
+        ? [Math.PI * 0.25, Math.PI * 0.75, Math.PI * 1.25, Math.PI * 1.75]
+        : [0, Math.PI * 0.5, Math.PI, Math.PI * 1.5];
+
+      finAssemblies.forEach((asmb, i) => {
+        asmb.azimuthPivot.rotation.y = angles[i];
+      });
+
+      const titles = mode === 'x'
+        ? [
+            'FIN 1: QUADRANT I (45° • PA0/TIM2_CH1)',
+            'FIN 2: QUADRANT II (135° • PA1/TIM2_CH2)',
+            'FIN 3: QUADRANT III (225° • PA2/TIM2_CH3)',
+            'FIN 4: QUADRANT IV (315° • PA3/TIM2_CH4)'
+          ]
+        : [
+            'FIN 1: STARBOARD (0° • PA0/TIM2_CH1)',
+            'FIN 2: DORSAL (90° • PA1/TIM2_CH2)',
+            'FIN 3: PORT (180° • PA2/TIM2_CH3)',
+            'FIN 4: VENTRAL (270° • PA3/TIM2_CH4)'
+          ];
+
+      const formulas = mode === 'x'
+        ? [
+            '-0.71·P - 0.71·Y + R',
+            '+0.71·P - 0.71·Y + R',
+            '+0.71·P + 0.71·Y + R',
+            '-0.71·P + 0.71·Y + R'
+          ]
+        : [
+            '-Pitch + Roll',
+            '-Yaw + Roll',
+            '+Pitch + Roll',
+            '+Yaw + Roll'
+          ];
+
+      for (let i = 1; i <= 4; i++) {
+        const tEl = document.getElementById(`fin${i}-title`);
+        const fEl = document.getElementById(`fin${i}-mix-formula`);
+        if (tEl) tEl.textContent = titles[i - 1];
+        if (fEl) fEl.textContent = formulas[i - 1];
+      }
+    }
+
+    updateAzimuths();
+
+    // DOM CONTROLS
+    const sPitch = document.getElementById('slider-pitch');
+    const sRoll = document.getElementById('slider-roll');
+    const sYaw = document.getElementById('slider-yaw');
+    const armBtn = document.getElementById('sim-arm-btn');
+    const resetBtn = document.getElementById('sim-reset-btn');
+    const gustBtn = document.getElementById('sim-gust-btn');
+
+    function clamp(v, lo, hi) {
+      return Math.max(lo, Math.min(hi, v));
+    }
+
+    function updateSimulation() {
+      const pitch = parseFloat(sPitch ? sPitch.value : '0');
+      const roll = parseFloat(sRoll ? sRoll.value : '0');
+      const yaw = parseFloat(sYaw ? sYaw.value : '0');
+
+      const vP = document.getElementById('val-pitch');
+      const vR = document.getElementById('val-roll');
+      const vY = document.getElementById('val-yaw');
+      if (vP) vP.textContent = (pitch >= 0 ? '+' : '') + pitch.toFixed(1) + '°';
+      if (vR) vR.textContent = (roll >= 0 ? '+' : '') + roll.toFixed(1) + '°';
+      if (vY) vY.textContent = (yaw >= 0 ? '+' : '') + yaw.toFixed(1) + ' °/s';
+
+      const KP = 1.2;
+      const pitchCmd = armed ? clamp(KP * (0 - pitch), -100, 100) : 0;
+      const rollCmd = armed ? clamp(KP * (0 - roll), -100, 100) : 0;
+      const yawCmd = armed ? clamp((KP * 0.5) * (0 - yaw), -100, 100) : 0;
+
+      const oP = document.getElementById('out-pitch-cmd');
+      const oR = document.getElementById('out-roll-cmd');
+      const oY = document.getElementById('out-yaw-cmd');
+      if (oP) oP.textContent = (pitchCmd >= 0 ? '+' : '') + pitchCmd.toFixed(2);
+      if (oR) oR.textContent = (rollCmd >= 0 ? '+' : '') + rollCmd.toFixed(2);
+      if (oY) oY.textContent = (yawCmd >= 0 ? '+' : '') + yawCmd.toFixed(2);
+
+      let f1_def, f2_def, f3_def, f4_def;
+
+      if (mode === 'x') {
+        const pDef = pitchCmd * 0.7071 * 0.9;
+        const yDef = yawCmd * 0.7071 * 0.9;
+        const rDef = rollCmd * 0.9;
+
+        f1_def = -pDef - yDef + rDef;
+        f2_def = +pDef - yDef + rDef;
+        f3_def = +pDef + yDef + rDef;
+        f4_def = -pDef + yDef + rDef;
+      } else {
+        const pDef = pitchCmd * 0.9;
+        const yDef = yawCmd * 0.9;
+        const rDef = rollCmd * 0.9;
+
+        f1_def = -pDef + rDef;
+        f2_def = -yDef + rDef;
+        f3_def = +pDef + rDef;
+        f4_def = +yDef + rDef;
+      }
+
+      const defs = [f1_def, f2_def, f3_def, f4_def];
+      const angles = defs.map((d) => clamp(Math.round(90 + d), 0, 180));
+
+      // 1. UPDATE 3D THREE.JS FIN HINGES ON THEIR RADIAL SPANWISE AXIS!
+      finAssemblies.forEach((asmb, i) => {
+        const defDeg = clamp(angles[i] - 90, -35, 35);
+        const defRad = (defDeg * Math.PI) / 180;
+
+        // PIVOT ON RADIAL AXIS (Local X)
+        asmb.finHinge.rotation.x = defRad;
+
+        // 2. 3D AERODYNAMIC LIFT FORCE ARROW
+        if (Math.abs(defDeg) < 0.6) {
+          asmb.arrowGroup.visible = false;
+        } else {
+          asmb.arrowGroup.visible = true;
+          const mag = clamp(Math.abs(defDeg) / 25, 0.3, 1.8);
+          asmb.arrowGroup.scale.set(mag, mag, mag);
+
+          if (defDeg > 0) {
+            asmb.arrowGroup.rotation.x = Math.PI / 2;
+          } else {
+            asmb.arrowGroup.rotation.x = -Math.PI / 2;
+          }
+        }
+      });
+
+      // 3. VEHICLE ATTITUDE VISUAL REACTION
+      rocketGroup.rotation.z = -(pitch * Math.PI) / 180 * 0.25;
+      rocketGroup.rotation.x = (roll * Math.PI) / 180 * 0.25;
+      rocketGroup.rotation.y = (yaw * Math.PI) / 180 * 0.25;
+
+      // 4. UPDATE UI CARDS & BARS
+      for (let i = 1; i <= 4; i++) {
+        const ang = angles[i - 1];
+        const defVal = ang - 90;
+        const us = Math.round(1000 + (ang * 1000) / 180);
+
+        const bdg = document.getElementById(`fin${i}-angle-badge`);
+        const bar = document.getElementById(`fin${i}-bar`);
+        const dt = document.getElementById(`fin${i}-deflect-deg`);
+
+        if (bdg) bdg.textContent = `${ang}° (${us} µs)`;
+        if (bar) bar.style.width = `${(ang / 180) * 100}%`;
+        if (dt) dt.textContent = (defVal >= 0 ? '+' : '') + defVal.toFixed(1) + '°';
+      }
+
+      // 5. UPDATE CSV LINE
+      const csvEl = document.getElementById('sim-csv-line');
+      if (csvEl) {
+        csvEl.textContent = `${pitch.toFixed(2)},${roll.toFixed(2)},${yaw.toFixed(2)},${pitchCmd.toFixed(2)},${rollCmd.toFixed(2)},${yawCmd.toFixed(2)},${angles[0]},${angles[1]},${angles[2]},${angles[3]},${armed ? 1 : 0}`;
+      }
+    }
+
+    if (sPitch) sPitch.addEventListener('input', updateSimulation);
+    if (sRoll) sRoll.addEventListener('input', updateSimulation);
+    if (sYaw) sYaw.addEventListener('input', updateSimulation);
+
+    // AUTOPILOT ARM BUTTON
+    if (armBtn) {
+      armBtn.addEventListener('click', () => {
+        armed = !armed;
+        const dot = document.getElementById('sim-led-dot');
+        const ledTitle = document.getElementById('sim-led-title');
+        if (armed) {
+          armBtn.textContent = 'STATE: ARMED (ACTIVE PID CONTROL)';
+          armBtn.classList.add('btn-primary');
+          if (dot) { dot.style.background = '#ef4444'; dot.style.boxShadow = '0 0 12px #ef4444'; }
+          if (ledTitle) ledTitle.textContent = 'PB9 WS2812B: SOLID RED (255, 0, 0) — ARMED';
+        } else {
+          armBtn.textContent = 'STATE: DISARMED (FINS LOCKED AT 90°)';
+          armBtn.classList.remove('btn-primary');
+          if (dot) { dot.style.background = '#22c55e'; dot.style.boxShadow = '0 0 12px #22c55e'; }
+          if (ledTitle) ledTitle.textContent = 'PB9 WS2812B: SOLID GREEN (0, 255, 0) — DISARMED';
+        }
+        updateSimulation();
+      });
+    }
+
+    // RESET BUTTON
+    if (resetBtn) {
+      resetBtn.addEventListener('click', () => {
+        if (gustAnim) clearInterval(gustAnim);
+        if (sPitch) sPitch.value = '0';
+        if (sRoll) sRoll.value = '0';
+        if (sYaw) sYaw.value = '0';
+        updateSimulation();
+      });
+    }
+
+    // WIND GUST BUTTON
+    if (gustBtn) {
+      gustBtn.addEventListener('click', () => {
+        if (gustAnim) clearInterval(gustAnim);
+        let step = 0;
+        const totalSteps = 60;
+        gustAnim = setInterval(() => {
+          step++;
+          const t = step / totalSteps;
+          const decay = Math.exp(-3 * t);
+          const gustAngle = 24 * Math.sin(t * 12) * decay;
+          const gustRoll = -16 * Math.cos(t * 10) * decay;
+          if (sPitch) sPitch.value = gustAngle.toFixed(1);
+          if (sRoll) sRoll.value = gustRoll.toFixed(1);
+          updateSimulation();
+          if (step >= totalSteps) {
+            clearInterval(gustAnim);
+            gustAnim = null;
+            if (sPitch) sPitch.value = '0';
+            if (sRoll) sRoll.value = '0';
+            updateSimulation();
+          }
+        }, 30);
+      });
+    }
+
+    // CONFIG BUTTONS
+    const btnCfgX = document.getElementById('btn-cfg-x');
+    const btnCfgPlus = document.getElementById('btn-cfg-plus');
+
+    if (btnCfgX && btnCfgPlus) {
+      btnCfgX.addEventListener('click', () => {
+        mode = 'x';
+        btnCfgX.classList.add('active');
+        btnCfgPlus.classList.remove('active');
+        updateAzimuths();
+        updateSimulation();
+      });
+
+      btnCfgPlus.addEventListener('click', () => {
+        mode = 'plus';
+        btnCfgPlus.classList.add('active');
+        btnCfgX.classList.remove('active');
+        updateAzimuths();
+        updateSimulation();
+      });
+    }
+
+    // CAMERA PRESETS
+    const btnCamOrbit = document.getElementById('btn-cam-orbit');
+    const btnCamSide = document.getElementById('btn-cam-side');
+    const btnCamAft = document.getElementById('btn-cam-aft');
+    const btnToggleFlow = document.getElementById('btn-toggle-flow');
+
+    function setActiveCamBtn(btn) {
+      [btnCamOrbit, btnCamSide, btnCamAft].forEach((b) => b && b.classList.remove('active'));
+      if (btn) btn.classList.add('active');
+    }
+
+    if (btnCamOrbit) {
+      btnCamOrbit.addEventListener('click', () => {
+        setActiveCamBtn(btnCamOrbit);
+        camera.position.set(9.5, 1.0, 9.5);
+        camera.up.set(0, 1, 0);
+        controls.target.set(0, -1.6, 0);
+      });
+    }
+
+    if (btnCamSide) {
+      btnCamSide.addEventListener('click', () => {
+        setActiveCamBtn(btnCamSide);
+        camera.position.set(0, -1.8, 10.5);
+        camera.up.set(0, 1, 0);
+        controls.target.set(0, -1.8, 0);
+      });
+    }
+
+    if (btnCamAft) {
+      btnCamAft.addEventListener('click', () => {
+        setActiveCamBtn(btnCamAft);
+        camera.position.set(0, -10.5, 0.01);
+        camera.up.set(0, 0, 1);
+        controls.target.set(0, -2.6, 0);
+      });
+    }
+
+    if (btnToggleFlow) {
+      btnToggleFlow.addEventListener('click', () => {
+        showAirflow = !showAirflow;
+        streamGroup.visible = showAirflow;
+        btnToggleFlow.textContent = showAirflow ? 'AIRFLOW: ON' : 'AIRFLOW: OFF';
+      });
+    }
+
+    // ANIMATION & RENDER LOOP
+    function animate() {
+      requestAnimationFrame(animate);
+
+      if (showAirflow) {
+        const pos = streamPositions;
+        for (let i = 0; i < streamlineCount; i++) {
+          streamYs[i] -= streamSpeeds[i];
+          if (streamYs[i] < -7) streamYs[i] = 7;
+
+          const th = streamThetas[i];
+          const r = streamRadii[i];
+          const y = streamYs[i];
+
+          const idx = i * 6;
+          pos[idx] = Math.cos(th) * r;
+          pos[idx + 1] = y + 0.6;
+          pos[idx + 2] = Math.sin(th) * r;
+
+          pos[idx + 3] = Math.cos(th) * r;
+          pos[idx + 4] = y - 0.6;
+          pos[idx + 5] = Math.sin(th) * r;
+        }
+        streamGeom.attributes.position.needsUpdate = true;
+      }
+
+      controls.update();
+      renderer.render(scene, camera);
+    }
+
+    animate();
+    updateSimulation();
+
+    // CONTAINER RESIZE OBSERVER (handles layout changes, not just window resize)
+    function resizeRenderer() {
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w && h) {
+        camera.aspect = w / h;
+        camera.updateProjectionMatrix();
+        renderer.setSize(w, h, false);
+      }
+    }
+    resizeRenderer();
+    if ('ResizeObserver' in window) {
+      new ResizeObserver(resizeRenderer).observe(container);
+    } else {
+      window.addEventListener('resize', resizeRenderer);
+    }
+  })();
+</script>
+
 <style>
-  .hero {
-    min-height: 100vh;
+  /* HERO */
+  .hero-section {
+    padding: 3rem 0 3.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-top-meta {
     display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .hero::before {
-    content: '';
-    position: absolute;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255, 69, 0, 0.08) 0%, transparent 70%);
-    animation: pulse 4s ease-in-out infinite;
-  }
-  
-  @keyframes pulse {
-    0%, 100% { transform: scale(1); opacity: 0.3; }
-    50% { transform: scale(1.1); opacity: 0.5; }
-  }
-  
-  .hero-content {
-    position: relative;
-    z-index: 1;
-  }
-  
-  .status-badge {
-    display: inline-block;
-    padding: 0.5rem 1rem;
-    background: rgba(0, 255, 136, 0.1);
-    border-left: 3px solid var(--success);
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+    flex-wrap: wrap;
+    gap: 0.6rem;
     margin-bottom: 1.5rem;
-    color: var(--success);
   }
-  
+  .hero-kicker {
+    font-size: 0.76rem;
+    color: var(--accent);
+    letter-spacing: 0.1em;
+    font-weight: 700;
+    margin-bottom: 0.4rem;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: 1.15fr 0.85fr;
+    gap: 2rem;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
   .hero-title {
-    font-size: 5rem;
+    font-size: 3.4rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
     margin-bottom: 1rem;
   }
-  
-  .fire {
-    display: inline-block;
-    animation: flicker 2s infinite;
+  .accent-text {
+    color: var(--accent);
   }
-  
-  @keyframes flicker {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.05); }
+  .hero-lead {
+    font-size: 1.05rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.6rem;
+    max-width: 680px;
   }
-  
-  .hero-subtitle {
-    font-size: 0.8rem;
-    color: var(--text-muted);
-    letter-spacing: 4px;
-    margin-bottom: 2rem;
-  }
-  
-  .hero-buttons {
+  .hero-cta-row {
     display: flex;
-    gap: 1rem;
-    justify-content: center;
     flex-wrap: wrap;
+    gap: 0.65rem;
   }
-  
-  .hero-scroll {
-    position: absolute;
-    bottom: 2rem;
-    text-align: center;
-    animation: bounce 2s infinite;
-    cursor: pointer;
-    font-size: 0.7rem;
-    letter-spacing: 2px;
+  .panel-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    margin-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-pcb-preview {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: var(--bg-subtle);
+    border-radius: 6px;
+    padding: 1rem;
+    min-height: 270px;
+  }
+  .hero-pcb-preview img {
+    max-width: 100%;
+    max-height: 260px;
+    object-fit: contain;
+  }
+  .hero-pcb-caption {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 0.5rem;
+    font-size: 0.72rem;
     color: var(--text-muted);
+    margin-top: 0.75rem;
   }
-  
-  @keyframes bounce {
-    0%, 100% { transform: translateY(0); }
-    50% { transform: translateY(10px); }
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
   }
-  
-  .container {
-    max-width: 1400px;
-    margin: 0 auto;
-    padding: 0 2rem;
+  .metric-card {
+    padding: 1rem 1.1rem;
   }
-  
-  .section {
-    padding: 5rem 0;
-  }
-  
-  .section-dark {
-    background: var(--background-light);
-  }
-  
-  h2 {
-    font-size: 1.5rem;
-    letter-spacing: 2px;
-    margin-bottom: 0.5rem;
-  }
-  
-  .section-subtitle {
+  .metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.68rem;
     color: var(--text-muted);
-    margin-bottom: 2rem;
-    font-family: monospace;
-    font-size: 0.8rem;
+    display: block;
+    margin-bottom: 0.25rem;
   }
-  
-  .telemetry-grid {
+  .metric-value {
+    font-family: var(--font-mono);
+    font-size: 1.15rem;
+    font-weight: 700;
+    color: var(--accent);
+    margin-bottom: 0.2rem;
+  }
+  .metric-sub {
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+  }
+
+  /* SECTION 00: WHY NEEDED */
+  .why-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 1.5rem;
-    margin: 2rem 0;
   }
-  
-  .feature-grid {
+  .story-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  .story-badge {
+    margin-bottom: 0.25rem;
+  }
+  .story-card h3 {
+    font-size: 1.15rem;
+    color: var(--text);
+  }
+  .story-card p {
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+  .story-list {
+    padding-left: 1.2rem;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    display: flex;
+    flex-direction: column;
+    gap: 0.45rem;
+  }
+
+  /* SECTION 01: 3D STUDIO */
+  .studio-toolbar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .model-tabs, .camera-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .model-tab.active, .ecad-tab.active, .phase-tab.active, .speed-btn.active {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: #fff;
+  }
+  .viewer-stage {
+    width: 100%;
+    height: 500px;
+    background: radial-gradient(circle at center, var(--bg-subtle), var(--bg));
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+  }
+  model-viewer {
+    width: 100%;
+    height: 100%;
+  }
+  .studio-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding-top: 0.9rem;
+  }
+
+  /* SECTION 02: FIN SIMULATOR */
+  .sim-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.4fr);
     gap: 1.5rem;
   }
-  
-  .feature-card {
-    background: var(--surface);
+  .mode-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.65rem;
+    margin-bottom: 1rem;
+  }
+  .led-indicator-box {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    padding: 0.75rem 1rem;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    margin-bottom: 1.25rem;
+  }
+  .led-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .slider-group {
+    margin-bottom: 1.1rem;
+  }
+  .slider-label {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    margin-bottom: 0.35rem;
+  }
+  .slider-group input[type="range"] {
+    width: 100%;
+    accent-color: var(--accent);
+    cursor: pointer;
+  }
+  .pid-readout-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.75rem;
+    margin-top: 1.25rem;
+  }
+  .pid-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.65rem;
+    text-align: center;
+  }
+  .pid-box span {
+    display: block;
+    font-size: 0.68rem;
+    color: var(--text-muted);
+  }
+  .pid-box strong {
+    font-size: 1.05rem;
+    color: var(--accent);
+  }
+  /* SECTION 02: 3D FIN SIMULATOR & KINEMATICS */
+  .fin-stage-toolbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 0.75rem;
+  }
+  .toolbar-group {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    flex-wrap: wrap;
+  }
+  .toolbar-label {
+    color: var(--text-muted);
+    font-size: 0.7rem;
+    margin-right: 0.25rem;
+  }
+  .btn-xs {
+    padding: 0.25rem 0.55rem;
+    font-size: 0.7rem;
+    border-radius: 4px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+  }
+  .btn-xs:hover {
+    border-color: var(--accent);
+  }
+  .btn-xs.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+  }
+  .xfin-interactive-stage {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+    align-items: stretch;
+  }
+  .xfin-interactive-stage .fin-angle-cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .three-stage-wrap {
+    width: 100%;
+    height: 420px;
+    position: relative;
+    background: radial-gradient(circle at center, var(--bg-subtle), var(--bg));
     border: 1px solid var(--border);
     border-radius: 8px;
-    padding: 1.5rem;
-    transition: all 0.3s;
+    overflow: hidden;
   }
-  
-  .feature-card:hover {
-    transform: translateY(-5px);
-    border-color: var(--primary);
+  #three-fin-canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    cursor: grab;
   }
-  
-  .feature-icon {
-    font-size: 2.5rem;
-    margin-bottom: 1rem;
+  #three-fin-canvas:active {
+    cursor: grabbing;
   }
-  
-  .feature-card h3 {
-    font-size: 0.85rem;
-    letter-spacing: 2px;
-    margin-bottom: 0.75rem;
-    color: var(--primary);
-  }
-  
-  .feature-card p {
-    color: var(--text-muted);
-    font-size: 0.8rem;
-    line-height: 1.5;
-    margin-bottom: 1rem;
-  }
-  
-  .card-footer {
+  .canvas-hint {
+    position: absolute;
+    top: 8px;
+    right: 8px;
     font-size: 0.65rem;
-    color: var(--text-dim);
-    font-family: monospace;
-    border-top: 1px solid var(--border);
-    padding-top: 0.75rem;
-    margin-top: 0.5rem;
+    color: var(--text-muted);
+    background: rgba(0, 0, 0, 0.55);
+    padding: 0.2rem 0.45rem;
+    border-radius: 4px;
+    pointer-events: none;
+    z-index: 5;
   }
-  
-  .stats {
-    background: linear-gradient(135deg, #cc3700, #ff4500);
+  .canvas-overlay-legend {
+    position: absolute;
+    bottom: 8px;
+    left: 8px;
+    right: 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    font-size: 0.62rem;
+    background: rgba(0, 0, 0, 0.75);
+    backdrop-filter: blur(4px);
+    padding: 0.35rem 0.65rem;
+    border-radius: 4px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    pointer-events: none;
+    z-index: 5;
   }
-  
-  .stats-grid {
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: #e2e8f0;
+  }
+  .legend-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+  }
+  .fin-angle-cards {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.6rem;
+  }
+  .fin-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.65rem 0.85rem;
+  }
+  .fin-card-top {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.76rem;
+    margin-bottom: 0.3rem;
+  }
+  .fin-bar-track {
+    height: 7px;
+    background: var(--bg);
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 0.25rem;
+  }
+  .fin-bar-fill {
+    height: 100%;
+    transition: width 0.08s ease;
+  }
+  .fin-card-sub {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+  }
+  .matrix-explainer-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.75rem;
+  }
+  .usb-frame-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+    font-size: 0.76rem;
+    overflow-x: auto;
+  }
+  .usb-frame-label {
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.25rem;
+  }
+
+  /* SECTION 03: MISSION TIMELINE */
+  .phase-tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1.5rem;
+  }
+  .phase-body-grid {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 2rem;
+    align-items: center;
+  }
+  .phase-telemetry-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.75rem;
+    font-size: 0.78rem;
+    margin-top: 1rem;
+  }
+  .phase-telemetry-box span {
+    color: var(--text-muted);
+    display: block;
+    font-size: 0.7rem;
+  }
+  .rocket-anim-box {
+    width: 100%;
+    height: 280px;
+    background: linear-gradient(to bottom, #0f172a, #1e293b);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+  }
+  .anim-sky {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+  }
+  .anim-cloud {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 20px;
+  }
+  .cloud-1 { width: 80px; height: 20px; top: 30px; left: 20px; }
+  .cloud-2 { width: 110px; height: 26px; top: 70px; right: 30px; }
+  .anim-ground {
+    position: absolute;
+    bottom: 0;
+    left: 0; right: 0;
+    height: 24px;
+    background: #334155;
+    border-top: 2px solid var(--border-strong);
+  }
+  .anim-rocket {
+    width: 32px;
+    position: relative;
+    bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+    z-index: 2;
+  }
+  .anim-nose {
+    width: 0;
+    height: 0;
+    border-left: 14px solid transparent;
+    border-right: 14px solid transparent;
+    border-bottom: 28px solid var(--accent);
+  }
+  .anim-body {
+    width: 28px;
+    height: 80px;
+    background: #e2e8f0;
+    border-left: 2px solid #cbd5e1;
+    border-right: 2px solid #94a3b8;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .anim-ignis-text {
+    font-size: 8px;
+    font-weight: 900;
+    color: #0f172a;
+    writing-mode: vertical-rl;
+    letter-spacing: 2px;
+  }
+  .anim-fins {
+    width: 52px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: -6px;
+  }
+  .anim-fin {
+    width: 10px;
+    height: 18px;
+    background: var(--accent);
+  }
+  .fin-left { clip-path: polygon(100% 0, 0 100%, 100% 100%); }
+  .fin-right { clip-path: polygon(0 0, 0 100%, 100% 100%); }
+  .anim-flame {
+    width: 14px;
+    height: 36px;
+    background: linear-gradient(to bottom, #f97316, #ef4444, transparent);
+    border-radius: 0 0 7px 7px;
+    display: none;
+    animation: flameFlicker 0.1s infinite alternate;
+  }
+  .anim-chute {
+    position: absolute;
+    top: -45px;
+    font-size: 28px;
+    display: none;
+  }
+  @keyframes flameFlicker {
+    from { height: 28px; opacity: 0.85; }
+    to { height: 38px; opacity: 1; }
+  }
+
+  /* SECTION 04: REPLAYER */
+  .replayer-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .replayer-btn-group, .replayer-speed-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+  .replayer-scrubber-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    flex-grow: 1;
+    max-width: 500px;
+  }
+  .replayer-scrubber-wrap input[type="range"] {
+    flex-grow: 1;
+    accent-color: var(--accent);
+  }
+  .hud-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 1.5rem;
-    text-align: center;
+    gap: 0.85rem;
+    margin-bottom: 1rem;
   }
-  
-  .stat-card {
-    background: rgba(0, 0, 0, 0.3);
-    backdrop-filter: blur(10px);
-    border-radius: 8px;
-    padding: 1.5rem;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+  .hud-card {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
   }
-  
-  .stat-number {
-    font-size: 2.5rem;
-    font-weight: 900;
-    font-family: 'Orbitron', monospace;
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-  }
-  
-  .stat-label {
-    font-size: 0.7rem;
-    letter-spacing: 2px;
-    margin-top: 0.5rem;
-    opacity: 0.8;
-  }
-  
-  .model-controls {
-    text-align: center;
-    margin-top: 1rem;
+  .hud-card span {
+    font-size: 0.68rem;
     color: var(--text-muted);
-    font-size: 0.7rem;
-    font-family: monospace;
-    letter-spacing: 1px;
+    display: block;
+    margin-bottom: 0.2rem;
   }
-  
-  @media (max-width: 768px) {
+  .hud-card strong {
+    font-size: 1.15rem;
+    display: block;
+  }
+  .hud-card small {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .graph-container {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem;
+  }
+  #flight-canvas {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+  .graph-legend {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1.5rem;
+    font-size: 0.72rem;
+    margin-top: 0.5rem;
+  }
+
+  /* SECTION 05: SIZING CALCULATOR */
+  .calc-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 2rem;
+  }
+  .calc-results {
+    display: flex;
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+  .calc-stat-box {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.75rem 1rem;
+  }
+  .calc-stat-box span {
+    font-size: 0.68rem;
+    color: var(--text-muted);
+    display: block;
+    margin-bottom: 0.2rem;
+  }
+  .calc-stat-box strong {
+    font-size: 1.15rem;
+    display: block;
+  }
+  .calc-stat-box small {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+  }
+  .calc-verdict {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 0.85rem 1rem;
+  }
+
+  /* SECTION 06: TERMINAL CLI */
+  .terminal-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-bottom: 0.75rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 0.75rem;
+  }
+  .terminal-dots {
+    display: flex;
+    gap: 6px;
+  }
+  .term-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+  .term-dot.red { background: #ef4444; }
+  .term-dot.yellow { background: #f59e0b; }
+  .term-dot.green { background: #22c55e; }
+  .terminal-screen {
+    background: #05080f;
+    color: #e2e8f0;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 1rem;
+    height: 250px;
+    overflow-y: auto;
+    font-size: 0.78rem;
+    line-height: 1.5;
+  }
+  .terminal-input-bar {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0.85rem;
+  }
+  .quick-cmd-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .custom-cmd-row {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  /* SECTION 07: ECAD */
+  .ecad-toolbar {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 1rem;
+  }
+  .ecad-tabs, .ecad-zoom-btns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+  }
+  .ecad-viewport {
+    width: 100%;
+    height: 540px;
+    overflow: auto;
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+  }
+  .ecad-viewport img {
+    max-width: 100%;
+    max-height: 100%;
+    transition: transform 0.15s ease;
+    transform-origin: center center;
+  }
+  .ecad-footer {
+    display: flex;
+    justify-content: space-between;
+    padding-top: 0.85rem;
+    font-size: 0.76rem;
+    color: var(--text-secondary);
+  }
+
+  /* SECTION 08: PINOUT & BOM */
+  .bom-actions {
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+  .search-input {
+    background: var(--bg-panel);
+    border: 1px solid var(--border-strong);
+    color: var(--text);
+    padding: 0.55rem 0.9rem;
+    border-radius: 6px;
+    min-width: 290px;
+    font-size: 0.8rem;
+  }
+  .table-heading {
+    font-size: 0.95rem;
+    color: var(--accent);
+    margin-bottom: 0.75rem;
+  }
+
+  /* SECTION 09: FIRMWARE */
+  .modules-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.15rem;
+  }
+  .module-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.45rem;
+  }
+  .module-path {
+    font-size: 0.74rem;
+    color: var(--blue);
+    margin-bottom: 0.55rem;
+  }
+  .module-summary {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+  }
+  .fn-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+  }
+  .fn-tag {
+    background: var(--bg-subtle);
+    border: 1px solid var(--border);
+    padding: 0.18rem 0.45rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    color: var(--text);
+  }
+
+  /* SECTION 10: BUILD LOG */
+  .timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.15rem;
+  }
+  .timeline-meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.6rem;
+  }
+  .timeline-header h3 {
+    font-size: 1.12rem;
+    margin-bottom: 0.4rem;
+  }
+  .timeline-summary {
+    color: var(--text-secondary);
+    font-size: 0.88rem;
+    margin-bottom: 0.75rem;
+  }
+  .timeline-highlights {
+    padding-left: 1.25rem;
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+  .timeline-highlights li {
+    margin-bottom: 0.35rem;
+  }
+
+  /* SECTION 11: VAULT */
+  .vault-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.15rem;
+  }
+  .vault-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.65rem;
+    transition: border-color 0.15s, transform 0.15s;
+  }
+  .vault-card:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+  }
+  .vault-card h3 {
+    font-size: 1.05rem;
+  }
+  .vault-card p {
+    font-size: 0.84rem;
+    color: var(--text-secondary);
+  }
+  .vault-dl {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: var(--accent);
+  }
+
+  @media (max-width: 980px) {
+    .hero-grid, .sim-grid, .phase-body-grid, .calc-grid, .xfin-interactive-stage {
+      grid-template-columns: 1fr;
+    }
     .hero-title {
-      font-size: 2.5rem;
-    }
-    
-    .hero-subtitle {
-      font-size: 0.6rem;
-      letter-spacing: 2px;
-    }
-    
-    .status-badge {
-      font-size: 0.6rem;
-    }
-    
-    .container {
-      padding: 0 1rem;
-    }
-    
-    .section {
-      padding: 3rem 0;
+      font-size: 2.4rem;
     }
   }
 </style>

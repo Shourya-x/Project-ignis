@@ -1,373 +1,226 @@
+# Project IGNIS — STM32G473VET6 Rocket Flight Computer & Active Fin / TVC Avionics Suite
 
-<div align="center">
-  
-  # 🔥 IGNIS
-  
-  ### Open-Source Thrust Vector Control (TVC) System for Model Rockets
-  
-  [![PlatformIO](https://img.shields.io/badge/PlatformIO-STM32-orange)](https://platformio.org/)
-  [![Astro](https://img.shields.io/badge/Astro-Website-purple)](https://astro.build/)
-  [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-  [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](CONTRIBUTING.md)
-  
-  *"Make advanced rocketry accessible to everyone"*
-  
-  [Website](https://project-ignis.shourya.page) • [Documentation](docs/) • [Contributing](CONTRIBUTING.md) • [Discord](https://discord.gg/ignis)
-  
-</div>
+[![MCU: STM32G473VET6](https://img.shields.io/badge/MCU-STM32G473VET6%20(170MHz%20Cortex--M4F)-03234B?style=flat-square)](IGNIS_CORE/Firmware/HAL%20STM32/IGNIS_CORE_STM32G473VET6)
+[![Control Loop: 100 Hz](https://img.shields.io/badge/Control%20Loop-100%20Hz%20PID%20%2B%20X--Fin%20Mixing-d97706?style=flat-square)](IGNIS_CORE/Firmware/HAL%20STM32/IGNIS_CORE_STM32G473VET6/Modules/Flight)
+[![ECAD: KiCad 9/10](https://img.shields.io/badge/ECAD-KiCad%20Custom%20PCBs-314CB0?style=flat-square)](IGNIS_CORE/Hardware/Project_IGNIS_CORE)
+[![MCAD: FreeCAD](https://img.shields.io/badge/MCAD-FreeCAD%20Parametric%20Airframe-dc2626?style=flat-square)](Rocket_Assembly)
+[![License: MIT / CERN-OHL](https://img.shields.io/badge/License-MIT%20%2F%20CERN--OHL-15803d?style=flat-square)](#license)
+
+> **Open-source high-power model rocket flight computer, 4-channel X-configuration active fin / TVC attitude controller, 3-stage high-current MOSFET pyro igniter system, dual-EEPROM blackbox recorder, and 433 MHz LoRa telemetry ground station.**
 
 ---
 
-## 📌 Overview
+## 1. Executive Summary
 
-**IGNIS** (Latin for "FIRE") is an open-source thrust vector control system designed for model rocketry enthusiasts, students, and researchers. It uses an **STM32F411** flight computer, **MPU6500** IMU, **MS5611** barometer, and **NEO-6M** GPS to actively steer a rocket's engine nozzle, keeping it stable during flight.
+**Project IGNIS** is a vertically integrated aerospace avionics and mechanical control platform engineered from custom bare-metal `STM32G473VET6` HAL firmware and 2-layer KiCad PCBs to a parametric FreeCAD airframe and a PyQt6/OpenGL ground station.
 
-| Feature | Description |
-|---------|-------------|
-| 🎯 **Precision Control** | Real-time attitude control with complementary filter and PID |
-| 📡 **LoRa Telemetry** | Long-range telemetry up to 5km with SX1278 |
-| 🛰️ **GPS Tracking** | NEO-6M for position tracking, speed, and landing location |
-| ⚙️ **Modular Design** | Separate modules for flight computer, logger, and TVC mechanism |
-| 🖥️ **Flight Simulator** | Python-based post-flight analysis and visualization |
-| 🌐 **Website** | Full project documentation at [project-ignis.shourya.page](https://project-ignis.shourya.page) |
+Unlike hobby flight controllers built around legacy `STM32F4` drone boards, **IGNIS-CORE** is purpose-built around the **`STM32G473VET6`** (LQFP-100, 170 MHz ARM Cortex-M4F with hardware **CORDIC** trigonometric and **FMAC** filter co-processors, 512 KB ECC Flash, 128 KB SRAM, 6 internal PGA op-amps, and 7 ultra-fast 16 ns comparators).
 
----
+### Key Subsystem Capabilities
 
-## 🏗️ Architecture
-
-```
-┌─────────────────────────────────────────────────────────────────────────────┐
-│                              IGNIS SYSTEM                                   │
-├─────────────────────────────────────────────────────────────────────────────┤
-│                                                                             │
-│  ┌─────────────────────────┐    ┌─────────────────────────┐                 │
-│  │      IGNIS-CORE         │    │       IGNIS-NET         │                 │
-│  │   (Flight Computer)     │    │     (Data Logger)       │                 │
-│  │                         │    │                         │                 │
-│  │  • STM32F411CEU6        │    │  • Arduino Nano         │                 │
-│  │  • MPU6500 (IMU)        │◄───►│  • SD Card             │                 │
-│  │  • MS5611 (Barometer)   │UART│  • LoRa (SX1278)        │                 │
-│  │  • NEO-6M (GPS)         │    │  • GPS (optional)       │                 │
-│  │  • 2x Servos (PWM)      │    │                         │                 │
-│  └───────────┬─────────────┘    └─────────────────────────┘                 │
-│              │                                                              │
-│              │ PWM                                                          │
-│              ▼                                                              │
-│  ┌─────────────────────────┐                                                │
-│  │      IGNIS-CTRL         │                                                │
-│  │   (Mechanical TVC)      │                                                │
-│  │                         │                                                │
-│  │  • 2x High-torque servos│                                                │
-│  │  • 3D printed gimbal    │                                                │
-│  │  • Linkage mechanism    │                                                │
-│  └─────────────────────────┘                                                │
-│                                                                             │
-└─────────────────────────────────────────────────────────────────────────────┘
-```
+| Subsystem | Hardware Implementation | Key Specifications |
+| :--- | :--- | :--- |
+| **Flight Computer (`IGNIS_CORE`)** | Custom KiCad PCB + **`STM32G473VET6`** (LQFP-100) | 144 MHz PLL (`8 MHz` HSE `X1` + `32.768 kHz` LSE `X2`), 512 KB ECC Flash, 128 KB SRAM |
+| **Inertial & Barometric Suite (`I2C2`)** | **`MPU-6500`** (`0x68`) + **`MS5611-01BA03`** (`0x77`) + **`HMC5883L` / `BMM150`** (`0x1E`) | $\pm 8\text{g}$ Accel ($4096\text{ LSB/g}$), $\pm 1000^\circ/\text{s}$ Gyro ($32.8\text{ LSB}/^\circ/\text{s}$), 24-bit $\Delta\Sigma$ Baro ($\text{OSR}=4096$, $\sim 10\text{ cm}$ resolution) |
+| **Attitude & X-Fin / TVC Actuation** | 4× High-Speed Digital Servos on **`TIM2_CH1..4`** (`PA0–PA3`) | `100 Hz` Complementary Filter ($\alpha=0.98$) + 3-Axis PID ($K_p=1.2, K_i=0.05, K_d=0.08$) + 4-Fin X-Mixing |
+| **3-Channel Pyro Igniter Stage** | 2× **`IRLZ44N`** (`PC7`, `PC8`) + 1× **`IRF520`** w/ Dual-`BC547` Level Shifter (`PC9`) | Motor Ignition (`PC7`), Stage Separation (`PC8`), Parachute Ejection (`PC9`) with `1N4007` flyback clamp diodes |
+| **Telemetry & Navigation** | **`Ai-Thinker Ra-02 (SX1278)`** (`SPI1`) + **`u-blox NEO-7M`** (`USART1`) | 433 MHz LoRa long-range link (`>5 km` LOS), contiguous LQFP-100 pin routing (`Pins 90–95`) + 10 Hz GPS |
+| **Dual-Tier Flight Storage** | Onboard **`24LC16B`** EEPROM (`0x50–0x57`) + **`microSD`** (`SPI2`) + **`Aux Data Logger PCB`** | Hot-start state & calibration recovery + `ATmega328P` / Dual `24LC1025` (256 KB) / `DS1337S+` RTC blackbox |
+| **Diagnostics & Ground Interface** | **`WS2812B`** DMA Engine (`PB9`) + 5V NPN Buzzer (`PC6`) + **`USB-C CDC`** (`PA11/PA12`) | Zero-CPU `TIM4_CH4` + `DMA1_Channel1` 800 kHz NeoPixel driver + 100 Hz CSV telemetry stream & CLI |
 
 ---
 
-## 📁 Repository Structure
+## 2. System Architecture
 
 ```
-IGNIS/
-├── IGNIS_CORE/                    # Flight computer firmware
-│   └── Firmware/
-│       ├── src/
-│       │   ├── main.cpp           # Orchestrator (setup/loop only)
-│       │   ├── sensors/           # MPU6500, MS5611, I2C scanner
-│       │   ├── control/           # Complementary filter, PID, TVC
-│       │   ├── telemetry/         # UART protocol
-│       │   └── utils/             # Serial comm, helpers
-│       ├── include/config.h       # Pin definitions, constants
-│       └── platformio.ini
-│
-├── IGNIS_CTRL/                    # Mechanical TVC design
-│   └── Mechanical_Design/
-│       ├── CAD_Files/             # STEP, STL, FreeCAD files
-│       ├── Manufacturing/         # 3D printing, CNC files
-│       └── Assembly/              # Assembly guides
-│
-├── IGNIS_NET/                     # Data logger firmware
-│   └── Firmware/
-│       ├── src/                   # Nano code (SD, LoRa, GPS)
-│       └── platformio.ini
-│
-├── IGNIS_NET_SIM/                 # Python flight simulator
-│   ├── src/
-│   │   ├── main.py                # PyQt6 GUI
-│   │   ├── data/data_loader.py   # CSV parser
-│   │   ├── gui/main_window.py    # Main window
-│   │   └── utils/                 # KML export, math, geo
-│   ├── data/flight_logs/         # Sample CSV files
-│   └── requirements.txt
-│
-├── ignis-website/                 # Astro project website
-│   ├── src/
-│   │   ├── layouts/Layout.astro
-│   │   ├── pages/                 # index, about, hardware, etc.
-│   │   ├── components/            # Header, Footer, ModelViewer
-│   │   └── styles/global.css
-│   ├── public/models/             # GLB/GLTF 3D models
-│   └── astro.config.mjs
-│
-├── docs/                          # Documentation
-│   ├── getting-started.md
-│   ├── wiring-guide.md
-│   ├── calibration.md
-│   └── troubleshooting.md
-│
-├── hardware/                      # PCB designs (KiCad)
-│   ├── IGNIS_CORE_PCB/
-│   └── IGNIS_NET_PCB/
-│
-└── README.md                      # You are here
+┌─────────────────────────────────────────────────────────────────────────────────────────────────┐
+│                                  PROJECT IGNIS AVIONICS STACK                                   │
+├─────────────────────────────────────────────────────────────────────────────────────────────────┤
+│                                                                                                 │
+│  ┌───────────────────────────────────────┐        ┌──────────────────────────────────────────┐  │
+│  │        I2C2 SENSOR & NVM BUS          │        │        TELEMETRY, GPS & STORAGE          │  │
+│  │        (SCL = PC4, SDA = PA8)         │        │                                          │  │
+│  │  • MPU-6500 6-Axis IMU       [0x68]   │        │  • SX1278 Ra-02 LoRa (SPI1: PB3–PB8)     │  │
+│  │  • MS5611-01BA03 Barometer   [0x77]   │        │  • u-blox NEO-7M GPS (USART1: PA9/PA10)  │  │
+│  │  • HMC5883L / BMM150 Mag     [0x1E]   │        │  • microSD Slot      (SPI2: PB12–PB15)   │  │
+│  │  • 24LC16B Hot-Start EEPROM  [0x50]   │        │  • USB-C Full-Speed  (CDC: PA11/PA12)    │  │
+│  └──────────────────┬────────────────────┘        └────────────────────┬─────────────────────┘  │
+│                     │                                                  │                        │
+│                     ▼                                                  ▼                        │
+│  ┌───────────────────────────────────────────────────────────────────────────────────────────┐  │
+│  │                        IGNIS-CORE FLIGHT COMPUTER (STM32G473VET6)                         │  │
+│  │            170 MHz Cortex-M4F (144 MHz PLL) • CORDIC + FMAC • 512 KB ECC Flash            │  │
+│  │     100 Hz Attitude Loop: Complementary Filter (α=0.98) ──► 3-Axis PID ──► X-Fin Mixer    │  │
+│  └──────────────────┬──────────────────────────────────────────────────┬─────────────────────┘  │
+│                     │                                                  │                        │
+│                     ▼ TIM2 50Hz PWM (PA0–PA3)                          ▼ High-Current Switching │
+│  ┌───────────────────────────────────────┐        ┌──────────────────────────────────────────┐  │
+│  │     IGNIS-CTRL ACTUATION STAGE        │        │      3-CHANNEL PYRO & DIAGNOSTICS        │  │
+│  │  • Fin 1 (45°  / Q1: +X,+Y) : PA0 (CH1)│       │  • PC7 (PYRO_MOTOR) : IRLZ44N Logic FET  │  │
+│  │  • Fin 2 (135° / Q2: -X,+Y) : PA1 (CH2)│       │  • PC8 (PYRO_SEP)   : IRLZ44N Logic FET  │  │
+│  │  • Fin 3 (225° / Q3: -X,-Y) : PA2 (CH3)│       │  • PC9 (PYRO_CHUTE) : 2x BC547 + IRF520  │  │
+│  │  • Fin 4 (315° / Q4: +X,-Y) : PA3 (CH4)│       │  • PC6 (BUZZER)     : BC547 + 1N4007     │  │
+│  │  • 2-Axis TVC Gimbal Assembly         │        │  • PB9 (WS2812B)    : TIM4_CH4 + DMA     │  │
+│  └───────────────────────────────────────┘        └──────────────────────────────────────────┘  │
+│                                                                                                 │
+└─────────────────────────────────────────────────────────────────────────────────────────────────┘
 ```
 
 ---
 
-## 🔧 Hardware Requirements
+## 3. Repository Structure
 
-### IGNIS-CORE (Flight Computer)
-
-| Component | Model | Quantity | Approx. Cost |
-|-----------|-------|----------|--------------|
-| Microcontroller | STM32F411CEU6 Black Pill | 1 | $8 |
-| IMU | MPU6500 (6-axis) | 1 | $10 |
-| Barometer | MS5611 | 1 | $12 |
-| GPS | NEO-6M | 1 | $15 |
-| Servos | High-torque (9g-20g) | 2 | $10-20 |
-| NeoPixel | WS2812 (single LED) | 1 | $1 |
-| Buzzer | 5V piezo | 1 | $1 |
-| **Total** | | | **~$55-65** |
-
-### IGNIS-NET (Data Logger)
-
-| Component | Model | Quantity | Approx. Cost |
-|-----------|-------|----------|--------------|
-| Microcontroller | Arduino Nano | 1 | $4 |
-| SD Card Module | SPI | 1 | $3 |
-| LoRa Module | SX1278 (868/915MHz) | 1 | $10 |
-| **Total** | | | **~$17** |
-
-### IGNIS-CTRL (Mechanical)
-
-| Component | Material | Quantity | Approx. Cost |
-|-----------|----------|----------|--------------|
-| Filament | PLA/PETG | 200g | $5 |
-| Screws | M2/M3 | 10 | $2 |
-| **Total** | | | **~$7** |
-
-**Grand Total: ~$80-90**
-
----
-
-## 🔌 Wiring Diagram
-
-### STM32F411 Black Pill Connections
-
-| Peripheral | STM32 Pin | Notes |
-|------------|-----------|-------|
-| **MPU6500 (I2C)** | PB6 (SCL), PB7 (SDA) | Pull-ups: 4.7kΩ to 3.3V |
-| **MS5611 (I2C)** | PB6 (SCL), PB7 (SDA) | Same bus as MPU6500 |
-| **NEO-6M (UART)** | PA9 (TX), PA10 (RX) | 9600 baud |
-| **Servo X (Pitch)** | PA0 (PWM) | TIM2_CH1 |
-| **Servo Y (Yaw)** | PA1 (PWM) | TIM2_CH2 |
-| **WS2812 NeoPixel** | PB8 | Single LED |
-| **Buzzer** | PA8 | Active buzzer |
-| **UART to Nano** | PA9 (TX), PA10 (RX) | 115200 baud |
-
-### Arduino Nano Connections
-
-| Peripheral | Nano Pin | Notes |
-|------------|----------|-------|
-| **UART from STM32** | D0 (RX), D1 (TX) | 115200 baud |
-| **SD Card (SPI)** | D10(CS), D11(MOSI), D12(MISO), D13(SCK) | Use separate CS |
-| **LoRa (SPI)** | D4(CS), D11-13 shared | Different CS pin |
-| **GPS (UART, optional)** | D2 (RX), D3 (TX) | 9600 baud |
-
-> ⚠️ **CRITICAL WARNING:** The WeAct Black Pill's 5V pin is DIRECTLY connected to USB 5V. **Never power the 5V pin and USB simultaneously.** The 3.3V regulator is fragile; if it dies, the board still works via USB but cannot power sensors externally.
+```text
+Project-ignis/
+├── IGNIS_CORE/
+│   ├── Firmware/
+│   │   ├── HAL STM32/IGNIS_CORE_STM32G473VET6/  # Primary STM32CubeMX + CMake + Modular HAL Firmware
+│   │   │   ├── Core/                            # CubeMX-generated peripheral init (gpio, dma, i2c, spi, tim, usart)
+│   │   │   ├── Modules/                         # 11 CubeMX-safe hardware & GNC modules:
+│   │   │   │   ├── Flight/                      # 100 Hz Complementary filter, 3-axis PID & X-fin mixing
+│   │   │   │   ├── IMU/                         # MPU-6500 register driver & 500-sample offset calibration
+│   │   │   │   ├── Barometer/                   # MS5611 PROM C1-C6 reader & 2nd-order temp-compensated ADC
+│   │   │   │   ├── Sensors/                     # I2C2 bus scanner (0x08-0x77) & HMC5883L 3-axis magnetometer
+│   │   │   │   ├── Servos/                      # TIM2 4-channel 50 Hz hardware PWM (1000-2000 µs)
+│   │   │   │   ├── WS2812/                      # TIM4_CH4 + DMA1_Channel1 zero-CPU NeoPixel pulse engine
+│   │   │   │   ├── EEPROM/                      # 24LC16B 8-block (0x50-0x57) hot-start & calibration storage
+│   │   │   │   ├── LoRa/                        # SX1278 (Ra-02) SPI1 radio driver
+│   │   │   │   ├── GPS/                         # u-blox NEO-7M USART1 NMEA parser
+│   │   │   │   ├── Logger/ & Storage/           # SPI2 microSD & blackbox telemetry logging
+│   │   │   │   └── USB/                         # USB-C Full-Speed CDC 100 Hz CSV stream & interactive CLI
+│   │   │   ├── IGNIS_CORE_STM32G473VET6.ioc     # STM32CubeMX hardware pinout & clock definition
+│   │   │   ├── CMakeLists.txt                   # CMake + Ninja build definition
+│   │   │   └── new_module.sh                    # Automated HAL module generator script
+│   │   └── PlatFormio/                          # Legacy prototype firmware archive
+│   ├── Hardware/
+│   │   ├── Project_IGNIS_CORE/                  # Main Flight Computer KiCad 9/10 Schematic, PCB & STEP
+│   │   ├── 3D_Models/ & Footprints.pretty/      # Custom SMD/THT footprints & 3D component models
+│   │   └── Documentation/                       # Exported schematics.pdf & BOM.xlsx
+│   └── Aux Hardware/Data Logger/data logger/    # Standalone ATmega328P + 2x 24LC1025 + DS1337S RTC PCB
+│
+├── IGNIS_CTRL/
+│   └── Mechanical_Design/                       # TVC gimbal STEP/STL CAD files (thrust plate, linkages, mounts)
+│
+├── IGNIS_NET/
+│   ├── IGNIS-NET-SIM/                           # PyQt6 + PyQtGraph + PyOpenGL Ground Station & Flight Replayer
+│   ├── Firmware/                                # Ground station receiver firmware
+│   └── Documentation/                           # Ground station user manual & API docs
+│
+├── Rocket_Assembly/
+│   ├── Airframe And Parts/                      # Parametric FreeCAD (.FCStd), STEP & STL rocket body, fins, nosecone
+│   ├── Avionics_Bay/                            # Modular avionics bay (.FCStd, .gltf, .stl), shock mounts & core mount
+│   └── Full_Assembly/                           # Complete rocket assembly & cutaway STEP models
+│
+├── Documentation/                               # Comprehensive engineering & hardware documentation
+│   ├── System_Overview.md                       # Architecture, G4 vs F4 trade study, control loop & power tree
+│   ├── Wiring_Guide.md                          # Complete LQFP-100 pinout, Pyro MOSFET & Buzzer schematics
+│   ├── Communication_Protocol.md                # USB CDC 100 Hz CSV, CLI commands & LoRa telemetry frame specs
+│   ├── Calibration_Guide.md                     # IMU 500-sample bias, MS5611 PROM, Magnetometer & Servo centering
+│   └── Troubleshooting.md                       # Hardware bringup, WS2812 DMA timing, I2C2 mux & PCB DRC notes
+│
+└── ignis-website/                               # Astro Technical Datasheet & 3D Interactive Avionics Showcase
+```
 
 ---
 
-## 💻 Software Setup
+## 4. Complete `STM32G473VET6` (LQFP-100) Pinout Matrix
 
-### Prerequisites
+| LQFP-100 Pin | GPIO Pin | Peripheral / Mode | Signal Label | Connected Hardware & Engineering Notes |
+| :---: | :---: | :--- | :--- | :--- |
+| **Pin 12 / 13** | `PH0 / PH1` | `RCC_OSC_IN / OUT` | `HSE_8MHZ` | `X1` 8.000 MHz HC-49US crystal $\rightarrow$ PLL $\times 36 / 2 = \mathbf{144\text{ MHz}}$ `SYSCLK` |
+| **Pin 8 / 9** | `PC14 / PC15` | `RCC_OSC32_IN / OUT` | `LSE_32K` | `X2` 32.768 kHz RTC crystal |
+| **Pin 30** | **`PC4`** | `I2C2_SCL` (AF4) | `I2C2_SCL` | `MPU-6500` (`0x68`), `MS5611` (`0x77`), `HMC5883L` (`0x1E`), `24LC16B` (`0x50–0x57`) |
+| **Pin 69** | **`PA8`** | `I2C2_SDA` (AF4) | `I2C2_SDA` | Shared `I2C2` bus (`4.7 kΩ` pull-ups to `+3.3V`) |
+| **Pin 22** | **`PA0`** | `TIM2_CH1` (AF1) | `SERVO_FIN1` | **Fin 1 (45° / Q1: +X, +Y)** 50 Hz PWM (`1000–2000 µs`, $90^\circ = 1500\,\mu\text{s}$) |
+| **Pin 23** | **`PA1`** | `TIM2_CH2` (AF1) | `SERVO_FIN2` | **Fin 2 (135° / Q2: -X, +Y)** 50 Hz PWM (`1000–2000 µs`) |
+| **Pin 24** | **`PA2`** | `TIM2_CH3` (AF1) | `SERVO_FIN3` | **Fin 3 (225° / Q3: -X, -Y)** 50 Hz PWM (`1000–2000 µs`) |
+| **Pin 25** | **`PA3`** | `TIM2_CH4` (AF1) | `SERVO_FIN4` | **Fin 4 (315° / Q4: +X, -Y)** 50 Hz PWM (`1000–2000 µs`) |
+| **Pin 90** | **`PB3`** | `SPI1_SCK` (AF5) | `LORA_SCK` | `Ai-Thinker Ra-02 (SX1278)` Clock (Consecutive LQFP row `Pins 90–95`) |
+| **Pin 91** | **`PB4`** | `SPI1_MISO` (AF5) | `LORA_MISO` | `Ai-Thinker Ra-02 (SX1278)` MISO |
+| **Pin 92** | **`PB5`** | `SPI1_MOSI` (AF5) | `LORA_MOSI` | `Ai-Thinker Ra-02 (SX1278)` MOSI |
+| **Pin 93** | **`PB6`** | `GPIO_Output` | `LORA_RST` | `Ai-Thinker Ra-02 (SX1278)` Active-Low Reset (Default `HIGH`) |
+| **Pin 94** | **`PB7`** | `GPIO_Output` | `LORA_CS` | `Ai-Thinker Ra-02 (SX1278)` Chip Select (`NSS`, Default `HIGH`) |
+| **Pin 95** | **`PB8`** | `GPIO_EXTI8` | `LORA_DIO0` | `Ai-Thinker Ra-02 (SX1278)` Packet Tx/Rx Done Interrupt |
+| **Pin 96** | **`PB9`** | `TIM4_CH4` + `DMA1_CH1` | `WS2812_DI` | `WS2812B` Addressable Status LED (`800 kHz`, 2 preamble + 24 data + 240 reset slots) |
+| **Pin 70** | **`PA9`** | `USART1_TX` (AF7) | `GPS_RXD` | `u-blox NEO-7M` GPS Receiver (`9600` baud) |
+| **Pin 71** | **`PA10`** | `USART1_RX` (AF7) | `GPS_TXD` | `u-blox NEO-7M` GPS Transmitter (`9600` baud) |
+| **Pin 51** | **`PB12`** | `GPIO_Output` | `SD_CS` | `microSD` Card SPI Chip Select (Default `HIGH`) |
+| **Pin 52** | **`PB13`** | `SPI2_SCK` (AF5) | `SD_SCK` | `microSD` Card SPI2 Clock |
+| **Pin 53** | **`PB14`** | `SPI2_MISO` (AF5) | `SD_MISO` | `microSD` Card SPI2 MISO |
+| **Pin 54** | **`PB15`** | `SPI2_MOSI` (AF5) | `SD_MOSI` | `microSD` Card SPI2 MOSI |
+| **Pin 65** | **`PC6`** | `GPIO_Output` | `BUZZER` | 5V Piezo Buzzer via `BC547` NPN low-side driver + `1N4007` flyback diode |
+| **Pin 66** | **`PC7`** | `GPIO_Output` | `PYRO_MOTOR` | **Pyro Channel 1 (Motor Igniter)** — Direct 3.3V logic gate drive to `IRLZ44N` |
+| **Pin 67** | **`PC8`** | `GPIO_Output` | `PYRO_SEP` | **Pyro Channel 2 (Stage Separation)** — Direct 3.3V logic gate drive to `IRLZ44N` |
+| **Pin 68** | **`PC9`** | `GPIO_Output` | `PYRO_CHUTE` | **Pyro Channel 3 (Parachute Ejection)** — Dual-`BC547` NPN level-shifter $\rightarrow$ `IRF520` (`V_GS = V_BAT`) |
+| **Pin 72 / 73** | **`PA11 / PA12`** | `USB_DM / USB_DP` | `USB_CDC` | USB-C Full-Speed Virtual COM Port (`100 Hz` telemetry & interactive command console) |
+| **Pin 76 / 79** | **`PA13 / PA14`** | `SYS_JTMS / JTCK` | `SWDIO / SWCLK` | ST-Link V2 Serial Wire Debug & Flash Programming |
 
-| Tool | Purpose | Installation |
-|------|---------|--------------|
-| **VS Code** | IDE | [code.visualstudio.com](https://code.visualstudio.com/) |
-| **PlatformIO** | STM32 build/upload | VS Code extension |
-| **Python 3.9+** | Simulator | [python.org](https://python.org/) |
-| **Git** | Version control | [git-scm.com](https://git-scm.com/) |
-| **Node.js** | Website | [nodejs.org](https://nodejs.org/) |
+---
 
-### Clone the Repository
+## 5. Flight Control Loop & X-Configuration Fin Mixing
+
+The attitude control loop in [`Flight.c`](IGNIS_CORE/Firmware/HAL%20STM32/IGNIS_CORE_STM32G473VET6/Modules/Flight/Flight.c) executes deterministically at **`100 Hz` ($\Delta t = 10\text{ ms}$)**:
+
+1. **Inertial Attitude Estimation (Complementary Filter, $\alpha = 0.98$)**:
+   $$\theta_{\text{accel}} = \text{atan2}\!\left(-a_x, \sqrt{a_y^2 + a_z^2}\right)\cdot\frac{180}{\pi}, \qquad \phi_{\text{accel}} = \text{atan2}\!\left(a_y, -a_z\right)\cdot\frac{180}{\pi}$$
+   $$\theta_k = 0.98\left(\theta_{k-1} + \omega_x \Delta t\right) + 0.02\,\theta_{\text{accel}}, \qquad \phi_k = 0.98\left(\phi_{k-1} + \omega_y \Delta t\right) + 0.02\,\phi_{\text{accel}}$$
+
+2. **3-Axis PID Attitude Controller** ($K_p = 1.20$, $K_i = 0.05$, $K_d = 0.08$, anti-windup clamped to $\pm 100^\circ$):
+   - Pitch & Roll hold vertical attitude setpoint ($0.0^\circ$); Yaw damps angular rate ($\omega_z \rightarrow 0^\circ/\text{s}$).
+
+3. **Orthogonal 4-Fin X-Configuration Aerodynamic Mixing Matrix**:
+   $$\begin{bmatrix} \delta_1\ (45^\circ\text{ / Q1}) \\ \delta_2\ (135^\circ\text{ / Q2}) \\ \delta_3\ (225^\circ\text{ / Q3}) \\ \delta_4\ (315^\circ\text{ / Q4}) \end{bmatrix} = 90^\circ + \begin{bmatrix} -0.707 & +1.0 & -0.707 \\ +0.707 & +1.0 & -0.707 \\ +0.707 & +1.0 & +0.707 \\ -0.707 & +1.0 & +0.707 \end{bmatrix} \begin{bmatrix} u_{\text{pitch}} \\ u_{\text{roll}} \\ u_{\text{yaw}} \end{bmatrix}, \quad \delta_i \in [0^\circ, 180^\circ]$$
+
+---
+
+## 6. Quick Start — Firmware, Simulator & Website
+
+### A. Build & Flash `IGNIS_CORE` (`STM32G473VET6`)
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/IGNIS.git
-cd IGNIS
+cd "IGNIS_CORE/Firmware/HAL STM32/IGNIS_CORE_STM32G473VET6"
+cmake --preset Debug
+cmake --build build/Debug -j
+
+# Flash via ST-Link over SWD:
+STM32_Programmer_CLI -c port=SWD -w build/Debug/IGNIS_CORE_STM32G473VET6.elf -v -rst
 ```
 
-### Build and Upload STM32 Firmware
+### B. Launch the `IGNIS-NET-SIM` Ground Station & Post-Flight Analyzer
 
 ```bash
-cd IGNIS_CORE/Firmware
-pio run
-pio run --target upload
-pio device monitor
-```
-
-### Run the Flight Simulator
-
-```bash
-cd IGNIS_NET_SIM
-python -m venv venv
-source venv/bin/activate  # Windows: venv\Scripts\activate
+cd IGNIS_NET/IGNIS-NET-SIM
+python3 -m venv venv
+source venv/bin/activate
 pip install -r requirements.txt
-python src/main.py
+python3 src/main.py
 ```
 
-### Run the Website Locally
+### C. Run the Technical Datasheet & 3D Avionics Website
 
 ```bash
 cd ignis-website
 npm install
-npm run dev
+npm run dev      # Local dev server at http://localhost:4321
+npm run build    # Static bundle output into ./dist/
 ```
 
 ---
 
-## 🚀 Current Status
+## 7. Engineering Documentation Index
 
-| Component | Status | Notes |
-|-----------|--------|-------|
-| **I2C Communication** | ✅ Working | MPU6500 (0x68), MS5611 (0x77) detected |
-| **MPU6500 Driver** | ✅ Working | Raw accel/gyro data |
-| **MS5611 Driver** | ✅ Working | Pressure, temperature, altitude |
-| **Complementary Filter** | ⏳ Not yet | Pitch/roll from accel+gyro |
-| **PID Control** | ⏳ Not yet | Servo control algorithm |
-| **Servo Control** | ⏳ Not yet | Hardware PWM |
-| **UART Protocol** | ⏳ Not yet | STM32 ↔ Nano communication |
-| **SD Card Logging** | ⏳ Not yet | Nano side |
-| **LoRa Telemetry** | ⏳ Not yet | Nano side |
-| **Flight Simulator** | 🟡 Partial | Graphs work, live playback needs fixes |
-| **Website** | ✅ Live | [project-ignis.shourya.page](https://project-ignis.shourya.page) |
-| **PCB Design** | ⏳ Not started | KiCad |
-| **CAD Models** | ⏳ Not started | FreeCAD/Fusion 360 |
+- **[System Overview & Architecture](Documentation/System_Overview.md)** — `STM32G473VET6` vs `STM32F4` trade study, power regulation architecture, state machine, and Aux Blackbox Data Logger design.
+- **[Hardware Wiring & Circuit Guide](Documentation/Wiring_Guide.md)** — Pin-by-pin LQFP-100 connections, `IRLZ44N` & `2× BC547 + IRF520` Pyro Igniter schematics, `5V` Buzzer driver, and `24LC16B` wiring.
+- **[Communication & Telemetry Protocol](Documentation/Communication_Protocol.md)** — `100 Hz` USB CDC CSV format, single-character CLI commands (`A`, `D`, `C`, `S`), and `SX1278` LoRa telemetry frames.
+- **[Sensor & Actuator Calibration Guide](Documentation/Calibration_Guide.md)** — 500-sample IMU bias calibration, `MS5611` 2nd-order PROM compensation, `HMC5883L` heading calibration, and fin trim alignment.
+- **[Hardware Bringup & Troubleshooting](Documentation/Troubleshooting.md)** — `WS2812B` `TIM4_CH4` DMA waveform verification, `I2C2` `PC4`/`PA8` pin mux notes, and `IGNIS_CORE` PCB rev-1 ERC/DRC audit checklist.
 
 ---
 
-## 🤝 How to Contribute
+## 8. License
 
-We welcome contributions of all kinds! See [CONTRIBUTING.md](CONTRIBUTING.md) for full guidelines.
-
-### Quick Start for Contributors
-
-1. **Fork the repository**
-2. **Clone your fork**
-3. **Create a feature branch**
-4. **Make your changes**
-5. **Submit a Pull Request**
-
-### Areas Needing Help
-
-| Area | Skill Level | Files |
-|------|-------------|-------|
-| Complementary filter | Intermediate | `src/control/tvc.cpp` |
-| PID controller | Intermediate | `src/control/tvc.cpp` |
-| Flight simulator live graphs | Intermediate | `IGNIS_NET_SIM/src/gui/` |
-| UART protocol | Intermediate | `src/telemetry/uart_protocol.cpp` |
-| 3D models (CAD) | Beginner/Intermediate | `IGNIS_CTRL/Mechanical_Design/` |
-| PCB design (KiCad) | Advanced | `hardware/` |
-| Documentation | Beginner | `docs/` |
-| Website content | Beginner | `ignis-website/src/pages/` |
-
-### Use the AI Assistant
-
-Copy [this master prompt](docs/AI_ASSISTANT_PROMPT.md) into any AI (ChatGPT, Claude, DeepSeek) to get instant, context-aware help with IGNIS.
+- **Firmware, Ground Station Software & Documentation**: Licensed under the **MIT License**.
+- **Hardware Schematics, PCB Layouts & Mechanical CAD**: Released under the **CERN Open Hardware Licence v2 — Permissive (CERN-OHL-P v2)**.
 
 ---
-
-## 📚 Documentation
-
-| Document | Description |
-|----------|-------------|
-| [Getting Started](docs/getting-started.md) | First-time setup guide |
-| [Wiring Guide](docs/wiring-guide.md) | Detailed pin connections |
-| [Calibration Guide](docs/calibration.md) | Sensor calibration procedure |
-| [Troubleshooting](docs/troubleshooting.md) | Common issues and fixes |
-| [API Reference](docs/api-reference.md) | Function documentation |
-
----
-
-## 🛠️ Tool Stack
-
-| Category | Tools |
-|----------|-------|
-| **Firmware** | PlatformIO, STM32CubeMX, Arduino IDE |
-| **PCB** | KiCad, LTspice |
-| **CAD** | FreeCAD, Fusion 360 |
-| **Simulation** | Ansys Student, GNU Octave, Python |
-| **Website** | Astro, Netlify |
-| **Version Control** | Git, GitHub |
-
-All tools are **cross-platform** (Windows/macOS/Linux) and **free/open-source** or have free tiers.
-
----
-
-## 📄 License
-
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details.
-
-Hardware designs are under **CERN Open Hardware License**.
-
----
-
-## 🙏 Acknowledgments
-
-- **Shourya** - Project creator and maintainer
-- **Open source community** - For libraries and tools
-- **You** - For contributing!
-
----
-
-## 📞 Contact & Community
-
-| Platform | Link |
-|----------|------|
-| **Website** | [project-ignis.shourya.page](https://project-ignis.shourya.page) |
-| **GitHub** | [github.com/shouryapandey/IGNIS](https://github.com/shouryapandey/IGNIS) |
-| **Discord** | [discord.gg/ignis](https://discord.gg/ignis) |
-| **Email** | ignis.project@example.com |
-
----
-
-<div align="center">
-  
-  **🔥 IGNIS - Make your rocket fly straight 🔥**
-  
-  *Built with passion, open for everyone*
-  
-</div>
-```
-
----
-
-## ✅ What's Included
-
-| Section | Status |
-|---------|--------|
-| Badges + Overview | ✅ |
-| Architecture diagram | ✅ |
-| Repository structure | ✅ |
-| Hardware requirements + cost | ✅ |
-| Wiring diagram summary | ✅ |
-| Software setup | ✅ |
-| Current status table | ✅ |
-| How to contribute | ✅ |
-| Documentation links | ✅ |
-| Tool stack | ✅ |
-| License | ✅ |
-| Contact/Community | ✅ |
-hehe
+*Designed and engineered by **Shourya Pandey**.*

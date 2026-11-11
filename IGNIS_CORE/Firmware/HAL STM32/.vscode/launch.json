@@ -1,0 +1,33 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "stlinkgdbtarget",
+            "request": "launch",
+            "name": "STM32Cube: Launch ST-Link GDB Server",
+            "origin": "snippet",
+            "cwd": "${workspaceFolder}/IGNIS_CORE_STM32G473VET6",
+            "preBuild": "${command:st-stm32-ide-debug-launch.build}",
+            "runEntry": "main",
+            "svdPath": "/home/shouryapandey/.local/share/stm32cube/packs/STMicroelectronics/stm32g4xx_dfp/1.2.0/SVD/STM32G473.svd",
+            "imagesAndSymbols": [
+                {
+                    "imageFileName": "${workspaceFolder}/IGNIS_CORE_STM32G473VET6/build/Debug/IGNIS_CORE_STM32G473VET6.elf"
+                }
+            ]
+        },
+        {
+            "type": "cortex-debug",
+            "request": "launch",
+            "name": "Cortex-Debug: ST-Link (IGNIS_CORE)",
+            "cwd": "${workspaceFolder}/IGNIS_CORE_STM32G473VET6",
+            "executable": "${workspaceFolder}/IGNIS_CORE_STM32G473VET6/build/Debug/IGNIS_CORE_STM32G473VET6.elf",
+            "servertype": "stlink",
+            "device": "STM32G473VET6",
+            "interface": "swd",
+            "runToEntryPoint": "main",
+            "svdFile": "/home/shouryapandey/.local/share/stm32cube/packs/STMicroelectronics/stm32g4xx_dfp/1.2.0/SVD/STM32G473.svd",
+            "preLaunchTask": "Build (CMake Debug)"
+        }
+    ]
+}

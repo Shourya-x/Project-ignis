@@ -2,8 +2,14 @@
     "configurations": [
         {
             "name": "STM32",
-            "compileCommands": "${workspaceFolder}/build/Release/compile_commands.json",
-            "intelliSenseMode": "windows-msvc-x64"
+            "compileCommands": [
+                "${workspaceFolder}/build/Release/compile_commands.json"
+            ],
+            "intelliSenseMode": "windows-msvc-x64",
+            "includePath": [
+                "${default}",
+                "${workspaceFolder}/USB_Device/App"
+            ]
         }
     ],
     "version": 4

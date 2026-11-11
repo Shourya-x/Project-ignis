@@ -2,151 +2,226 @@
 import Layout from '../layouts/Layout.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
-import ModelViewer from '../components/ModelViewer.astro';
 ---
 
-<Layout title="Gallery | IGNIS TVC System">
+<Layout title="Hardware Gallery & Renders | Project IGNIS">
   <Header />
 
   <section class="section">
     <div class="container">
-      <h1 class="section-title">Gallery</h1>
-      <p class="section-subtitle">Photos, renders, and 3D models of the IGNIS system</p>
-      
-      <!-- 3D Models Gallery -->
-      <h2 class="gallery-subtitle">🎮 Interactive 3D Models</h2>
-      <div class="model-showcase">
-        <div class="model-showcase-item">
-          <ModelViewer 
-            src="/models/ignis_rocket.glb" 
-            autoRotate={true}
-            cameraControls={true}
-          />
-          <p class="model-caption">Complete IGNIS Rocket Assembly</p>
+      <div class="section-header">
+        <div>
+          <span class="section-index">GALLERY // 3D MODELS, RENDERS &amp; VECTOR PLOTS</span>
+          <h1 class="section-title">Hardware Gallery &amp; ECAD Plots</h1>
+        </div>
+        <p class="section-desc">
+          Interactive 3D WebGL viewers and high-resolution KiCad vector plots of the IGNIS avionics systems and rocket airframe.
+        </p>
+      </div>
+
+      <!-- 3D Interactive Viewers -->
+      <h2 class="sub-title mono">1. Interactive 3D WebGL Hardware &amp; Airframe Assemblies</h2>
+      <div class="gallery-3d-grid">
+        <div class="panel viewer-card">
+          <div class="viewer-head mono">
+            <span>IGNIS-CORE Populated PCBA</span>
+            <span class="badge badge-accent">.GLB</span>
+          </div>
+          <model-viewer
+            src="/models/ignis-core-pcb.glb"
+            alt="IGNIS-CORE 3D PCB"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.1"
+            class="gallery-viewer"
+          ></model-viewer>
+          <p class="viewer-desc mono">Populated STM32G473VET6 board with Ra-02 LoRa, MPU-6500, MS5611, and TO-220 MOSFETs.</p>
+        </div>
+
+        <div class="panel viewer-card">
+          <div class="viewer-head mono">
+            <span>Auxiliary Blackbox Data Logger</span>
+            <span class="badge badge-blue">.GLB</span>
+          </div>
+          <model-viewer
+            src="/models/datalogger-pcb.glb"
+            alt="Data Logger 3D PCB"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.1"
+            class="gallery-viewer"
+          ></model-viewer>
+          <p class="viewer-desc mono">Independent ATmega328P-AU recorder with dual 24LC1025 EEPROMs and DS1337S+ RTC.</p>
+        </div>
+
+        <div class="panel viewer-card">
+          <div class="viewer-head mono">
+            <span>Modular Avionics Bay Assembly</span>
+            <span class="badge badge-green">.GLTF</span>
+          </div>
+          <model-viewer
+            src="/models/AvionicsBay.gltf"
+            alt="Avionics Bay"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.1"
+            class="gallery-viewer"
+          ></model-viewer>
+          <p class="viewer-desc mono">Internal shock-damped electronics sled and structural airframe bulkheads.</p>
+        </div>
+
+        <div class="panel viewer-card">
+          <div class="viewer-head mono">
+            <span>Complete Rocket Assembly</span>
+            <span class="badge badge-amber">.GLTF</span>
+          </div>
+          <model-viewer
+            src="/models/Rocket.gltf"
+            alt="Rocket Assembly"
+            auto-rotate
+            camera-controls
+            shadow-intensity="1"
+            exposure="1.1"
+            class="gallery-viewer"
+          ></model-viewer>
+          <p class="viewer-desc mono">Full parametric airframe with nose cone, payload section, and 4-fin control can.</p>
         </div>
       </div>
-      
-      <!-- Image Gallery -->
-      <h2 class="gallery-subtitle">📸 Hardware Photos</h2>
-      <div class="image-gallery">
-        <div class="gallery-item">
-          <img src="/images/core-pcb.jpg" alt="IGNIS-CORE PCB" />
-          <div class="gallery-caption">IGNIS-CORE PCB v1.0</div>
+
+      <!-- Raytraced Renders & Vector Plots -->
+      <h2 class="sub-title mono" style="margin-top:3rem;">2. Raytraced 3D Renders &amp; Copper Plots</h2>
+      <div class="gallery-img-grid">
+        <div class="panel img-card">
+          <img src="/renders/ignis-core-3d-iso.png" alt="IGNIS-CORE 3D ISO" />
+          <div class="img-meta mono">
+            <strong>IGNIS-CORE 3D Isometric View</strong>
+            <span>Raytraced via KiCad 3D Engine</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="/images/tvc-mechanism.jpg" alt="TVC Mechanism" />
-          <div class="gallery-caption">3D Printed TVC Gimbal</div>
+
+        <div class="panel img-card">
+          <img src="/renders/ignis-core-3d-top.png" alt="IGNIS-CORE 3D Top" />
+          <div class="img-meta mono">
+            <strong>IGNIS-CORE Top Placement</strong>
+            <span>LQFP-100 &amp; Peripheral Component Map</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="/images/ground-station.jpg" alt="Ground Station" />
-          <div class="gallery-caption">IGNIS-NET Ground Station</div>
+
+        <div class="panel img-card">
+          <img src="/renders/datalogger-3d-iso.png" alt="Data Logger 3D ISO" />
+          <div class="img-meta mono">
+            <strong>Aux Data Logger 3D View</strong>
+            <span>Dual EEPROM Array &amp; RTC Stacking</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="/images/rocket-assembly.jpg" alt="Rocket Assembly" />
-          <div class="gallery-caption">Full Rocket Assembly</div>
+
+        <div class="panel img-card">
+          <div class="svg-container">
+            <img src="/renders/ignis-core-pcb-top.svg" alt="IGNIS-CORE Top Copper" />
+          </div>
+          <div class="img-meta mono">
+            <strong>IGNIS-CORE Top Copper (F.Cu)</strong>
+            <span>Vector SVG Layer Plot</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="/images/servo-mount.jpg" alt="Servo Mount" />
-          <div class="gallery-caption">Servo Mounting System</div>
+
+        <div class="panel img-card">
+          <div class="svg-container">
+            <img src="/renders/ignis-core-pcb-bottom.svg" alt="IGNIS-CORE Bottom Copper" />
+          </div>
+          <div class="img-meta mono">
+            <strong>IGNIS-CORE Bottom Copper (B.Cu)</strong>
+            <span>Vector SVG Layer Plot</span>
+          </div>
         </div>
-        <div class="gallery-item">
-          <img src="/images/telemetry-ui.jpg" alt="Telemetry UI" />
-          <div class="gallery-caption">Ground Station Software</div>
-        </div>
-      </div>
-      
-      <!-- Render Gallery -->
-      <h2 class="gallery-subtitle">🎨 3D Renders</h2>
-      <div class="image-gallery">
-        <div class="gallery-item">
-          <img src="/images/render-exploded.jpg" alt="Exploded View" />
-          <div class="gallery-caption">Exploded Assembly View</div>
-        </div>
-        <div class="gallery-item">
-          <img src="/images/render-cutaway.jpg" alt="Cutaway View" />
-          <div class="gallery-caption">Cutaway View</div>
-        </div>
-        <div class="gallery-item">
-          <img src="/images/render-transparent.jpg" alt="Transparent View" />
-          <div class="gallery-caption">Transparent Enclosure</div>
+
+        <div class="panel img-card">
+          <div class="svg-container">
+            <img src="/renders/datalogger-pcb-top.svg" alt="Data Logger Top Copper" />
+          </div>
+          <div class="img-meta mono">
+            <strong>Data Logger Top Copper (F.Cu)</strong>
+            <span>Vector SVG Layer Plot</span>
+          </div>
         </div>
       </div>
     </div>
   </section>
-<!-- Add this spacer div -->
-  <div class="page-spacer"></div>
+
   <Footer />
 </Layout>
 
 <style>
-  .section-subtitle {
-    text-align: center;
-    color: var(--text-muted);
-    margin-bottom: 3rem;
+  .sub-title {
+    font-size: 1.15rem;
+    color: var(--accent);
+    margin-bottom: 1rem;
   }
-  
-  .gallery-subtitle {
-    margin: 2rem 0 1.5rem;
-    color: var(--primary);
-    font-size: 1.5rem;
-  }
-  
-  .model-showcase {
-    margin-bottom: 3rem;
-  }
-  
-  .model-showcase-item {
-    background: var(--gray);
-    border-radius: 16px;
-    padding: 1rem;
-  }
-  
-  .model-caption {
-    text-align: center;
-    margin-top: 1rem;
-    color: var(--text-muted);
-  }
-  
-  .image-gallery {
+  .gallery-3d-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 1.5rem;
-    margin-bottom: 2rem;
   }
-  
-  .gallery-item {
-    position: relative;
-    overflow: hidden;
-    border-radius: 12px;
-    cursor: pointer;
-    transition: transform 0.3s;
+  .viewer-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
   }
-  
-  .gallery-item:hover {
-    transform: scale(1.02);
+  .viewer-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.82rem;
   }
-  
-  .gallery-item img {
+  .gallery-viewer {
     width: 100%;
-    height: 250px;
-    object-fit: cover;
-    display: block;
+    height: 320px;
+    background: radial-gradient(circle at center, var(--bg-subtle), var(--bg));
+    border: 1px solid var(--border);
+    border-radius: 6px;
   }
-  
-  .gallery-caption {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+  .viewer-desc {
+    font-size: 0.74rem;
+    color: var(--text-muted);
+  }
+  .gallery-img-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 1.5rem;
+  }
+  .img-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: center;
+  }
+  .img-card img {
+    max-width: 100%;
+    max-height: 240px;
+    object-fit: contain;
+  }
+  .svg-container {
+    background: #ffffff;
     padding: 1rem;
-    text-align: center;
-    font-size: 0.9rem;
+    border-radius: 6px;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 220px;
   }
-  
-  @media (max-width: 768px) {
-    .image-gallery {
-      grid-template-columns: 1fr;
-    }
+  .img-meta {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    font-size: 0.76rem;
+  }
+  .img-meta span {
+    color: var(--text-muted);
+    font-size: 0.72rem;
   }
 </style>

@@ -1,40 +1,112 @@
-<footer class="footer">
-  <div class="container">
-    <div class="footer-content">
-      <div class="footer-section">
-        <h4>🔥 IGNIS</h4>
-        <p>Advanced Thrust Vector Control System for model rocketry enthusiasts.</p>
+---
+---
+<footer class="site-footer">
+  <div class="container footer-inner">
+    <div class="footer-col">
+      <div class="footer-brand">
+        <span class="brand-dot"></span>
+        <span>PROJECT IGNIS // AVIONICS ENGINEERING DATASHEET</span>
       </div>
-      <div class="footer-section">
-        <h4>Quick Links</h4>
-        <ul>
-          <li><a href="/hardware">Hardware</a></li>
-          <li><a href="/software">Software</a></li>
-          <li><a href="/downloads">Downloads</a></li>
-          <li><a href="/gallery">Gallery</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>Resources</h4>
-        <ul>
-          <li><a href="#">Documentation</a></li>
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">Community</a></li>
-          <li><a href="#">Support</a></li>
-        </ul>
-      </div>
-      <div class="footer-section">
-        <h4>Connect</h4>
-        <ul>
-          <li><a href="#">GitHub</a></li>
-          <li><a href="#">YouTube</a></li>
-          <li><a href="#">Hackster.io</a></li>
-          <li><a href="#">Discord</a></li>
-        </ul>
-      </div>
+      <p class="footer-sub">
+        Open-source STM32G473VET6 rocket flight computer, 100 Hz X-configuration active fin / TVC stabilization, 3-channel MOSFET pyro igniter stage, dual-EEPROM blackbox recorder, and 433 MHz LoRa ground station.
+      </p>
     </div>
-    <div class="footer-bottom">
-      <p>&copy; 2024 IGNIS Project. Open Source. MIT License.</p>
+
+    <div class="footer-links">
+      <div>
+        <h4>SUBSYSTEMS</h4>
+        <ul>
+          <li><a href="/#architecture">IGNIS-CORE (STM32G473VET6)</a></li>
+          <li><a href="/#ecad-explorer">Aux Data Logger (ATmega328P)</a></li>
+          <li><a href="/#fin-simulator">IGNIS-CTRL (4-Fin X-Mixer)</a></li>
+          <li><a href="/#firmware">IGNIS-NET-SIM (PyQt6 Ground Station)</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>QUICK ROUTES</h4>
+        <ul>
+          <li><a href="/">Main Datasheet</a></li>
+          <li><a href="/hardware">Hardware Specs</a></li>
+          <li><a href="/software">Firmware & Software</a></li>
+          <li><a href="/downloads">CAD & Gerber Vault</a></li>
+        </ul>
+      </div>
     </div>
   </div>
+  <div class="container footer-bottom">
+    <span>DOC ID: IGN-FC-G473-REV2 • HARDWARE: CERN-OHL-P v2 • FIRMWARE: MIT LICENSE</span>
+    <span>DESIGNED & ENGINEERED BY SHOURYA PANDEY</span>
+  </div>
 </footer>
+
+<style>
+  .site-footer {
+    background: var(--bg-elevated);
+    border-top: 1px solid var(--border);
+    padding: 3rem 0 2rem;
+    margin-top: 2rem;
+  }
+  .footer-inner {
+    display: flex;
+    justify-content: space-between;
+    gap: 2.5rem;
+    flex-wrap: wrap;
+    padding-bottom: 2rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .footer-col {
+    max-width: 520px;
+  }
+  .footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-bottom: 0.6rem;
+  }
+  .brand-dot {
+    width: 8px;
+    height: 8px;
+    background: var(--accent);
+    display: inline-block;
+  }
+  .footer-sub {
+    color: var(--text-secondary);
+    font-size: 0.84rem;
+  }
+  .footer-links {
+    display: flex;
+    gap: 3rem;
+    flex-wrap: wrap;
+  }
+  .footer-links h4 {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--accent);
+    letter-spacing: 0.08em;
+    margin-bottom: 0.65rem;
+  }
+  .footer-links ul {
+    list-style: none;
+  }
+  .footer-links li {
+    margin-bottom: 0.4rem;
+    font-size: 0.82rem;
+    color: var(--text-secondary);
+  }
+  .footer-links a:hover {
+    color: var(--accent);
+  }
+  .footer-bottom {
+    padding-top: 1.25rem;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    color: var(--text-muted);
+  }
+</style>
